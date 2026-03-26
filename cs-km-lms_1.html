@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CS Hub — Knowledge & Learning Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f1117;--bg2:#161b26;--bg3:#1e2535;--bg4:#252d3e;
+  --border:#2a3347;--border2:#3a4660;
+  --text:#e8eaf0;--text2:#8b92a8;--text3:#555e78;
+  --blue:#4f8ef7;--blue2:#2563eb;--blued:#1a3a7a;
+  --teal:#2dd4bf;--teald:#0f4a44;
+  --amber:#f59e0b;--amberd:#4a2e05;
+  --coral:#f87171;--corald:#4a1515;
+  --green:#4ade80;--greend:#0f3d20;
+  --purple:#a78bfa;--purpled:#2e1f5e;
+  --radius:10px;--radius-lg:16px;
+  --shadow:0 4px 24px rgba(0,0,0,0.4);
+  --font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6}
+button{font-family:var(--font);cursor:pointer;border:none;outline:none}
+input,textarea,select{font-family:var(--font);outline:none}
+a{color:var(--blue);text-decoration:none}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* AUTH */
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);position:relative;overflow:hidden}
+.auth-bg{position:absolute;inset:0;background:radial-gradient(ellipse 600px 400px at 30% 40%, rgba(79,142,247,0.07) 0%, transparent 70%), radial-gradient(ellipse 400px 600px at 80% 70%, rgba(45,212,191,0.05) 0%, transparent 70%)}
+.auth-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:48px 44px;width:420px;position:relative;z-index:1}
+.auth-logo{display:flex;align-items:center;gap:10px;margin-bottom:32px}
+.auth-logo-icon{width:36px;height:36px;background:var(--blue2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.auth-logo-text{font-size:20px;font-weight:600;letter-spacing:-0.3px}
+.auth-logo-text span{color:var(--blue)}
+.auth-title{font-size:22px;font-weight:600;margin-bottom:6px}
+.auth-sub{color:var(--text2);font-size:13px;margin-bottom:28px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:12px;font-weight:500;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
+.field input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:11px 14px;color:var(--text);font-size:14px;transition:border 0.2s}
+.field input:focus{border-color:var(--blue)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 20px;border-radius:var(--radius);font-size:14px;font-weight:500;transition:all 0.18s;cursor:pointer;border:none}
+.btn-primary{background:var(--blue2);color:#fff}
+.btn-primary:hover{background:#1d4ed8}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--border2);color:var(--text)}
+.btn-danger{background:var(--corald);color:var(--coral);border:1px solid var(--coral)}
+.btn-danger:hover{background:#5a1a1a}
+.btn-sm{padding:7px 14px;font-size:12px}
+.btn-full{width:100%}
+.auth-err{background:var(--corald);border:1px solid var(--coral);color:var(--coral);padding:10px 14px;border-radius:var(--radius);font-size:13px;margin-bottom:16px}
+
+/* LAYOUT */
+.app{display:flex;min-height:100vh}
+.sidebar{width:220px;min-height:100vh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar-logo{padding:20px 18px 14px;display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--border)}
+.sidebar-logo-icon{width:30px;height:30px;background:var(--blue2);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.sidebar-logo-text{font-size:15px;font-weight:600;letter-spacing:-0.2px}
+.sidebar-logo-text span{color:var(--blue)}
+.nav-section{padding:16px 10px 4px;font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:8px;cursor:pointer;transition:all 0.15s;color:var(--text2);margin:1px 4px;font-size:13.5px}
+.nav-item:hover{background:var(--bg3);color:var(--text)}
+.nav-item.active{background:var(--blued);color:var(--blue)}
+.nav-item .nav-icon{font-size:15px;width:18px;text-align:center;flex-shrink:0}
+.nav-badge{margin-left:auto;background:var(--coral);color:#fff;font-size:10px;font-weight:600;padding:1px 6px;border-radius:10px;min-width:18px;text-align:center}
+.nav-badge.amber{background:var(--amber);color:#000}
+.sidebar-footer{margin-top:auto;padding:14px 12px;border-top:1px solid var(--border)}
+.user-card{display:flex;align-items:center;gap:9px;padding:8px;border-radius:8px;cursor:pointer}
+.user-card:hover{background:var(--bg3)}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--blue2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.user-info .user-name{font-size:13px;font-weight:500;color:var(--text)}
+.user-info .user-role{font-size:11px;color:var(--text3);text-transform:capitalize}
+
+.main{flex:1;overflow-y:auto;background:var(--bg)}
+.topbar{padding:18px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:10}
+.page-title{font-size:17px;font-weight:600}
+.page-sub{font-size:12px;color:var(--text3);margin-top:1px}
+.content{padding:24px 28px}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card-title{font-size:14px;font-weight:600}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+
+/* STAT CARDS */
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px}
+.stat-label{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px}
+.stat-value{font-size:28px;font-weight:600;margin:4px 0 2px;letter-spacing:-0.5px}
+.stat-change{font-size:11px;color:var(--text2)}
+.stat-change.up{color:var(--green)}
+.stat-change.down{color:var(--coral)}
+
+/* TAGS */
+.tag{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500}
+.tag-blue{background:var(--blued);color:var(--blue)}
+.tag-teal{background:var(--teald);color:var(--teal)}
+.tag-amber{background:var(--amberd);color:var(--amber)}
+.tag-coral{background:var(--corald);color:var(--coral)}
+.tag-green{background:var(--greend);color:var(--green)}
+.tag-purple{background:var(--purpled);color:var(--purple)}
+.tag-gray{background:var(--bg3);color:var(--text2)}
+
+/* SEARCH */
+.search-wrap{position:relative}
+.search-input{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px 12px 42px;color:var(--text);font-size:14px;transition:all 0.2s}
+.search-input:focus{border-color:var(--blue);background:var(--bg3)}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:15px;pointer-events:none}
+.search-results{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-lg);margin-top:8px;overflow:hidden}
+.search-result-item{padding:14px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s}
+.search-result-item:last-child{border-bottom:none}
+.search-result-item:hover{background:var(--bg4)}
+.result-title{font-size:13px;font-weight:500;margin-bottom:3px}
+.result-short{font-size:12px;color:var(--teal);margin-bottom:4px;font-family:var(--mono)}
+.result-tags{display:flex;gap:5px;flex-wrap:wrap}
+.ai-badge{display:inline-flex;align-items:center;gap:5px;background:var(--purpled);color:var(--purple);font-size:11px;padding:4px 10px;border-radius:20px;font-weight:500;margin-bottom:12px}
+
+/* ARTICLES */
+.article-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;cursor:pointer;transition:all 0.18s}
+.article-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+.article-title{font-size:14px;font-weight:600;margin-bottom:6px}
+.article-short{font-size:12px;color:var(--teal);font-family:var(--mono);margin-bottom:8px;line-height:1.5}
+.article-long{font-size:13px;color:var(--text2);margin:10px 0;display:none}
+.article-long.show{display:block}
+.article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.article-meta span{font-size:11px;color:var(--text3)}
+.divider{height:1px;background:var(--border);margin:20px 0}
+
+/* ANNOUNCEMENTS */
+.announcement-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:14px}
+.announcement-card.unread{border-left:3px solid var(--amber)}
+.announcement-card.overdue{border-left:3px solid var(--coral)}
+.ann-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:12px}
+.ann-title{font-size:15px;font-weight:600}
+.ann-body{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px}
+.ann-quiz{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:14px}
+.ann-quiz-q{font-size:13px;font-weight:500;margin-bottom:10px}
+.quiz-option{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;cursor:pointer;transition:background 0.15s;font-size:13px;color:var(--text2)}
+.quiz-option:hover{background:var(--bg4)}
+.quiz-option.selected{background:var(--blued);color:var(--blue)}
+.quiz-option.correct{background:var(--greend);color:var(--green)}
+.quiz-option.wrong{background:var(--corald);color:var(--coral)}
+.quiz-option input{accent-color:var(--blue)}
+.ack-btn{background:var(--greend);color:var(--green);border:1px solid var(--green);padding:9px 18px;border-radius:var(--radius);font-size:13px;font-weight:500;cursor:pointer;transition:all 0.18s}
+.ack-btn:hover{background:#1a5a2e}
+.ack-done{display:inline-flex;align-items:center;gap:6px;color:var(--green);font-size:13px;font-weight:500}
+
+/* TABLE */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:10px 14px;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border)}
+td{padding:11px 14px;font-size:13px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg3)}
+.td-name{color:var(--text);font-weight:500}
+
+/* PROGRESS */
+.progress-wrap{display:flex;align-items:center;gap:10px}
+.progress-bar{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;transition:width 0.5s}
+.progress-pct{font-size:11px;font-weight:500;min-width:30px;text-align:right}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);width:100%;max-width:680px;max-height:90vh;overflow-y:auto;padding:28px}
+.modal-title{font-size:17px;font-weight:600;margin-bottom:4px}
+.modal-sub{font-size:12px;color:var(--text3);margin-bottom:20px}
+.modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+
+/* FORMS */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.form-field{margin-bottom:14px}
+.form-field label{display:block;font-size:12px;font-weight:500;color:var(--text2);margin-bottom:5px}
+.form-field input,.form-field textarea,.form-field select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:10px 13px;color:var(--text);font-size:13px;transition:border 0.2s}
+.form-field input:focus,.form-field textarea:focus,.form-field select:focus{border-color:var(--blue)}
+.form-field textarea{resize:vertical;min-height:90px}
+.form-field select option{background:var(--bg3)}
+.char-count{font-size:10px;color:var(--text3);text-align:right;margin-top:3px}
+.char-ok{color:var(--green)}
+.char-warn{color:var(--amber)}
+.char-bad{color:var(--coral)}
+
+/* UPLOAD ZONE */
+.upload-zone{border:2px dashed var(--border2);border-radius:var(--radius-lg);padding:32px;text-align:center;cursor:pointer;transition:all 0.2s;color:var(--text2)}
+.upload-zone:hover{border-color:var(--blue);background:var(--blued)}
+.upload-zone input{display:none}
+
+/* TABS */
+.tabs{display:flex;gap:4px;background:var(--bg3);border-radius:var(--radius);padding:3px;margin-bottom:20px}
+.tab{padding:7px 16px;border-radius:7px;cursor:pointer;font-size:13px;color:var(--text2);transition:all 0.15s;font-weight:500}
+.tab.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,0.3)}
+
+/* ALERTS */
+.alert{padding:11px 14px;border-radius:var(--radius);font-size:13px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.alert-info{background:var(--blued);border:1px solid var(--blue);color:var(--blue)}
+.alert-success{background:var(--greend);border:1px solid var(--green);color:var(--green)}
+.alert-warn{background:var(--amberd);border:1px solid var(--amber);color:var(--amber)}
+.alert-err{background:var(--corald);border:1px solid var(--coral);color:var(--coral)}
+
+/* CHIPS */
+.chip{display:inline-flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-size:12px;color:var(--text2);cursor:pointer;transition:all 0.15s}
+.chip:hover{border-color:var(--border2);color:var(--text)}
+.chip.active{background:var(--blued);border-color:var(--blue);color:var(--blue)}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:48px 20px;color:var(--text3)}
+.empty-icon{font-size:40px;margin-bottom:12px}
+.empty-text{font-size:14px;margin-bottom:6px;color:var(--text2)}
+.empty-sub{font-size:12px}
+
+/* RESPONSIVE BASICS */
+@media(max-width:768px){
+  .sidebar{width:60px}
+  .nav-item span:not(.nav-icon){display:none}
+  .sidebar-logo-text{display:none}
+  .user-info{display:none}
+  .content{padding:16px}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+}
+
+/* LOADING */
+.loading-dots span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--blue);margin:0 2px;animation:bounce 0.8s infinite}
+.loading-dots span:nth-child(2){animation-delay:0.2s}
+.loading-dots span:nth-child(3){animation-delay:0.4s}
+@keyframes bounce{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.fade-in{animation:fadeIn 0.2s ease}
+
+/* SPECIFIC */
+.role-select{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.role-opt{padding:7px 14px;border-radius:var(--radius);border:1px solid var(--border);font-size:12px;cursor:pointer;transition:all 0.15s;color:var(--text2)}
+.role-opt:hover{border-color:var(--border2)}
+.role-opt.sel{border-color:var(--blue);background:var(--blued);color:var(--blue)}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+// ============================================================
+// DATA STORE
+// ============================================================
+const DB = {
+  users: [
+    {id:1,name:"Admin User",email:"admin@company.com",password:"admin123",role:"admin",dept:"IT",active:true,createdAt:"2025-01-01"},
+    {id:2,name:"Maria Santos",email:"maria@company.com",password:"pass123",role:"agent",dept:"Customer Service",active:true,createdAt:"2025-01-10"},
+    {id:3,name:"James Carter",email:"james@company.com",password:"pass123",role:"lead",dept:"Customer Service",active:true,createdAt:"2025-01-10"},
+    {id:4,name:"Priya Nair",email:"priya@company.com",password:"pass123",role:"agent",dept:"Customer Service",active:true,createdAt:"2025-01-12"},
+    {id:5,name:"Tom Bridges",email:"tom@company.com",password:"pass123",role:"author",dept:"Operations",active:true,createdAt:"2025-01-15"},
+  ],
+  articles: [
+    {id:1,title:"How to process a refund request",category:"Refunds",shortAnswer:"Verify order, check policy window, process in CRM under Orders > Refund. Allow 3–5 biz days.",longAnswer:"Step 1: Verify the order number and customer identity through the CRM order lookup. Step 2: Confirm the order is within the 30-day return window (or 90-day for Premium members). Step 3: Navigate to Orders > Select Order > Refund Request. Step 4: Select the reason code from the dropdown. Step 5: Confirm the refund amount — partial or full. Step 6: Submit and provide the confirmation number to the customer. Refunds appear within 3–5 business days on standard cards, up to 10 days for international accounts. Always log the interaction in the CRM notes field before ending the call.",tags:["refunds","billing","orders"],author:"Admin User",status:"published",views:142,helpful:38,notHelpful:2,reviewDate:"2025-09-01",createdAt:"2025-01-20",updatedAt:"2025-03-10"},
+    {id:2,title:"Handling an escalation to Tier 2 support",category:"Escalations",shortAnswer:"Gather case notes, stay on call, transfer via CRM Escalation tab. Do not cold-transfer.",longAnswer:"Before escalating: document all troubleshooting steps taken in the case notes. Warm transfer only — never cold transfer a customer. Open the CRM Escalation tab and select the correct Tier 2 queue (Technical, Billing, or Specialist). Enter a brief case summary in the notes field (50 words minimum). Remain on the line to introduce the Tier 2 agent and provide context. Inform the customer of average Tier 2 wait times (typically 8–12 minutes). After handoff, complete your disposition code and mark the ticket as Escalated. Follow up tickets are auto-generated within 24 hours.",tags:["escalation","process","tier2"],author:"Admin User",status:"published",views:98,helpful:29,notHelpful:1,reviewDate:"2025-08-01",createdAt:"2025-01-22",updatedAt:"2025-02-28"},
+    {id:3,title:"Account password reset for customers",category:"Account",shortAnswer:"Send reset link via verified email only. Never share temp passwords. Allow 15 min delivery.",longAnswer:"Verify the customer's identity with at least two authentication factors (email + last 4 of card, or email + billing address). NEVER read out or create a temporary password over the phone — this is a security violation. Use the CRM Account Tools > Send Password Reset to trigger an automated email. Advise the customer the link expires in 60 minutes and check their spam folder. If the email doesn't arrive within 15 minutes, verify the email address on file and resend. If the customer no longer has access to their email, escalate to the Account Security team using the Security Escalation pathway.",tags:["account","security","password"],author:"Tom Bridges",status:"published",views:87,helpful:31,notHelpful:0,reviewDate:"2025-07-15",createdAt:"2025-02-01",updatedAt:"2025-03-01"},
+    {id:4,title:"Applying a promotional discount code",category:"Billing",shortAnswer:"Enter promo in CRM under Order > Apply Coupon. One code per order. Check validity dates first.",longAnswer:"Before applying: confirm the promo code is active by checking the Promotions calendar in the internal portal. Promo codes are case-sensitive. In the CRM, navigate to the customer's current or recent order and select Apply Coupon. Enter the exact code and confirm the discount appears in the order summary. Only one promotional code can be applied per order — stacking is not permitted unless explicitly noted in the promo brief. If the code fails to apply, check: (1) expiry date, (2) minimum order value threshold, (3) product exclusions. If the customer insists on a valid promo not applying, escalate to Billing Team.",tags:["billing","promotions","discounts"],author:"Tom Bridges",status:"published",views:63,helpful:22,notHelpful:3,reviewDate:"2025-06-01",createdAt:"2025-02-10",updatedAt:"2025-02-10"},
+    {id:5,title:"Shipping delay — communicating to customer",category:"Shipping",shortAnswer:"Acknowledge delay, confirm new ETA from tracker, offer $5 credit for delays over 5 biz days.",longAnswer:"Open the order in CRM and check the Shipment Tracker for current status and updated ETA. Acknowledge the delay empathetically: 'I understand how frustrating this is, and I sincerely apologize for the inconvenience.' Provide the updated ETA clearly. For delays of 3–4 business days beyond original estimate: apologize and confirm new date. For delays of 5+ business days: proactively offer a $5 account credit — you are authorized to apply this without supervisor approval up to once per customer per 90-day period via CRM > Credits. For delays over 10 business days: escalate to the Logistics team and offer a replacement order if the item is in stock.",tags:["shipping","delays","customer-experience"],author:"Admin User",status:"published",views:75,helpful:25,notHelpful:4,reviewDate:"2025-09-15",createdAt:"2025-02-15",updatedAt:"2025-03-05"},
+    {id:6,title:"Verifying customer identity (KYC)",category:"Security",shortAnswer:"Confirm name, email, last 4 of card OR billing zip. Two factors required. Log verification.",longAnswer:"Identity verification is mandatory before making any account changes, processing refunds over $50, or discussing account details. Required: Customer name (exact match) PLUS one of the following: registered email address, last 4 digits of payment card on file, billing postal code, or phone number on file. If the customer cannot provide two matching factors, DO NOT proceed. Advise them to access their account online via self-service, or submit an ID verification request through the secure portal. Always log 'Customer verified' or 'Verification failed — call ended' in the CRM interaction notes. This is a compliance requirement — no exceptions.",tags:["security","compliance","verification"],author:"Admin User",status:"published",views:112,helpful:44,notHelpful:0,reviewDate:"2025-05-01",createdAt:"2025-01-25",updatedAt:"2025-03-01"},
+  ],
+  announcements: [
+    {id:1,title:"New Refund Policy — Effective April 1, 2026",body:"Effective April 1st, our return window is extended from 30 to 45 days for all standard orders. Premium members retain their existing 90-day window. Please update your scripts accordingly and ensure all customers calling about recent returns are informed of this improvement. The CRM will be updated automatically on April 1st — no manual changes needed from agents. Questions? Contact your Team Lead.",category:"Policy Update",priority:"high",dueDate:"2026-03-30",quiz:[{q:"What is the new standard return window?",options:["30 days","45 days","60 days","90 days"],correct:1}],reads:[1,3,5],passes:[1,3],createdAt:"2026-03-20",publishedBy:"Admin User"},
+    {id:2,title:"Q1 2026 Performance Results & Recognition",body:"Congratulations to the entire CS team on an outstanding Q1! We achieved a 94.2% CSAT score — our highest ever — and reduced average handle time by 11 seconds. Special recognition to Maria Santos and James Carter for their exceptional metrics. Our Q2 goal is to maintain CSAT above 93% and improve first-contact resolution to 78%. Full report is available in the shared drive. Thank you for your continued dedication.",category:"Company Update",priority:"normal",dueDate:"2026-03-28",quiz:[{q:"What was our Q1 CSAT score?",options:["91.0%","92.5%","94.2%","96.0%"],correct:2}],reads:[1,2,3,5],passes:[1,2,3],createdAt:"2026-03-18",publishedBy:"Admin User"},
+    {id:3,title:"Mandatory Security Training — Complete by March 31",body:"All staff are required to complete the updated Information Security Awareness module by March 31, 2026. This is a compliance requirement and non-completion will be escalated to HR. The training covers: phishing awareness, customer data handling, PCI-DSS obligations, and password hygiene. Access the training via the Learning Portal link in your email. Allow 45 minutes for completion. If you have already completed it through another pathway, please notify your Team Lead with your certificate.",category:"Compliance",priority:"urgent",dueDate:"2026-03-31",quiz:[{q:"What is the deadline for security training completion?",options:["March 28","March 31","April 5","April 15"],correct:1}],reads:[1],passes:[1],createdAt:"2026-03-15",publishedBy:"Admin User"},
+  ],
+  auditLog: [
+    {ts:"2026-03-26 09:14",user:"Maria Santos",action:"Read article","detail":"How to process a refund request"},
+    {ts:"2026-03-26 09:22",user:"Admin User",action:"Published announcement","detail":"New Refund Policy"},
+    {ts:"2026-03-26 08:55",user:"James Carter",action:"Acknowledged","detail":"Q1 2026 Performance Results"},
+    {ts:"2026-03-25 16:40",user:"Tom Bridges",action:"Edited article","detail":"Applying a promotional discount code"},
+    {ts:"2026-03-25 14:12",user:"Priya Nair",action:"Failed quiz","detail":"Mandatory Security Training"},
+  ],
+};
+
+let currentUser = null;
+let state = {
+  page: "dashboard",
+  searchQuery: "",
+  searchResults: [],
+  aiSearching: false,
+  articleView: null,
+  announcementView: null,
+  modal: null,
+  activeTab: 0,
+  categoryFilter: "All",
+  quizAnswers: {},
+  quizSubmitted: {},
+  notification: null,
+};
+
+// ============================================================
+// HELPERS
+// ============================================================
+function $(id){return document.getElementById(id)}
+function el(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html)e.innerHTML=html;return e}
+function getInitials(name){return name.split(" ").map(w=>w[0]).join("").toUpperCase().slice(0,2)}
+function formatDate(d){return new Date(d).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}
+function daysBetween(d1,d2){return Math.ceil((new Date(d2)-new Date(d1))/(1000*60*60*24))}
+function isOverdue(dueDate){return new Date(dueDate)<new Date()}
+function hasRead(ann,userId){return ann.reads.includes(userId)}
+function hasPassed(ann,userId){return ann.passes.includes(userId)}
+function countChar(str){return str?str.length:0}
+function charClass(n,min,max){if(n===0)return "";if(n<min)return "char-warn";if(n<=max)return "char-ok";return "char-bad"}
+function notify(msg,type="success"){
+  state.notification={msg,type};
+  render();
+  setTimeout(()=>{state.notification=null;render()},3000);
+}
+function roleColor(r){return r==="admin"?"tag-coral":r==="lead"?"tag-amber":r==="author"?"tag-purple":"tag-teal"}
+function priorityColor(p){return p==="urgent"?"tag-coral":p==="high"?"tag-amber":"tag-teal"}
+
+// AI search simulation
+async function aiSearch(query){
+  if(!query.trim()){state.searchResults=[];render();return}
+  state.aiSearching=true;render();
+  await new Promise(r=>setTimeout(r,700));
+  const q=query.toLowerCase();
+  const results=DB.articles.filter(a=>
+    a.title.toLowerCase().includes(q)||
+    a.shortAnswer.toLowerCase().includes(q)||
+    a.longAnswer.toLowerCase().includes(q)||
+    a.tags.some(t=>t.includes(q))||
+    a.category.toLowerCase().includes(q)
+  ).slice(0,5);
+  state.searchResults=results;
+  state.aiSearching=false;
+  render();
+}
+
+let searchTimeout=null;
+function handleSearch(q){
+  state.searchQuery=q;
+  clearTimeout(searchTimeout);
+  if(!q.trim()){state.searchResults=[];state.aiSearching=false;render();return}
+  state.aiSearching=true;render();
+  searchTimeout=setTimeout(()=>aiSearch(q),400);
+}
+
+// ============================================================
+// RENDER ENGINE
+// ============================================================
+function render(){
+  const root=$("root");
+  if(!currentUser){root.innerHTML=renderAuth();attachAuth();return}
+  root.innerHTML=renderApp();
+  attachApp();
+}
+
+// ============================================================
+// AUTH
+// ============================================================
+function renderAuth(){
+  return `<div class="auth-wrap">
+    <div class="auth-bg"></div>
+    <div class="auth-card fade-in">
+      <div class="auth-logo">
+        <div class="auth-logo-icon">⚡</div>
+        <div class="auth-logo-text">CS<span>Hub</span></div>
+      </div>
+      <div class="auth-title">Welcome back</div>
+      <div class="auth-sub">Sign in to access your Knowledge & Learning portal</div>
+      <div id="auth-err" style="display:none" class="auth-err"></div>
+      <div class="field"><label>Email address</label><input id="auth-email" type="email" placeholder="you@company.com" value=""/></div>
+      <div class="field"><label>Password</label><input id="auth-pass" type="password" placeholder="••••••••"/></div>
+      <button class="btn btn-primary btn-full" onclick="doLogin()" style="margin-top:8px">Sign in</button>
+      <div style="margin-top:18px;padding:12px;background:var(--bg3);border-radius:var(--radius);font-size:12px;color:var(--text3)">
+        <strong style="color:var(--text2)">Demo accounts:</strong><br/>
+        admin@company.com / admin123 (Admin)<br/>
+        maria@company.com / pass123 (Agent)<br/>
+        james@company.com / pass123 (Team Lead)
+      </div>
+    </div>
+  </div>`;
+}
+
+function attachAuth(){
+  $("auth-pass")?.addEventListener("keydown",e=>{if(e.key==="Enter")doLogin()});
+}
+
+function doLogin(){
+  const email=$("auth-email")?.value.trim().toLowerCase();
+  const pass=$("auth-pass")?.value;
+  const user=DB.users.find(u=>u.email.toLowerCase()===email&&u.password===pass&&u.active);
+  if(user){currentUser=user;state.page="dashboard";render();}
+  else{
+    const e=$("auth-err");
+    if(e){e.style.display="flex";e.textContent="Invalid email or password. Please try again."}
+  }
+}
+
+function doLogout(){currentUser=null;state={...state,page:"dashboard",searchQuery:"",searchResults:[]};render()}
+
+// ============================================================
+// APP SHELL
+// ============================================================
+function renderApp(){
+  const pendingAnns=DB.announcements.filter(a=>!hasRead(a,currentUser.id)).length;
+  const overdueAnns=DB.announcements.filter(a=>isOverdue(a.dueDate)&&!hasPassed(a,currentUser.id)).length;
+
+  const navItems=[
+    {id:"dashboard",icon:"▦",label:"Dashboard"},
+    {id:"kb",icon:"◈",label:"Knowledge Base"},
+    {id:"announcements",icon:"◎",label:"Announcements",badge:pendingAnns||null,badgeType:"amber"},
+    ...(currentUser.role==="admin"||currentUser.role==="lead"||currentUser.role==="author"?[{id:"admin-content",icon:"✦",label:"Manage Content"}]:[]),
+    ...(currentUser.role==="admin"||currentUser.role==="lead"?[{id:"reports",icon:"◉",label:"Reports"}]:[]),
+    ...(currentUser.role==="admin"?[{id:"admin-users",icon:"⊞",label:"User Management"}]:[]),
+  ];
+
+  return `
+  ${state.notification?`<div style="position:fixed;top:20px;right:20px;z-index:200;background:${state.notification.type==="success"?"var(--greend)":"var(--corald)"};border:1px solid ${state.notification.type==="success"?"var(--green)":"var(--coral)"};color:${state.notification.type==="success"?"var(--green)":"var(--coral)"};padding:12px 18px;border-radius:var(--radius);font-size:13px;font-weight:500;box-shadow:var(--shadow)">
+    ${state.notification.type==="success"?"✓":"✕"} ${state.notification.msg}
+  </div>`:""}
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">⚡</div>
+        <div class="sidebar-logo-text">CS<span>Hub</span></div>
+      </div>
+      <div style="padding:8px 4px">
+        ${navItems.map(n=>`
+          <div class="nav-item${state.page===n.id?" active":""}" onclick="navigate('${n.id}')">
+            <span class="nav-icon">${n.icon}</span>
+            <span>${n.label}</span>
+            ${n.badge?`<span class="nav-badge ${n.badgeType||""}">${n.badge}</span>`:""}
+          </div>`).join("")}
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-card" onclick="navigate('profile')">
+          <div class="avatar">${getInitials(currentUser.name)}</div>
+          <div class="user-info">
+            <div class="user-name">${currentUser.name}</div>
+            <div class="user-role">${currentUser.role}</div>
+          </div>
+        </div>
+        <button class="btn btn-ghost btn-sm btn-full" style="margin-top:8px" onclick="doLogout()">Sign out</button>
+      </div>
+    </aside>
+    <div class="main">
+      ${renderPage()}
+      ${state.modal?renderModal():""}
+    </div>
+  </div>`;
+}
+
+function navigate(page){state.page=page;state.articleView=null;state.searchQuery="";state.searchResults=[];state.activeTab=0;render()}
+
+// ============================================================
+// PAGE ROUTER
+// ============================================================
+function renderPage(){
+  switch(state.page){
+    case "dashboard": return renderDashboard();
+    case "kb": return renderKB();
+    case "announcements": return renderAnnouncements();
+    case "admin-content": return renderAdminContent();
+    case "reports": return renderReports();
+    case "admin-users": return renderAdminUsers();
+    default: return renderDashboard();
+  }
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function renderDashboard(){
+  const pendingAnns=DB.announcements.filter(a=>!hasPassed(a,currentUser.id));
+  const overdueAnns=pendingAnns.filter(a=>isOverdue(a.dueDate));
+  const totalArticles=DB.articles.length;
+  const myReads=DB.articles.filter(a=>a.views>0).length;
+
+  return `
+  <div class="topbar">
+    <div><div class="page-title">Dashboard</div><div class="page-sub">Welcome back, ${currentUser.name.split(" ")[0]}</div></div>
+    <div style="font-size:12px;color:var(--text3)">${new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"})}</div>
+  </div>
+  <div class="content fade-in">
+    ${overdueAnns.length?`<div class="alert alert-err">⚠ You have ${overdueAnns.length} overdue announcement${overdueAnns.length>1?"s":""} requiring your acknowledgement. <span style="cursor:pointer;text-decoration:underline" onclick="navigate('announcements')">View now →</span></div>`:""}
+    ${pendingAnns.length&&!overdueAnns.length?`<div class="alert alert-warn">📢 You have ${pendingAnns.length} unread announcement${pendingAnns.length>1?"s":""} pending acknowledgement.</div>`:""}
+
+    <div class="grid-4" style="margin-bottom:20px">
+      <div class="stat-card"><div class="stat-label">Articles</div><div class="stat-value" style="color:var(--blue)">${totalArticles}</div><div class="stat-change">in knowledge base</div></div>
+      <div class="stat-card"><div class="stat-label">Pending</div><div class="stat-value" style="color:var(--amber)">${pendingAnns.length}</div><div class="stat-change">announcements to read</div></div>
+      <div class="stat-card"><div class="stat-label">Overdue</div><div class="stat-value" style="color:var(--coral)">${overdueAnns.length}</div><div class="stat-change">past due date</div></div>
+      <div class="stat-card"><div class="stat-label">Categories</div><div class="stat-value" style="color:var(--teal)">${[...new Set(DB.articles.map(a=>a.category))].length}</div><div class="stat-change">topic areas</div></div>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <div class="card-title" style="margin-bottom:12px">Quick Search</div>
+        <div class="search-wrap">
+          <span class="search-icon">⌕</span>
+          <input class="search-input" id="dash-search" placeholder="Search articles, policies, procedures..." oninput="handleSearch(this.value)" value="${state.searchQuery}"/>
+        </div>
+        ${state.aiSearching?`<div style="padding:14px;text-align:center;color:var(--text3)"><div class="loading-dots"><span></span><span></span><span></span></div><div style="font-size:11px;margin-top:6px">AI is searching...</div></div>`:""}
+        ${state.searchResults.length?`<div class="search-results">${state.searchResults.map(a=>`
+          <div class="search-result-item" onclick="openArticle(${a.id})">
+            <div class="result-title">${a.title}</div>
+            <div class="result-short">${a.shortAnswer}</div>
+            <div class="result-tags">${a.tags.map(t=>`<span class="tag tag-blue">${t}</span>`).join("")}</div>
+          </div>`).join("")}</div>`:""}
+        ${state.searchQuery&&!state.aiSearching&&!state.searchResults.length?`<div style="padding:14px;text-align:center;color:var(--text3);font-size:13px">No articles found for "${state.searchQuery}"</div>`:""}
+        ${!state.searchQuery?`<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+          ${["refund","escalation","password","shipping","security"].map(t=>`<span class="chip" onclick="handleSearch('${t}');$('dash-search').value='${t}'">${t}</span>`).join("")}
+        </div>`:""}
+      </div>
+
+      <div>
+        <div class="card-title" style="margin-bottom:12px">Recent Announcements</div>
+        ${DB.announcements.slice(0,3).map(a=>`
+          <div style="background:var(--bg2);border:1px solid var(--border);border-left:3px solid ${hasPassed(a,currentUser.id)?"var(--green)":isOverdue(a.dueDate)?"var(--coral)":"var(--amber)"};border-radius:var(--radius);padding:12px;margin-bottom:8px;cursor:pointer" onclick="navigate('announcements')">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div style="font-size:13px;font-weight:500">${a.title}</div>
+              <span class="tag ${priorityColor(a.priority)}" style="flex-shrink:0;margin-left:8px">${a.priority}</span>
+            </div>
+            <div style="font-size:11px;color:var(--text3);margin-top:4px">Due ${formatDate(a.dueDate)} · ${hasPassed(a,currentUser.id)?`<span style="color:var(--green)">✓ Complete</span>`:isOverdue(a.dueDate)?`<span style="color:var(--coral)">Overdue</span>`:`<span style="color:var(--amber)">Pending</span>`}</div>
+          </div>`).join("")}
+        <button class="btn btn-ghost btn-sm btn-full" style="margin-top:4px" onclick="navigate('announcements')">View all announcements →</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="card-title" style="margin-bottom:14px">Popular Articles</div>
+    <div class="grid-2">
+      ${DB.articles.sort((a,b)=>b.views-a.views).slice(0,4).map(a=>`
+        <div class="article-card" onclick="navigate('kb');setTimeout(()=>openArticle(${a.id}),50)">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+            <span class="tag tag-blue">${a.category}</span>
+            <span style="font-size:11px;color:var(--text3)">${a.views} views</span>
+          </div>
+          <div class="article-title">${a.title}</div>
+          <div class="article-short">${a.shortAnswer}</div>
+        </div>`).join("")}
+    </div>
+  </div>`;
+}
+
+// ============================================================
+// KNOWLEDGE BASE
+// ============================================================
+function renderKB(){
+  const categories=["All",...new Set(DB.articles.map(a=>a.category))];
+  const filtered=state.categoryFilter==="All"?DB.articles:DB.articles.filter(a=>a.category===state.categoryFilter);
+
+  return `
+  <div class="topbar">
+    <div><div class="page-title">Knowledge Base</div><div class="page-sub">${DB.articles.length} articles · AI-powered search</div></div>
+    ${currentUser.role==="admin"||currentUser.role==="author"?`<button class="btn btn-primary btn-sm" onclick="openModal('new-article')">+ New Article</button>`:""}
+  </div>
+  <div class="content fade-in">
+    <div class="ai-badge">✦ AI Search</div>
+    <div class="search-wrap" style="margin-bottom:14px">
+      <span class="search-icon">⌕</span>
+      <input class="search-input" id="kb-search" placeholder="Ask a question or search by keyword, topic, or phrase..." oninput="handleSearch(this.value)" value="${state.searchQuery}" style="font-size:15px;padding:14px 16px 14px 44px"/>
+    </div>
+    ${state.aiSearching?`<div style="padding:20px;text-align:center;color:var(--text3)"><div class="loading-dots"><span></span><span></span><span></span></div><div style="font-size:12px;margin-top:8px">Searching knowledge base with AI...</div></div>`:""}
+    ${state.searchResults.length&&state.searchQuery?`
+      <div style="margin-bottom:8px;font-size:12px;color:var(--text3)">${state.searchResults.length} result${state.searchResults.length>1?"s":""} for "${state.searchQuery}"</div>
+      <div class="search-results" style="margin-bottom:20px">${state.searchResults.map(a=>`
+        <div class="search-result-item" onclick="openArticle(${a.id})">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+            <span class="tag tag-blue" style="font-size:10px">${a.category}</span>
+            <div class="result-title">${a.title}</div>
+          </div>
+          <div class="result-short">${a.shortAnswer}</div>
+          <div class="result-tags" style="margin-top:5px">${a.tags.map(t=>`<span class="tag tag-gray">${t}</span>`).join("")}</div>
+        </div>`).join("")}</div>`:""}
+    ${state.searchQuery&&!state.aiSearching&&!state.searchResults.length?`<div class="empty"><div class="empty-icon">◈</div><div class="empty-text">No articles found</div><div class="empty-sub">Try different keywords, or <span style="color:var(--blue);cursor:pointer" onclick="openModal('request-article')">request a new article</span></div></div>`:""}
+
+    ${!state.searchQuery?`
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px">
+      ${categories.map(c=>`<span class="chip${state.categoryFilter===c?" active":""}" onclick="setCategoryFilter('${c}')">${c}</span>`).join("")}
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px">
+      ${filtered.map(a=>renderArticleCard(a)).join("")}
+    </div>`:""}
+
+    ${state.articleView?renderArticleModal():""}
+  </div>`;
+}
+
+function renderArticleCard(a){
+  const isExpanded=state.expandedArticle===a.id;
+  return `<div class="article-card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <span class="tag tag-blue">${a.category}</span>
+      <div style="display:flex;gap:5px">
+        ${currentUser.role==="admin"||currentUser.role==="author"?`<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openModal('edit-article',${a.id})">Edit</button>`:""}
+      </div>
+    </div>
+    <div class="article-title">${a.title}</div>
+    <div style="margin:8px 0 4px;font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px">Quick Answer</div>
+    <div class="article-short">${a.shortAnswer}</div>
+    <div style="margin-top:10px;display:flex;gap:8px">
+      <button class="btn btn-ghost btn-sm" onclick="toggleArticle(${a.id})">
+        ${isExpanded?"▲ Hide details":"▼ Full answer"}
+      </button>
+      <button class="btn btn-ghost btn-sm" onclick="copyAnswer(${a.id})" title="Copy short answer">⎘ Copy</button>
+    </div>
+    ${isExpanded?`<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+      <div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">Full Answer</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.75">${a.longAnswer}</div>
+      <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:5px">${a.tags.map(t=>`<span class="tag tag-gray">${t}</span>`).join("")}</div>
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:11px;color:var(--text3)">Updated ${formatDate(a.updatedAt)} · By ${a.author} · ${a.views} views</span>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost btn-sm" onclick="rateArticle(${a.id},true)">👍 ${a.helpful}</button>
+          <button class="btn btn-ghost btn-sm" onclick="rateArticle(${a.id},false)">👎 ${a.notHelpful}</button>
+        </div>
+      </div>
+    </div>`:""}
+  </div>`;
+}
+
+function renderArticleModal(){return ""}
+function toggleArticle(id){state.expandedArticle=state.expandedArticle===id?null:id;render()}
+function openArticle(id){state.expandedArticle=id;state.page="kb";render();setTimeout(()=>{const el=document.querySelector(`[data-aid="${id}"]`);if(el)el.scrollIntoView({behavior:"smooth"})},50)}
+function setCategoryFilter(c){state.categoryFilter=c;render()}
+function copyAnswer(id){const a=DB.articles.find(x=>x.id===id);if(a){navigator.clipboard?.writeText(a.shortAnswer);notify("Short answer copied to clipboard!")}}
+function rateArticle(id,helpful){const a=DB.articles.find(x=>x.id===id);if(a){if(helpful)a.helpful++;else a.notHelpful++;notify("Thank you for your feedback!");render()}}
+
+// ============================================================
+// ANNOUNCEMENTS
+// ============================================================
+function renderAnnouncements(){
+  const tabs=["All","Pending","Completed"];
+  const filtered=DB.announcements.filter(a=>{
+    if(state.activeTab===1)return !hasPassed(a,currentUser.id);
+    if(state.activeTab===2)return hasPassed(a,currentUser.id);
+    return true;
+  });
+
+  return `
+  <div class="topbar">
+    <div><div class="page-title">Announcements</div><div class="page-sub">Read, acknowledge, and certify your understanding</div></div>
+    ${currentUser.role==="admin"||currentUser.role==="lead"?`<button class="btn btn-primary btn-sm" onclick="openModal('new-announcement')">+ New Announcement</button>`:""}
+  </div>
+  <div class="content fade-in">
+    <div class="tabs">
+      ${tabs.map((t,i)=>`<div class="tab${state.activeTab===i?" active":""}" onclick="setTab(${i})">${t}${i===1?` (${DB.announcements.filter(a=>!hasPassed(a,currentUser.id)).length})`:""}</div>`).join("")}
+    </div>
+    ${filtered.length===0?`<div class="empty"><div class="empty-icon">◎</div><div class="empty-text">All caught up!</div><div class="empty-sub">No announcements in this category</div></div>`:""}
+    ${filtered.map(a=>renderAnnouncementCard(a)).join("")}
+  </div>`;
+}
+
+function renderAnnouncementCard(a){
+  const read=hasRead(a,currentUser.id);
+  const passed=hasPassed(a,currentUser.id);
+  const overdue=isOverdue(a.dueDate)&&!passed;
+  const expanded=state.expandedAnn===a.id;
+  const qAnswered=state.quizAnswers[a.id]!==undefined;
+  const qSubmitted=state.quizSubmitted[a.id];
+
+  return `<div class="announcement-card${!read?" unread":""}${overdue?" overdue":""}">
+    <div class="ann-header">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          <span class="tag ${priorityColor(a.priority)}">${a.priority}</span>
+          <span class="tag tag-gray">${a.category}</span>
+        </div>
+        <div class="ann-title">${a.title}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:3px">Posted ${formatDate(a.createdAt)} · By ${a.publishedBy} · Due ${formatDate(a.dueDate)} ${overdue?`· <span style="color:var(--coral)">OVERDUE</span>`:""}</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        ${passed?`<div class="ack-done">✓ Certified</div>`:read?`<div style="font-size:12px;color:var(--amber)">Read · Quiz pending</div>`:`<div style="font-size:12px;color:var(--text3)">Unread</div>`}
+        <div style="margin-top:4px;font-size:11px;color:var(--text3)">${a.reads.length}/${DB.users.filter(u=>u.active).length} read</div>
+      </div>
+    </div>
+
+    ${expanded?`
+    <div class="ann-body">${a.body}</div>
+    ${!passed?`
+    <div class="ann-quiz">
+      <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">Knowledge Check</div>
+      <div class="ann-quiz-q">${a.quiz[0].q}</div>
+      ${a.quiz[0].options.map((opt,i)=>`
+        <div class="quiz-option${state.quizAnswers[a.id]===i?" selected":""} ${qSubmitted?(i===a.quiz[0].correct?"correct":state.quizAnswers[a.id]===i?"wrong"):""}"
+          onclick="${!qSubmitted?`selectAnswer(${a.id},${i})`:""}">
+          <input type="radio" name="q${a.id}" ${state.quizAnswers[a.id]===i?"checked":""} ${qSubmitted?"disabled":""}/>
+          ${opt}
+        </div>`).join("")}
+      ${qSubmitted?`<div style="margin-top:10px;padding:10px;border-radius:var(--radius);font-size:13px;font-weight:500;background:${state.quizAnswers[a.id]===a.quiz[0].correct?"var(--greend)":"var(--corald)"};color:${state.quizAnswers[a.id]===a.quiz[0].correct?"var(--green)":"var(--coral)"}">
+        ${state.quizAnswers[a.id]===a.quiz[0].correct?"✓ Correct! You have been certified on this announcement.":"✕ Incorrect. Please re-read the announcement and try again."}
+      </div>`:`<button class="btn btn-primary btn-sm" style="margin-top:10px" onclick="submitQuiz(${a.id})" ${!qAnswered?"disabled":""}>Submit answer</button>`}
+    </div>
+    ${!read?`<button class="ack-btn" onclick="acknowledgeRead(${a.id})">✓ Mark as read & continue to quiz</button>`:""}`:`<div class="ack-done">✓ You have read and passed the knowledge check for this announcement</div>`}`:""}
+
+    <button class="btn btn-ghost btn-sm" style="margin-top:${expanded?8:0}px" onclick="toggleAnn(${a.id})">${expanded?"▲ Collapse":"▼ Read announcement"}</button>
+  </div>`;
+}
+
+function toggleAnn(id){state.expandedAnn=state.expandedAnn===id?null:id;render()}
+function setTab(i){state.activeTab=i;render()}
+function acknowledgeRead(id){
+  const a=DB.announcements.find(x=>x.id===id);
+  if(a&&!a.reads.includes(currentUser.id)){a.reads.push(currentUser.id)}
+  DB.auditLog.unshift({ts:new Date().toLocaleString(),user:currentUser.name,action:"Acknowledged",detail:a.title});
+  notify("Marked as read. Please complete the knowledge check below.");render();
+}
+function selectAnswer(annId,optIdx){
+  state.quizAnswers={...state.quizAnswers,[annId]:optIdx};render();
+}
+function submitQuiz(annId){
+  const a=DB.announcements.find(x=>x.id===annId);
+  if(!a)return;
+  if(!a.reads.includes(currentUser.id))a.reads.push(currentUser.id);
+  state.quizSubmitted={...state.quizSubmitted,[annId]:true};
+  if(state.quizAnswers[annId]===a.quiz[0].correct){
+    if(!a.passes.includes(currentUser.id))a.passes.push(currentUser.id);
+    DB.auditLog.unshift({ts:new Date().toLocaleString(),user:currentUser.name,action:"Passed quiz",detail:a.title});
+    notify("🎉 Quiz passed! You are now certified on this announcement.");
+  } else {
+    DB.auditLog.unshift({ts:new Date().toLocaleString(),user:currentUser.name,action:"Failed quiz",detail:a.title});
+    notify("Incorrect answer — please review and try again","error");
+  }
+  render();
+}
+
+// ============================================================
+// REPORTS
+// ============================================================
+function renderReports(){
+  const tabs=["Announcement Compliance","Article Usage","Audit Log"];
+  return `
+  <div class="topbar">
+    <div><div class="page-title">Reports & Analytics</div><div class="page-sub">Compliance tracking and usage insights</div></div>
+    <button class="btn btn-ghost btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
+  </div>
+  <div class="content fade-in">
+    <div class="grid-4" style="margin-bottom:20px">
+      <div class="stat-card"><div class="stat-label">Announcements</div><div class="stat-value" style="color:var(--blue)">${DB.announcements.length}</div><div class="stat-change">total published</div></div>
+      <div class="stat-card"><div class="stat-label">Avg Completion</div><div class="stat-value" style="color:var(--green)">${Math.round(DB.announcements.reduce((s,a)=>s+(a.passes.length/DB.users.filter(u=>u.active).length*100),0)/DB.announcements.length)}%</div><div class="stat-change">quiz pass rate</div></div>
+      <div class="stat-card"><div class="stat-label">Non-Compliant</div><div class="stat-value" style="color:var(--coral)">${DB.users.filter(u=>u.active&&DB.announcements.some(a=>!hasPassed(a,u.id)&&isOverdue(a.dueDate))).length}</div><div class="stat-change">staff overdue</div></div>
+      <div class="stat-card"><div class="stat-label">Total Article Views</div><div class="stat-value" style="color:var(--teal)">${DB.articles.reduce((s,a)=>s+a.views,0)}</div><div class="stat-change">this month</div></div>
+    </div>
+
+    <div class="tabs">${tabs.map((t,i)=>`<div class="tab${state.activeTab===i?" active":""}" onclick="setTab(${i})">${t}</div>`).join("")}</div>
+
+    ${state.activeTab===0?renderComplianceReport():""}
+    ${state.activeTab===1?renderUsageReport():""}
+    ${state.activeTab===2?renderAuditReport():""}
+  </div>`;
+}
+
+function renderComplianceReport(){
+  const activeUsers=DB.users.filter(u=>u.active);
+  return `<div class="card">
+    <div class="card-header"><div class="card-title">Announcement Compliance by User</div></div>
+    <div class="table-wrap"><table>
+      <thead><tr>
+        <th>Name</th><th>Department</th><th>Role</th>
+        ${DB.announcements.map(a=>`<th style="max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${a.title}">${a.title.slice(0,18)}…</th>`).join("")}
+        <th>Overall</th>
+      </tr></thead>
+      <tbody>
+      ${activeUsers.map(u=>{
+        const total=DB.announcements.length;
+        const done=DB.announcements.filter(a=>hasPassed(a,u.id)).length;
+        const pct=Math.round(done/total*100);
+        return `<tr>
+          <td class="td-name"><div style="display:flex;align-items:center;gap:8px"><div class="avatar" style="width:24px;height:24px;font-size:10px">${getInitials(u.name)}</div>${u.name}</div></td>
+          <td>${u.dept}</td>
+          <td><span class="tag ${roleColor(u.role)}">${u.role}</span></td>
+          ${DB.announcements.map(a=>`<td style="text-align:center">
+            ${hasPassed(a,u.id)?`<span style="color:var(--green)">✓</span>`:hasRead(a,u.id)?`<span style="color:var(--amber)">◑</span>`:isOverdue(a.dueDate)?`<span style="color:var(--coral)">✕</span>`:`<span style="color:var(--text3)">–</span>`}
+          </td>`).join("")}
+          <td>
+            <div class="progress-wrap">
+              <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${pct===100?"var(--green)":pct>=50?"var(--amber)":"var(--coral)"}"></div></div>
+              <span class="progress-pct" style="color:${pct===100?"var(--green)":pct>=50?"var(--amber)":"var(--coral)"}">${pct}%</span>
+            </div>
+          </td>
+        </tr>`;
+      }).join("")}
+      </tbody>
+    </table></div>
+    <div style="margin-top:14px;display:flex;gap:16px;font-size:11px;color:var(--text3)">
+      <span><span style="color:var(--green)">✓</span> Passed quiz</span>
+      <span><span style="color:var(--amber)">◑</span> Read, quiz pending</span>
+      <span><span style="color:var(--coral)">✕</span> Overdue</span>
+      <span><span style="color:var(--text3)">–</span> Not yet read</span>
+    </div>
+  </div>`;
+}
+
+function renderUsageReport(){
+  return `<div class="card">
+    <div class="card-header"><div class="card-title">Article Usage & Performance</div></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Article</th><th>Category</th><th>Views</th><th>Helpful</th><th>Not Helpful</th><th>Satisfaction</th><th>Review Due</th></tr></thead>
+      <tbody>
+      ${DB.articles.sort((a,b)=>b.views-a.views).map(a=>{
+        const sat=Math.round(a.helpful/(a.helpful+a.notHelpful||1)*100);
+        return `<tr>
+          <td class="td-name">${a.title}</td>
+          <td><span class="tag tag-blue">${a.category}</span></td>
+          <td>${a.views}</td>
+          <td style="color:var(--green)">${a.helpful}</td>
+          <td style="color:var(--coral)">${a.notHelpful}</td>
+          <td>
+            <div class="progress-wrap">
+              <div class="progress-bar"><div class="progress-fill" style="width:${sat}%;background:${sat>=80?"var(--green)":sat>=60?"var(--amber)":"var(--coral)"}"></div></div>
+              <span class="progress-pct">${sat}%</span>
+            </div>
+          </td>
+          <td style="color:${isOverdue(a.reviewDate)?"var(--coral)":"var(--text2)"}">${formatDate(a.reviewDate)}</td>
+        </tr>`;
+      }).join("")}
+      </tbody>
+    </table></div>
+  </div>`;
+}
+
+function renderAuditReport(){
+  return `<div class="card">
+    <div class="card-header"><div class="card-title">Audit Log</div><div style="font-size:12px;color:var(--text3)">All user actions · Last 30 days</div></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Timestamp</th><th>User</th><th>Action</th><th>Detail</th></tr></thead>
+      <tbody>
+      ${DB.auditLog.map(l=>`<tr>
+        <td style="font-family:var(--mono);font-size:11px;color:var(--text3)">${l.ts}</td>
+        <td class="td-name">${l.user}</td>
+        <td><span class="tag tag-blue">${l.action}</span></td>
+        <td style="color:var(--text2)">${l.detail}</td>
+      </tr>`).join("")}
+      </tbody>
+    </table></div>
+  </div>`;
+}
+
+function exportCSV(){
+  const rows=[["Name","Department","Role",...DB.announcements.map(a=>a.title.slice(0,30)),"Overall %"]];
+  DB.users.filter(u=>u.active).forEach(u=>{
+    const total=DB.announcements.length;
+    const done=DB.announcements.filter(a=>hasPassed(a,u.id)).length;
+    rows.push([u.name,u.dept,u.role,...DB.announcements.map(a=>hasPassed(a,u.id)?"Passed":hasRead(a,u.id)?"Read":"Not Read"),Math.round(done/total*100)+"%"]);
+  });
+  const csv=rows.map(r=>r.map(c=>`"${c}"`).join(",")).join("\n");
+  const blob=new Blob([csv],{type:"text/csv"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");a.href=url;a.download="compliance_report.csv";a.click();
+  notify("Report exported successfully!");
+}
+
+// ============================================================
+// ADMIN CONTENT
+// ============================================================
+function renderAdminContent(){
+  const tabs=["Articles","Announcements"];
+  return `
+  <div class="topbar">
+    <div><div class="page-title">Manage Content</div><div class="page-sub">Create and edit articles and announcements</div></div>
+  </div>
+  <div class="content fade-in">
+    <div class="tabs">${tabs.map((t,i)=>`<div class="tab${state.activeTab===i?" active":""}" onclick="setTab(${i})">${t}</div>`).join("")}</div>
+    ${state.activeTab===0?renderArticleAdmin():""}
+    ${state.activeTab===1?renderAnnouncementAdmin():""}
+  </div>`;
+}
+
+function renderArticleAdmin(){
+  return `<div style="display:flex;justify-content:flex-end;margin-bottom:14px">
+    <button class="btn btn-primary btn-sm" onclick="openModal('new-article')">+ New Article</button>
+  </div>
+  <div class="card">
+    <div class="table-wrap"><table>
+      <thead><tr><th>Title</th><th>Category</th><th>Status</th><th>Author</th><th>Views</th><th>Review Due</th><th>Actions</th></tr></thead>
+      <tbody>
+      ${DB.articles.map(a=>`<tr>
+        <td class="td-name">${a.title}</td>
+        <td><span class="tag tag-blue">${a.category}</span></td>
+        <td><span class="tag ${a.status==="published"?"tag-green":"tag-amber"}">${a.status}</span></td>
+        <td>${a.author}</td>
+        <td>${a.views}</td>
+        <td style="color:${isOverdue(a.reviewDate)?"var(--coral)":"var(--text2)"}">${formatDate(a.reviewDate)}</td>
+        <td><button class="btn btn-ghost btn-sm" onclick="openModal('edit-article',${a.id})">Edit</button></td>
+      </tr>`).join("")}
+      </tbody>
+    </table></div>
+  </div>`;
+}
+
+function renderAnnouncementAdmin(){
+  return `<div style="display:flex;justify-content:flex-end;margin-bottom:14px">
+    <button class="btn btn-primary btn-sm" onclick="openModal('new-announcement')">+ New Announcement</button>
+  </div>
+  <div class="card">
+    <div class="table-wrap"><table>
+      <thead><tr><th>Title</th><th>Category</th><th>Priority</th><th>Due Date</th><th>Read</th><th>Passed</th><th>Actions</th></tr></thead>
+      <tbody>
+      ${DB.announcements.map(a=>`<tr>
+        <td class="td-name">${a.title}</td>
+        <td><span class="tag tag-gray">${a.category}</span></td>
+        <td><span class="tag ${priorityColor(a.priority)}">${a.priority}</span></td>
+        <td style="color:${isOverdue(a.dueDate)?"var(--coral)":"var(--text2)"}">${formatDate(a.dueDate)}</td>
+        <td>${a.reads.length}/${DB.users.filter(u=>u.active).length}</td>
+        <td>${a.passes.length}/${DB.users.filter(u=>u.active).length}</td>
+        <td><button class="btn btn-ghost btn-sm" onclick="openModal('edit-announcement',${a.id})">Edit</button></td>
+      </tr>`).join("")}
+      </tbody>
+    </table></div>
+  </div>`;
+}
+
+// ============================================================
+// USER MANAGEMENT
+// ============================================================
+function renderAdminUsers(){
+  return `
+  <div class="topbar">
+    <div><div class="page-title">User Management</div><div class="page-sub">${DB.users.filter(u=>u.active).length} active users</div></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-ghost btn-sm" onclick="openModal('upload-users')">⬆ Upload Users (CSV)</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('new-user')">+ Add User</button>
+    </div>
+  </div>
+  <div class="content fade-in">
+    <div class="alert alert-info" style="margin-bottom:16px">💡 Upload a CSV to bulk-import users. Required columns: <strong>name, email, role, department</strong>. Default password will be set to their email username. Users must change it on first login.</div>
+    <div class="card">
+      <div class="table-wrap"><table>
+        <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Department</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
+        <tbody>
+        ${DB.users.map(u=>`<tr>
+          <td class="td-name"><div style="display:flex;align-items:center;gap:8px"><div class="avatar" style="width:26px;height:26px;font-size:10px;background:${u.id===currentUser.id?"var(--teal)":"var(--blue2)"}">${getInitials(u.name)}</div>${u.name}${u.id===currentUser.id?` <span class="tag tag-gray" style="font-size:10px">you</span>`:""}</div></td>
+          <td style="font-family:var(--mono);font-size:12px">${u.email}</td>
+          <td><span class="tag ${roleColor(u.role)}">${u.role}</span></td>
+          <td>${u.dept}</td>
+          <td><span class="tag ${u.active?"tag-green":"tag-gray"}">${u.active?"Active":"Inactive"}</span></td>
+          <td style="color:var(--text3);font-size:12px">${formatDate(u.createdAt)}</td>
+          <td>
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-ghost btn-sm" onclick="openModal('edit-user',${u.id})">Edit</button>
+              ${u.id!==currentUser.id?`<button class="btn btn-ghost btn-sm" onclick="toggleUserStatus(${u.id})">${u.active?"Deactivate":"Activate"}</button>`:""}
+            </div>
+          </td>
+        </tr>`).join("")}
+        </tbody>
+      </table></div>
+    </div>
+  </div>`;
+}
+
+function toggleUserStatus(id){
+  const u=DB.users.find(x=>x.id===id);
+  if(u){u.active=!u.active;DB.auditLog.unshift({ts:new Date().toLocaleString(),user:currentUser.name,action:u.active?"Activated user":"Deactivated user",detail:u.name});notify(`${u.name} has been ${u.active?"activated":"deactivated"}.`);render()}
+}
+
+// ============================================================
+// MODALS
+// ============================================================
+function openModal(type,id){state.modal={type,id};render()}
+function closeModal(){state.modal=null;render()}
+
+function renderModal(){
+  const {type,id}=state.modal;
+  let content="";
+
+  if(type==="new-article"||type==="edit-article"){
+    const a=type==="edit-article"?DB.articles.find(x=>x.id===id):{title:"",category:"",shortAnswer:"",longAnswer:"",tags:"",reviewDate:"",status:"published"};
+    const isEdit=type==="edit-article";
+    const shortLen=countChar(a.shortAnswer);
+    content=`
+      <div class="modal-title">${isEdit?"Edit Article":"New Article"}</div>
+      <div class="modal-sub">${isEdit?"Update article content and metadata":"Add a new article to the knowledge base"}</div>
+      <div class="form-field"><label>Title</label><input id="m-title" value="${a.title}" placeholder="Clear, descriptive title"/></div>
+      <div class="form-row">
+        <div class="form-field"><label>Category</label>
+          <select id="m-cat">
+            ${["Refunds","Billing","Account","Escalations","Shipping","Security","General"].map(c=>`<option value="${c}" ${a.category===c?"selected":""}>${c}</option>`).join("")}
+          </select>
+        </div>
+        <div class="form-field"><label>Status</label>
+          <select id="m-status">
+            <option value="published" ${a.status==="published"?"selected":""}>Published</option>
+            <option value="draft" ${a.status==="draft"?"selected":""}>Draft</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-field">
+        <label>Short Answer <span style="font-weight:400;color:var(--text3)">(80–100 characters, shown to agents on call)</span></label>
+        <input id="m-short" value="${a.shortAnswer}" maxlength="120" placeholder="Concise answer for live-call use" oninput="updateCharCount('m-short','m-short-count',80,100)"/>
+        <div class="char-count"><span id="m-short-count" class="${charClass(shortLen,80,100)}">${shortLen}/100</span> characters</div>
+      </div>
+      <div class="form-field">
+        <label>Long Answer <span style="font-weight:400;color:var(--text3)">(full detail for training & reference)</span></label>
+        <textarea id="m-long" rows="6" placeholder="Step-by-step instructions, context, exceptions, escalation paths...">${a.longAnswer}</textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Tags <span style="font-weight:400">(comma-separated)</span></label><input id="m-tags" value="${Array.isArray(a.tags)?a.tags.join(", "):a.tags}" placeholder="refund, billing, orders"/></div>
+        <div class="form-field"><label>Review Date</label><input id="m-review" type="date" value="${a.reviewDate}"/></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveArticle(${isEdit?id:"null"})">${isEdit?"Save changes":"Publish article"}</button>
+      </div>`;
+  }
+
+  if(type==="new-announcement"||type==="edit-announcement"){
+    const a=type==="edit-announcement"?DB.announcements.find(x=>x.id===id):{title:"",body:"",category:"Policy Update",priority:"normal",dueDate:"",quiz:[{q:"",options:["","","",""],correct:0}]};
+    const isEdit=type==="edit-announcement";
+    content=`
+      <div class="modal-title">${isEdit?"Edit Announcement":"New Announcement"}</div>
+      <div class="modal-sub">Announcements require all staff to read and pass a knowledge check</div>
+      <div class="form-field"><label>Title</label><input id="m-ann-title" value="${a.title}" placeholder="Announcement headline"/></div>
+      <div class="form-row">
+        <div class="form-field"><label>Category</label>
+          <select id="m-ann-cat">
+            ${["Policy Update","Company Update","Compliance","Product Update","HR","General"].map(c=>`<option value="${c}" ${a.category===c?"selected":""}>${c}</option>`).join("")}
+          </select>
+        </div>
+        <div class="form-field"><label>Priority</label>
+          <select id="m-ann-pri">
+            <option value="normal" ${a.priority==="normal"?"selected":""}>Normal</option>
+            <option value="high" ${a.priority==="high"?"selected":""}>High</option>
+            <option value="urgent" ${a.priority==="urgent"?"selected":""}>Urgent</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-field"><label>Announcement Body</label><textarea id="m-ann-body" rows="5" placeholder="Full announcement text...">${a.body}</textarea></div>
+      <div class="form-field"><label>Due Date <span style="font-weight:400">(deadline for all staff to complete)</span></label><input id="m-ann-due" type="date" value="${a.dueDate}"/></div>
+      <div style="padding:14px;background:var(--bg3);border-radius:var(--radius);margin-bottom:14px">
+        <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px">Knowledge Check Question</div>
+        <div class="form-field"><label>Question</label><input id="m-quiz-q" value="${a.quiz[0].q}" placeholder="What does the new policy state?"/></div>
+        ${[0,1,2,3].map(i=>`<div class="form-field" style="margin-bottom:8px">
+          <label style="display:flex;align-items:center;gap:6px">
+            <input type="radio" name="m-correct" value="${i}" ${a.quiz[0].correct===i?"checked":""}/>
+            Option ${i+1} ${a.quiz[0].correct===i?'<span class="tag tag-green" style="font-size:10px">correct</span>':""}
+          </label>
+          <input id="m-opt-${i}" value="${a.quiz[0].options[i]||""}" placeholder="Answer option ${i+1}" style="margin-top:4px"/>
+        </div>`).join("")}
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveAnnouncement(${isEdit?id:"null"})">${isEdit?"Save changes":"Publish announcement"}</button>
+      </div>`;
+  }
+
+  if(type==="new-user"||type==="edit-user"){
+    const u=type==="edit-user"?DB.users.find(x=>x.id===id):{name:"",email:"",role:"agent",dept:"Customer Service",password:""};
+    const isEdit=type==="edit-user";
+    content=`
+      <div class="modal-title">${isEdit?"Edit User":"Add New User"}</div>
+      <div class="modal-sub">${isEdit?"Update user details and permissions":"Create a new user account"}</div>
+      <div class="form-row">
+        <div class="form-field"><label>Full Name</label><input id="m-uname" value="${u.name}" placeholder="First Last"/></div>
+        <div class="form-field"><label>Email Address</label><input id="m-uemail" type="email" value="${u.email}" placeholder="user@company.com"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Department</label><input id="m-udept" value="${u.dept}" placeholder="Customer Service"/></div>
+        <div class="form-field"><label>Password ${isEdit?"(leave blank to keep current)":""}</label><input id="m-upass" type="password" value="${isEdit?"":""}" placeholder="Temporary password"/></div>
+      </div>
+      <div class="form-field"><label>Role</label>
+        <div class="role-select">
+          ${["agent","lead","author","admin"].map(r=>`<div class="role-opt${u.role===r?" sel":""}" onclick="selectRole(this,'${r}')" data-role="${r}">
+            <strong>${r.charAt(0).toUpperCase()+r.slice(1)}</strong><br/><span style="font-size:11px;font-weight:400">${r==="agent"?"Read-only · Search · Acknowledge":r==="lead"?"+ View reports · Manage team":r==="author"?"+ Create/edit articles":"Full access"}</span>
+          </div>`).join("")}
+        </div>
+        <input type="hidden" id="m-urole" value="${u.role}"/>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveUser(${isEdit?id:"null"})">${isEdit?"Save changes":"Create user"}</button>
+      </div>`;
+  }
+
+  if(type==="upload-users"){
+    content=`
+      <div class="modal-title">Bulk Upload Users</div>
+      <div class="modal-sub">Upload a CSV file to create multiple user accounts at once</div>
+      <div class="alert alert-info">Required CSV columns: <strong>name, email, role, department</strong><br/>Optional: <strong>password</strong> (defaults to email username if omitted)</div>
+      <div class="upload-zone" onclick="$('csv-file').click()">
+        <input type="file" id="csv-file" accept=".csv" onchange="handleCSVUpload(event)"/>
+        <div style="font-size:24px;margin-bottom:10px">📄</div>
+        <div style="font-size:14px;font-weight:500;margin-bottom:4px">Click to select CSV file</div>
+        <div style="font-size:12px;color:var(--text3)">or drag and drop · .csv files only</div>
+      </div>
+      <div id="csv-preview" style="margin-top:14px"></div>
+      <div style="margin-top:14px">
+        <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px">Sample CSV format:</div>
+        <pre style="background:var(--bg3);padding:10px;border-radius:var(--radius);font-size:11px;color:var(--text2);overflow-x:auto">name,email,role,department
+Maria Santos,maria@company.com,agent,Customer Service
+James Carter,james@company.com,lead,Customer Service
+Tom Bridges,tom@company.com,author,Operations</pre>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" id="csv-import-btn" disabled onclick="importCSVUsers()">Import Users</button>
+      </div>`;
+  }
+
+  if(type==="request-article"){
+    content=`
+      <div class="modal-title">Request a New Article</div>
+      <div class="modal-sub">Can't find what you need? Submit a request to the content team.</div>
+      <div class="form-field"><label>What topic do you need?</label><input id="m-req-topic" placeholder="e.g. How to handle international shipping disputes"/></div>
+      <div class="form-field"><label>Why do you need this article?</label><textarea id="m-req-why" rows="3" placeholder="This came up on a call and I couldn't find guidance..."></textarea></div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="submitArticleRequest()">Submit request</button>
+      </div>`;
+  }
+
+  return `<div class="modal-overlay" onclick="handleOverlayClick(event)">
+    <div class="modal fade-in" id="modal-box">${content}</div>
+  </div>`;
+}
+
+function handleOverlayClick(e){if(e.target.classList.contains("modal-overlay"))closeModal()}
+
+let csvUsers=[];
+function handleCSVUpload(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const lines=ev.target.result.trim().split("\n");
+    const headers=lines[0].split(",").map(h=>h.trim().toLowerCase());
+    csvUsers=lines.slice(1).map(line=>{
+      const vals=line.split(",").map(v=>v.trim());
+      const obj={};
+      headers.forEach((h,i)=>obj[h]=vals[i]||"");
+      return obj;
+    }).filter(u=>u.name&&u.email);
+    const preview=$("csv-preview");
+    if(preview){
+      preview.innerHTML=`<div style="font-size:12px;color:var(--green);margin-bottom:8px">✓ Found ${csvUsers.length} valid users</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Dept</th></tr></thead>
+        <tbody>${csvUsers.map(u=>`<tr><td>${u.name}</td><td>${u.email}</td><td>${u.role||"agent"}</td><td>${u.department||"–"}</td></tr>`).join("")}</tbody>
+      </table></div>`;
+    }
+    const btn=$("csv-import-btn");if(btn)btn.removeAttribute("disabled");
+  };
+  reader.readAsText(file);
+}
+
+function importCSVUsers(){
+  let added=0;
+  csvUsers.forEach(u=>{
+    if(!DB.users.find(x=>x.email.toLowerCase()===u.email.toLowerCase())){
+      DB.users.push({id:DB.users.length+1,name:u.name,email:u.email,password:u.password||u.email.split("@")[0],role:u.role||"agent",dept:u.department||"Customer Service",active:true,createdAt:new Date().toISOString().split("T")[0]});
+      added++;
+    }
+  });
+  closeModal();
+  notify(`${added} user${added!==1?"s":""} imported successfully!`);
+}
+
+function selectRole(el,role){
+  document.querySelectorAll(".role-opt").forEach(e=>e.classList.remove("sel"));
+  el.classList.add("sel");
+  const inp=$("m-urole");if(inp)inp.value=role;
+}
+
+function saveArticle(id){
+  const title=$("m-title")?.value.trim();
+  const short=$("m-short")?.value.trim();
+  if(!title||!short){notify("Title and short answer are required","error");return}
+  const shortLen=short.length;
+  if(shortLen<50||shortLen>120){notify(`Short answer should be 80–100 characters (current: ${shortLen})`,shortLen<50||shortLen>120?"error":"success");if(shortLen>120)return}
+  const data={
+    title,category:$("m-cat")?.value,shortAnswer:short,
+    longAnswer:$("m-long")?.value.trim(),
+    tags:($("m-tags")?.value||"").split(",").map(t=>t.trim()).filter(Boolean),
+    reviewDate:$("m-review")?.value,status:$("m-status")?.value,
+    updatedAt:new Date().toISOString().split("T")[0],
+  };
+  if(id){Object.assign(DB.articles.find(a=>a.id===id),data);}
+  else{DB.articles.push({id:DB.articles.length+1,...data,author:currentUser.name,views:0,helpful:0,notHelpful:0,createdAt:new Date().toISOString().split("T")[0]})}
+  DB.auditLog.unshift({ts:new Date().toLocaleString(),user:currentUser.name,action:id?"Edited article":"Published article",detail:data.title});
+  closeModal();notify(id?"Article updated successfully!":"Article published to knowledge base!");
+}
+
+function saveAnnouncement(id){
+  const title=$("m-ann-title")?.value.trim();
+  const body=$("m-ann-body")?.value.trim();
+  if(!title||!body){notify("Title and body are required","error");return}
+  const correctOpt=document.querySelector("input[name='m-correct']:checked");
+  const data={
+    title,body,category:$("m-ann-cat")?.value,priority:$("m-ann-pri")?.value,
+    dueDate:$("m-ann-due")?.value,
+    quiz:[{q:$("m-quiz-q")?.value,options:[0,1,2,3].map(i=>$(`m-opt-${i}`)?.value||""),correct:correctOpt?parseInt(correctOpt.value):0}],
+    publishedBy:currentUser.name,
+  };
+  if(id){Object.assign(DB.announcements.find(a=>a.id===id),data);}
+  else{DB.announcements.push({id:DB.announcements.length+1,...data,reads:[],passes:[],createdAt:new Date().toISOString().split("T")[0]})}
+  DB.auditLog.unshift({ts:new Date().toLocaleString(),user:currentUser.name,action:"Published announcement",detail:data.title});
+  closeModal();notify(id?"Announcement updated!":"Announcement published to all staff!");
+}
+
+function saveUser(id){
+  const name=$("m-uname")?.value.trim();
+  const email=$("m-uemail")?.value.trim();
+  const role=$("m-urole")?.value||"agent";
+  const dept=$("m-udept")?.value.trim();
+  const pass=$("m-upass")?.value;
+  if(!name||!email){notify("Name and email are required","error");return}
+  if(id){
+    const u=DB.users.find(x=>x.id===id);
+    if(u){Object.assign(u,{name,email,role,dept});if(pass)u.password=pass;}
+  } else {
+    if(DB.users.find(u=>u.email.toLowerCase()===email.toLowerCase())){notify("Email already exists","error");return}
+    DB.users.push({id:DB.users.length+1,name,email,password:pass||email.split("@")[0],role,dept,active:true,createdAt:new Date().toISOString().split("T")[0]});
+  }
+  DB.auditLog.unshift({ts:new Date().toLocaleString(),user:currentUser.name,action:id?"Edited user":"Created user",detail:name});
+  closeModal();notify(id?"User updated successfully!":"User created successfully!");
+}
+
+function submitArticleRequest(){
+  const topic=$("m-req-topic")?.value.trim();
+  if(!topic){notify("Please describe the topic","error");return}
+  DB.auditLog.unshift({ts:new Date().toLocaleString(),user:currentUser.name,action:"Requested article",detail:topic});
+  closeModal();notify("Article request submitted to the content team!");
+}
+
+function updateCharCount(inputId,countId,min,max){
+  const inp=$(inputId);const cnt=$(countId);
+  if(!inp||!cnt)return;
+  const n=inp.value.length;
+  cnt.textContent=`${n}/${max}`;
+  cnt.className=charClass(n,min,max);
+}
+
+// ============================================================
+// ATTACH
+// ============================================================
+function attachApp(){
+  const kbs=$("kb-search");
+  if(kbs){kbs.value=state.searchQuery;kbs.focus&&(state.page==="kb")&&kbs.focus()}
+  const ds=$("dash-search");
+  if(ds)ds.value=state.searchQuery;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+render();
+</script>
+</body>
+</html>
