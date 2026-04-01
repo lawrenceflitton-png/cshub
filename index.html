@@ -284,10 +284,10 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
     </div>
     <h2>Welcome back</h2>
     <p>Sign in to access the Knowledge & Learning Centre</p>
-    <div class="login-error" id="login-error">Incorrect email or password. Please try again.</div>
+    <div class="login-error" id="login-error">Incorrect username or password. Please try again.</div>
     <div class="field-group">
-      <label>Email Address</label>
-      <input type="email" id="login-email" placeholder="you@company.com" autocomplete="username">
+      <label>Username</label>
+      <input type="text" id="login-email" placeholder="Enter your username" autocomplete="username">
     </div>
     <div class="field-group">
       <label>Password</label>
@@ -316,8 +316,8 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
 
       <!-- STEP 1: Enter email -->
       <div id="forgot-step1">
-        <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Enter your registered email address to begin the reset process.</p>
-        <div class="form-row"><label>Email Address</label><input type="email" id="forgot-email" placeholder="you@company.com" onkeydown="if(event.key==='Enter')forgotStep1Next()"></div>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Enter your username or email address to begin the reset process.</p>
+        <div class="form-row"><label>Username or Email</label><input type="text" id="forgot-email" placeholder="e.g. lawrence.flitton" onkeydown="if(event.key==='Enter')forgotStep1Next()"></div>
         <div id="forgot-err1" style="background:rgba(232,69,69,0.1);border:1px solid rgba(232,69,69,0.2);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--red);margin-bottom:16px;display:none"></div>
         <div class="flex-gap" style="justify-content:flex-end">
           <button class="btn btn-secondary" onclick="hideForgot()">Cancel</button>
@@ -652,7 +652,8 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
         <div class="form-row"><label>First Name *</label><input type="text" id="nu-first" placeholder="Jane"></div>
         <div class="form-row"><label>Last Name *</label><input type="text" id="nu-last" placeholder="Smith"></div>
       </div>
-      <div class="form-row"><label>Email Address *</label><input type="email" id="nu-email" placeholder="jane.smith@company.com"></div>
+      <div class="form-row"><label>Username * <span style="font-weight:400;text-transform:none;letter-spacing:0">(used to log in — no spaces)</span></label><input type="text" id="nu-username" placeholder="e.g. jane.smith"></div>
+      <div class="form-row"><label>Email Address</label><input type="email" id="nu-email" placeholder="jane.smith@company.com"></div>
       <div class="form-grid">
         <div class="form-row"><label>Role</label>
           <select id="nu-role"><option value="agent">Agent</option><option value="author">Author</option><option value="team_lead">Team Lead</option><option value="admin">Admin</option></select>
@@ -716,8 +717,11 @@ const DB = {
 // ═══════════════════════════════════════════
 // SEED DATA — single admin, no content
 // ═══════════════════════════════════════════
+const ADMIN_USER = 'lawrence.flitton';
+const ADMIN_PASS = 'Password123$$';
+
 const SEED_USERS = [
-  {id:'u1',first:'Lawrence',last:'Flitton',email:'lawrence.flitton'+'@'+'unicity.com',password:'Password123$$',role:'admin',dept:'Management',active:true,created:today()}
+  {id:'u1',first:'Lawrence',last:'Flitton',username:'lawrence.flitton',email:'lawrence.flitton'+'@'+'unicity.com',password:'Password123$$',role:'admin',dept:'Management',active:true,created:today()}
 ];
 
 function today(){ return new Date().toISOString().slice(0,10); }
@@ -783,9 +787,13 @@ let historyArticleId = null;
 // AUTH
 // ═══════════════════════════════════════════
 function doLogin() {
-  const email = document.getElementById('login-email').value.trim().toLowerCase();
+  const input = document.getElementById('login-email').value.trim().toLowerCase();
   const pass  = document.getElementById('login-password').value;
-  const user  = getUsers().find(u => u.email===email && u.password===pass && u.active);
+  // Match on username (primary) or email (fallback)
+  const user = getUsers().find(u =>
+    u.active && u.password === pass &&
+    ((u.username && u.username.toLowerCase() === input) || u.email.toLowerCase() === input)
+  );
   if (!user) { document.getElementById('login-error').style.display='block'; return; }
   document.getElementById('login-error').style.display='none';
   currentUser = user;
@@ -1524,7 +1532,8 @@ function openEditUser(id) {
   document.getElementById('edit-user-id').value=id;
   document.getElementById('nu-first').value=u.first;
   document.getElementById('nu-last').value=u.last;
-  document.getElementById('nu-email').value=u.email;
+  document.getElementById('nu-username').value=u.username||'';
+  document.getElementById('nu-email').value=u.email||'';
   document.getElementById('nu-role').value=u.role;
   document.getElementById('nu-dept').value=u.dept;
   document.getElementById('nu-pass-row').style.display='none';
@@ -1532,31 +1541,32 @@ function openEditUser(id) {
 }
 
 function saveUser() {
-  const first=document.getElementById('nu-first').value.trim();
-  const last =document.getElementById('nu-last').value.trim();
-  const email=document.getElementById('nu-email').value.trim().toLowerCase();
-  const role =document.getElementById('nu-role').value;
-  const dept =document.getElementById('nu-dept').value.trim();
-  if(!first||!last||!email){showToast('Name and email are required','error');return;}
-  const users=getUsers();
-  const eid=document.getElementById('edit-user-id').value;
-  if(eid) {
-    const idx=users.findIndex(u=>u.id===eid);
-    if(idx>-1){
-      if(email!==users[idx].email && users.find(u=>u.email===email)){showToast('Email already in use','error');return;}
-      users[idx]={...users[idx],first,last,email,role,dept:dept||users[idx].dept};
+  const first    = document.getElementById('nu-first').value.trim();
+  const last     = document.getElementById('nu-last').value.trim();
+  const username = (document.getElementById('nu-username').value||'').trim().toLowerCase().replace(/\s+/g,'');
+  const email    = document.getElementById('nu-email').value.trim().toLowerCase();
+  const role     = document.getElementById('nu-role').value;
+  const dept     = document.getElementById('nu-dept').value.trim();
+  if (!first||!last||!username) { showToast('First name, last name and username are required','error'); return; }
+  const users = getUsers();
+  const eid   = document.getElementById('edit-user-id').value;
+  if (eid) {
+    const idx = users.findIndex(u=>u.id===eid);
+    if (idx>-1) {
+      if (username !== (users[idx].username||'') && users.find(u=>u.username===username)) { showToast('Username already in use','error'); return; }
+      users[idx] = {...users[idx], first, last, username, email, role, dept: dept||users[idx].dept};
       saveUsers(users);
-      addAudit('User Updated',`${first} ${last}`,'edit');
+      addAudit('User Updated', `${first} ${last}`, 'edit');
       showToast('User updated','success');
-      if(eid===currentUser.id){currentUser=users[idx];document.getElementById('sb-name').textContent=`${first} ${last}`;}
+      if (eid===currentUser.id) { currentUser=users[idx]; document.getElementById('sb-name').textContent=`${first} ${last}`; }
     }
   } else {
-    const pass=document.getElementById('nu-pass').value;
-    if(!pass){showToast('Password is required','error');return;}
-    if(users.find(u=>u.email===email)){showToast('Email already exists','error');return;}
-    users.push({id:'u'+Date.now(),first,last,email,password:pass,role,dept:dept||'Customer Service',active:true,created:today()});
+    const pass = document.getElementById('nu-pass').value;
+    if (!pass) { showToast('Password is required','error'); return; }
+    if (users.find(u=>u.username===username)) { showToast('Username already exists','error'); return; }
+    users.push({id:'u'+Date.now(), first, last, username, email: email||'', password:pass, role, dept:dept||'Customer Service', active:true, created:today()});
     saveUsers(users);
-    addAudit('User Created',`${first} ${last} (${role})`,'create');
+    addAudit('User Created', `${first} ${last} (${role})`, 'create');
     showToast('User created successfully','success');
   }
   hideModal('modal-add-user'); renderUsers(); updateStorageIndicator();
@@ -1716,12 +1726,13 @@ function forgotGoTo(step) {
 function forgotGoBack(step) { forgotGoTo(step); }
 
 function forgotStep1Next() {
-  const email = document.getElementById('forgot-email').value.trim().toLowerCase();
+  const input = document.getElementById('forgot-email').value.trim().toLowerCase();
   const err = document.getElementById('forgot-err1');
   err.style.display = 'none';
-  if (!email) { err.textContent='Please enter your email address.'; err.style.display='block'; return; }
-  const user = getUsers().find(u => u.email===email && u.active);
-  if (!user) { err.textContent='No active account found with that email address. Please check and try again.'; err.style.display='block'; return; }
+  if (!input) { err.textContent='Please enter your username or email address.'; err.style.display='block'; return; }
+  const user = getUsers().find(u => u.active &&
+    ((u.username && u.username.toLowerCase()===input) || u.email.toLowerCase()===input));
+  if (!user) { err.textContent='No active account found. Please check and try again.'; err.style.display='block'; return; }
   _forgotUserId = user.id;
   forgotGoTo(2);
   setTimeout(()=>document.getElementById('forgot-firstname').focus(), 100);
@@ -1760,25 +1771,31 @@ function forgotStep3Submit() {
 }
 
 function hardReset() {
-  const ADMIN_EMAIL = 'lawrence.flitton'+'@'+'unicity.com';
-  const ADMIN_PASS  = 'Password123$$';
-  if (!confirm('This will reset the admin login to:\n\nEmail: ' + ADMIN_EMAIL + '\nPassword: ' + ADMIN_PASS + '\n\nYour existing articles, announcements and users will be kept safe.\n\nContinue?')) return;
+  if (!confirm('This will restore admin access.\n\nUsername: ' + ADMIN_USER + '\nPassword: ' + ADMIN_PASS + '\n\nYour existing articles and announcements will be kept.\n\nContinue?')) return;
   const articles      = DB.get('articles')      || [];
   const announcements = DB.get('announcements') || [];
   const completions   = DB.get('completions')   || {};
   const audit         = DB.get('audit')         || [];
+  // Wipe all cshub keys
   Object.keys(localStorage).filter(k => k.startsWith('cshub_')).forEach(k => localStorage.removeItem(k));
-  DB.set('users',         [{ id:'u1', first:'Lawrence', last:'Flitton', email: ADMIN_EMAIL, password: ADMIN_PASS, role:'admin', dept:'Management', active:true, created:today() }]);
+  // Re-seed with correct admin
+  DB.set('users', [{
+    id:'u1', first:'Lawrence', last:'Flitton',
+    username: ADMIN_USER,
+    email: 'lawrence.flitton'+'@'+'unicity.com',
+    password: ADMIN_PASS,
+    role:'admin', dept:'Management', active:true, created:today()
+  }]);
   DB.set('articles',      articles);
   DB.set('announcements', announcements);
   DB.set('completions',   completions);
   DB.set('audit',         audit);
   DB.set('initialized',   true);
   DB.set('version',       '3.0');
-  document.getElementById('login-email').value    = ADMIN_EMAIL;
+  document.getElementById('login-email').value    = ADMIN_USER;
   document.getElementById('login-password').value = ADMIN_PASS;
   document.getElementById('login-error').style.display = 'none';
-  alert('✅ Admin access restored!\n\nEmail: ' + ADMIN_EMAIL + '\nPassword: ' + ADMIN_PASS + '\n\nClick Sign In to continue.');
+  alert('Done! Username and password have been filled in.\n\nJust click Sign In.');
 }
 
 // ═══════════════════════════════════════════
