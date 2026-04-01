@@ -297,7 +297,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
     <div style="text-align:center;margin-top:14px">
       <button onclick="showForgotPassword()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:13px;cursor:pointer;font-family:var(--font);transition:color 0.2s" onmouseover="this.style.color='rgba(255,255,255,0.75)'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">Forgot your password?</button>
     </div>
-    <div class="login-hint" id="login-hint" style="display:none">Default admin: admin@cshub.com / admin123</div>
+    <div class="login-hint" id="login-hint" style="display:none">Admin: lawrence.flitton@unicity.com / Password123$$</div>
     <div style="text-align:center;margin-top:10px">
       <button onclick="emergencyReset()" style="background:none;border:none;color:rgba(255,255,255,0.18);font-size:11px;cursor:pointer;font-family:var(--font)" title="Use only if completely locked out">Can't access your account?</button>
     </div>
@@ -701,7 +701,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
 
 <div class="toast" id="toast"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ═══════════════════════════════════════════
 // STORAGE LAYER
 // ═══════════════════════════════════════════
@@ -716,7 +716,7 @@ const DB = {
 // SEED DATA — single admin, no content
 // ═══════════════════════════════════════════
 const SEED_USERS = [
-  {id:'u1',first:'Admin',last:'User',email:'admin@cshub.com',password:'admin123',role:'admin',dept:'Management',active:true,created:today()}
+  {id:'u1',first:'Lawrence',last:'Flitton',email:'lawrence.flitton@unicity.com',password:'Password123$$',role:'admin',dept:'Management',active:true,created:today()}
 ];
 
 function today(){ return new Date().toISOString().slice(0,10); }
@@ -1763,13 +1763,12 @@ function emergencyReset() {
   const users = getUsers();
   const adminIdx = users.findIndex(u => u.role==='admin');
   if (adminIdx > -1) {
-    users[adminIdx].password = 'admin123';
+    users[adminIdx].password = 'Password123$$';
     users[adminIdx].active = true;
     saveUsers(users);
     document.getElementById('login-hint').style.display = 'block';
-    document.getElementById('login-hint').textContent = 'Admin password reset to: admin123';
-    showToast && showToast('Admin password reset to admin123','success');
-    alert('Done! The admin password has been reset to:\n\nadmin@cshub.com\nadmin123\n\nPlease change it immediately after logging in.');
+    document.getElementById('login-hint').textContent = 'Admin password reset — use: lawrence.flitton@unicity.com / Password123$$';
+    alert('Done! Log in with:\n\nlawrence.flitton@unicity.com\nPassword123$$\n\nPlease change your password after logging in.');
   } else {
     // No admin found at all — re-seed admin account
     users.push({...SEED_USERS[0], id:'u'+Date.now()});
@@ -1783,10 +1782,4 @@ function emergencyReset() {
 // ═══════════════════════════════════════════
 function showModal(id){document.getElementById(id).classList.remove('hidden');}
 function hideModal(id){document.getElementById(id).classList.add('hidden');}
-document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',function(e){if(e.target===this)hideModal(this.id);}));
-
-let _toastTimer;
-function showToast(msg,type='success'){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.className=`toast ${type} show`;
-  clearTimeout(_toastTimer); _toastTimer=setTime
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',function(e){if(e.target===this)hid
