@@ -298,38 +298,68 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
       <button onclick="showForgotPassword()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:13px;cursor:pointer;font-family:var(--font);transition:color 0.2s" onmouseover="this.style.color='rgba(255,255,255,0.75)'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">Forgot your password?</button>
     </div>
     <div class="login-hint" id="login-hint" style="display:none">Default admin: admin@cshub.com / admin123</div>
+    <div style="text-align:center;margin-top:10px">
+      <button onclick="emergencyReset()" style="background:none;border:none;color:rgba(255,255,255,0.18);font-size:11px;cursor:pointer;font-family:var(--font)" title="Use only if completely locked out">Can't access your account?</button>
+    </div>
   </div>
 </div>
 
 <!-- FORGOT PASSWORD MODAL -->
 <div class="modal-overlay hidden" id="modal-forgot">
-  <div class="modal" style="max-width:440px">
+  <div class="modal" style="max-width:460px">
     <div class="modal-header">
-      <h3>Reset Password</h3>
+      <h3 id="forgot-modal-title">Reset Your Password</h3>
       <button class="modal-close" onclick="hideForgot()">×</button>
     </div>
     <div class="modal-body">
+
+      <!-- STEP 1: Enter email -->
       <div id="forgot-step1">
-        <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Enter your registered email address. If your account is found, your temporary password will be displayed so you can sign in and update it.</p>
-        <div class="form-row"><label>Email Address</label><input type="email" id="forgot-email" placeholder="you@company.com" onkeydown="if(event.key==='Enter')lookupPassword()"></div>
-        <div id="forgot-error" style="background:rgba(232,69,69,0.1);border:1px solid rgba(232,69,69,0.2);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--red);margin-bottom:16px;display:none">No active account found with that email address.</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Enter your registered email address to begin the reset process.</p>
+        <div class="form-row"><label>Email Address</label><input type="email" id="forgot-email" placeholder="you@company.com" onkeydown="if(event.key==='Enter')forgotStep1Next()"></div>
+        <div id="forgot-err1" style="background:rgba(232,69,69,0.1);border:1px solid rgba(232,69,69,0.2);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--red);margin-bottom:16px;display:none"></div>
         <div class="flex-gap" style="justify-content:flex-end">
           <button class="btn btn-secondary" onclick="hideForgot()">Cancel</button>
-          <button class="btn btn-primary" onclick="lookupPassword()">Find My Account →</button>
+          <button class="btn btn-primary" onclick="forgotStep1Next()">Continue →</button>
         </div>
       </div>
+
+      <!-- STEP 2: Verify identity -->
       <div id="forgot-step2" style="display:none">
-        <div style="text-align:center;padding:8px 0 20px">
-          <div style="font-size:42px;margin-bottom:12px">🔓</div>
-          <p style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px">Account found!</p>
-          <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Your current password is shown below. Use it to sign in, then go to <strong>My Profile</strong> to change it.</p>
-          <div style="background:var(--bg);border:2px solid var(--teal);border-radius:10px;padding:18px;font-size:22px;font-weight:700;color:var(--navy);letter-spacing:0.1em;font-family:monospace" id="forgot-pw-display">—</div>
-          <p style="font-size:11px;color:var(--text-muted);margin-top:12px">⚠ Please change your password immediately after signing in.</p>
+        <div style="background:rgba(0,201,167,0.08);border:1px solid rgba(0,201,167,0.2);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--teal-dark);margin-bottom:20px">
+          Account found. Please verify your identity to continue.
         </div>
-        <div style="text-align:center">
-          <button class="btn btn-primary" onclick="hideForgot()">Back to Sign In</button>
+        <div class="form-row"><label>Your First Name</label><input type="text" id="forgot-firstname" placeholder="Enter your first name" onkeydown="if(event.key==='Enter')forgotStep2Next()"></div>
+        <div class="form-row"><label>Your Last Name</label><input type="text" id="forgot-lastname" placeholder="Enter your last name" onkeydown="if(event.key==='Enter')forgotStep2Next()"></div>
+        <div id="forgot-err2" style="background:rgba(232,69,69,0.1);border:1px solid rgba(232,69,69,0.2);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--red);margin-bottom:16px;display:none"></div>
+        <div class="flex-gap" style="justify-content:flex-end">
+          <button class="btn btn-secondary" onclick="forgotGoBack(1)">← Back</button>
+          <button class="btn btn-primary" onclick="forgotStep2Next()">Verify Identity →</button>
         </div>
       </div>
+
+      <!-- STEP 3: Set new password -->
+      <div id="forgot-step3" style="display:none">
+        <div style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:12px 14px;font-size:13px;color:#1A8A48;margin-bottom:20px">
+          ✓ Identity verified. Please set your new password below.
+        </div>
+        <div class="form-row"><label>New Password</label><input type="password" id="forgot-newpw" placeholder="At least 6 characters" onkeydown="if(event.key==='Enter')forgotStep3Submit()"></div>
+        <div class="form-row"><label>Confirm New Password</label><input type="password" id="forgot-confirmpw" placeholder="Repeat new password" onkeydown="if(event.key==='Enter')forgotStep3Submit()"></div>
+        <div id="forgot-err3" style="background:rgba(232,69,69,0.1);border:1px solid rgba(232,69,69,0.2);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--red);margin-bottom:16px;display:none"></div>
+        <div class="flex-gap" style="justify-content:flex-end">
+          <button class="btn btn-secondary" onclick="forgotGoBack(2)">← Back</button>
+          <button class="btn btn-primary" onclick="forgotStep3Submit()">Set New Password ✓</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Success -->
+      <div id="forgot-step4" style="display:none;text-align:center;padding:12px 0">
+        <div style="font-size:48px;margin-bottom:16px">🎉</div>
+        <p style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px">Password reset successfully!</p>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:24px">You can now sign in with your new password.</p>
+        <button class="btn btn-primary" onclick="hideForgot()">Go to Sign In</button>
+      </div>
+
     </div>
   </div>
 </div>
@@ -671,7 +701,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
 
 <div class="toast" id="toast"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ═══════════════════════════════════════════
 // STORAGE LAYER
 // ═══════════════════════════════════════════
@@ -700,8 +730,17 @@ function initStorage() {
     DB.set('audit', []);
     DB.set('initialized', true);
     DB.set('version', '3.0');
-    // Show hint on login screen for very first run
     document.getElementById('login-hint').style.display = 'block';
+  }
+  // Version upgrade: if upgrading from v1/v2, ensure admin account exists
+  const storedVersion = DB.get('version');
+  if (storedVersion !== '3.0') {
+    const users = getUsers();
+    if (!users.find(u => u.role === 'admin')) {
+      users.push(SEED_USERS[0]);
+      saveUsers(users);
+    }
+    DB.set('version', '3.0');
   }
 }
 
@@ -1648,33 +1687,95 @@ function wipeData() {
 }
 
 // ═══════════════════════════════════════════
-// FORGOT PASSWORD
+// FORGOT PASSWORD — 4-step verified reset
 // ═══════════════════════════════════════════
+let _forgotUserId = null;
+
 function showForgotPassword() {
-  document.getElementById('forgot-email').value='';
-  document.getElementById('forgot-error').style.display='none';
-  document.getElementById('forgot-step1').style.display='block';
-  document.getElementById('forgot-step2').style.display='none';
+  _forgotUserId = null;
+  ['forgot-email','forgot-firstname','forgot-lastname','forgot-newpw','forgot-confirmpw'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  ['forgot-err1','forgot-err2','forgot-err3'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
+  forgotGoTo(1);
   document.getElementById('modal-forgot').classList.remove('hidden');
-  setTimeout(()=>document.getElementById('forgot-email').focus(),100);
+  setTimeout(()=>document.getElementById('forgot-email').focus(), 100);
 }
 
 function hideForgot() {
   document.getElementById('modal-forgot').classList.add('hidden');
-  document.getElementById('forgot-step1').style.display='block';
-  document.getElementById('forgot-step2').style.display='none';
+  forgotGoTo(1);
 }
 
-function lookupPassword() {
-  const email=document.getElementById('forgot-email').value.trim().toLowerCase();
-  const errEl=document.getElementById('forgot-error');
-  if(!email){errEl.textContent='Please enter your email address.';errEl.style.display='block';return;}
-  const user=getUsers().find(u=>u.email===email&&u.active);
-  if(!user){errEl.textContent='No active account found with that email address.';errEl.style.display='block';return;}
-  errEl.style.display='none';
-  document.getElementById('forgot-pw-display').textContent=user.password;
-  document.getElementById('forgot-step1').style.display='none';
-  document.getElementById('forgot-step2').style.display='block';
+function forgotGoTo(step) {
+  [1,2,3,4].forEach(n => {
+    const el = document.getElementById(`forgot-step${n}`);
+    if (el) el.style.display = (n===step ? 'block' : 'none');
+  });
+}
+
+function forgotGoBack(step) { forgotGoTo(step); }
+
+function forgotStep1Next() {
+  const email = document.getElementById('forgot-email').value.trim().toLowerCase();
+  const err = document.getElementById('forgot-err1');
+  err.style.display = 'none';
+  if (!email) { err.textContent='Please enter your email address.'; err.style.display='block'; return; }
+  const user = getUsers().find(u => u.email===email && u.active);
+  if (!user) { err.textContent='No active account found with that email address. Please check and try again.'; err.style.display='block'; return; }
+  _forgotUserId = user.id;
+  forgotGoTo(2);
+  setTimeout(()=>document.getElementById('forgot-firstname').focus(), 100);
+}
+
+function forgotStep2Next() {
+  const first = document.getElementById('forgot-firstname').value.trim().toLowerCase();
+  const last  = document.getElementById('forgot-lastname').value.trim().toLowerCase();
+  const err   = document.getElementById('forgot-err2');
+  err.style.display = 'none';
+  if (!first || !last) { err.textContent='Please enter both your first and last name.'; err.style.display='block'; return; }
+  const user = getUsers().find(u => u.id===_forgotUserId);
+  if (!user || user.first.toLowerCase()!==first || user.last.toLowerCase()!==last) {
+    err.textContent='Name does not match the account. Please check your details and try again.';
+    err.style.display='block'; return;
+  }
+  forgotGoTo(3);
+  setTimeout(()=>document.getElementById('forgot-newpw').focus(), 100);
+}
+
+function forgotStep3Submit() {
+  const pw   = document.getElementById('forgot-newpw').value;
+  const conf = document.getElementById('forgot-confirmpw').value;
+  const err  = document.getElementById('forgot-err3');
+  err.style.display = 'none';
+  if (!pw || !conf) { err.textContent='Please fill in both password fields.'; err.style.display='block'; return; }
+  if (pw.length < 6) { err.textContent='Password must be at least 6 characters.'; err.style.display='block'; return; }
+  if (pw !== conf)   { err.textContent='Passwords do not match. Please try again.'; err.style.display='block'; return; }
+  const users = getUsers();
+  const idx   = users.findIndex(u => u.id===_forgotUserId);
+  if (idx === -1) { err.textContent='Something went wrong. Please start again.'; err.style.display='block'; return; }
+  users[idx].password = pw;
+  saveUsers(users);
+  _forgotUserId = null;
+  forgotGoTo(4);
+}
+
+function emergencyReset() {
+  if (!confirm('⚠️ EMERGENCY RESET\n\nThis will reset the admin password back to "admin123" so you can log back in.\n\nAll your articles, announcements and users will be kept — only the admin password resets.\n\nContinue?')) return;
+  const users = getUsers();
+  const adminIdx = users.findIndex(u => u.role==='admin');
+  if (adminIdx > -1) {
+    users[adminIdx].password = 'admin123';
+    users[adminIdx].active = true;
+    saveUsers(users);
+    document.getElementById('login-hint').style.display = 'block';
+    document.getElementById('login-hint').textContent = 'Admin password reset to: admin123';
+    showToast && showToast('Admin password reset to admin123','success');
+    alert('Done! The admin password has been reset to:\n\nadmin@cshub.com\nadmin123\n\nPlease change it immediately after logging in.');
+  } else {
+    // No admin found at all — re-seed admin account
+    users.push({...SEED_USERS[0], id:'u'+Date.now()});
+    saveUsers(users);
+    alert('Admin account restored.\n\nadmin@cshub.com\nadmin123');
+  }
 }
 
 // ═══════════════════════════════════════════
@@ -1688,9 +1789,4 @@ let _toastTimer;
 function showToast(msg,type='success'){
   const t=document.getElementById('toast');
   t.textContent=msg; t.className=`toast ${type} show`;
-  clearTimeout(_toastTimer); _toastTimer=setTimeout(()=>t.classList.remove('show'),3500);
-}
-
-// ═══════════════════════════════════════════
-// BOOT
-// ════════════�
+  clearTimeout(_toastTimer); _toastTimer=setTime
