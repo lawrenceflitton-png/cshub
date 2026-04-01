@@ -294,7 +294,43 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
       <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
     </div>
     <button class="btn-login" onclick="doLogin()">Sign In →</button>
+    <div style="text-align:center;margin-top:14px">
+      <button onclick="showForgotPassword()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:13px;cursor:pointer;font-family:var(--font);transition:color 0.2s" onmouseover="this.style.color='rgba(255,255,255,0.75)'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">Forgot your password?</button>
+    </div>
     <div class="login-hint" id="login-hint" style="display:none">Default admin: admin@cshub.com / admin123</div>
+  </div>
+</div>
+
+<!-- FORGOT PASSWORD MODAL -->
+<div class="modal-overlay hidden" id="modal-forgot">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-header">
+      <h3>Reset Password</h3>
+      <button class="modal-close" onclick="hideForgot()">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="forgot-step1">
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Enter your registered email address. If your account is found, your temporary password will be displayed so you can sign in and update it.</p>
+        <div class="form-row"><label>Email Address</label><input type="email" id="forgot-email" placeholder="you@company.com" onkeydown="if(event.key==='Enter')lookupPassword()"></div>
+        <div id="forgot-error" style="background:rgba(232,69,69,0.1);border:1px solid rgba(232,69,69,0.2);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--red);margin-bottom:16px;display:none">No active account found with that email address.</div>
+        <div class="flex-gap" style="justify-content:flex-end">
+          <button class="btn btn-secondary" onclick="hideForgot()">Cancel</button>
+          <button class="btn btn-primary" onclick="lookupPassword()">Find My Account →</button>
+        </div>
+      </div>
+      <div id="forgot-step2" style="display:none">
+        <div style="text-align:center;padding:8px 0 20px">
+          <div style="font-size:42px;margin-bottom:12px">🔓</div>
+          <p style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px">Account found!</p>
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Your current password is shown below. Use it to sign in, then go to <strong>My Profile</strong> to change it.</p>
+          <div style="background:var(--bg);border:2px solid var(--teal);border-radius:10px;padding:18px;font-size:22px;font-weight:700;color:var(--navy);letter-spacing:0.1em;font-family:monospace" id="forgot-pw-display">—</div>
+          <p style="font-size:11px;color:var(--text-muted);margin-top:12px">⚠ Please change your password immediately after signing in.</p>
+        </div>
+        <div style="text-align:center">
+          <button class="btn btn-primary" onclick="hideForgot()">Back to Sign In</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -635,7 +671,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
 
 <div class="toast" id="toast"></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ═══════════════════════════════════════════
 // STORAGE LAYER
 // ═══════════════════════════════════════════
@@ -1612,6 +1648,36 @@ function wipeData() {
 }
 
 // ═══════════════════════════════════════════
+// FORGOT PASSWORD
+// ═══════════════════════════════════════════
+function showForgotPassword() {
+  document.getElementById('forgot-email').value='';
+  document.getElementById('forgot-error').style.display='none';
+  document.getElementById('forgot-step1').style.display='block';
+  document.getElementById('forgot-step2').style.display='none';
+  document.getElementById('modal-forgot').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('forgot-email').focus(),100);
+}
+
+function hideForgot() {
+  document.getElementById('modal-forgot').classList.add('hidden');
+  document.getElementById('forgot-step1').style.display='block';
+  document.getElementById('forgot-step2').style.display='none';
+}
+
+function lookupPassword() {
+  const email=document.getElementById('forgot-email').value.trim().toLowerCase();
+  const errEl=document.getElementById('forgot-error');
+  if(!email){errEl.textContent='Please enter your email address.';errEl.style.display='block';return;}
+  const user=getUsers().find(u=>u.email===email&&u.active);
+  if(!user){errEl.textContent='No active account found with that email address.';errEl.style.display='block';return;}
+  errEl.style.display='none';
+  document.getElementById('forgot-pw-display').textContent=user.password;
+  document.getElementById('forgot-step1').style.display='none';
+  document.getElementById('forgot-step2').style.display='block';
+}
+
+// ═══════════════════════════════════════════
 // MODAL & TOAST
 // ═══════════════════════════════════════════
 function showModal(id){document.getElementById(id).classList.remove('hidden');}
@@ -1627,11 +1693,4 @@ function showToast(msg,type='success'){
 
 // ═══════════════════════════════════════════
 // BOOT
-// ═══════════════════════════════════════════
-initStorage();
-if(!tryRestoreSession()){
-  document.getElementById('login-screen').style.display='flex';
-}
-</script>
-</body>
-</html>
+// ════════════�
