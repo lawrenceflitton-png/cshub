@@ -717,7 +717,7 @@ const DB = {
 // SEED DATA — single admin, no content
 // ═══════════════════════════════════════════
 const SEED_USERS = [
-  {id:'u1',first:'Lawrence',last:'Flitton',email:'lawrence.flitton@unicity.com',password:'Password123$$',role:'admin',dept:'Management',active:true,created:today()}
+  {id:'u1',first:'Lawrence',last:'Flitton',email:'lawrence.flitton'+'@'+'unicity.com',password:'Password123$$',role:'admin',dept:'Management',active:true,created:today()}
 ];
 
 function today(){ return new Date().toISOString().slice(0,10); }
@@ -811,7 +811,7 @@ function doLogout() {
   document.getElementById('login-error').style.display='none';
   // Show hint if this is still the default admin
   const users = getUsers();
-  if (users.length===1 && users[0].email==='admin@cshub.com') document.getElementById('login-hint').style.display='block';
+  if (users.length===1 && users[0].email===('lawrence.flitton'+'@'+'unicity.com')) document.getElementById('login-hint').style.display='block';
   else document.getElementById('login-hint').style.display='none';
 }
 
@@ -1760,27 +1760,25 @@ function forgotStep3Submit() {
 }
 
 function hardReset() {
-  if (!confirm('This will reset the admin login to:\n\nEmail: lawrence.flitton@unicity.com\nPassword: Password123$$\n\nYour existing articles, announcements and users will be kept safe.\n\nContinue?')) return;
-  // Wipe only the session and user data, keep content
+  const ADMIN_EMAIL = 'lawrence.flitton'+'@'+'unicity.com';
+  const ADMIN_PASS  = 'Password123$$';
+  if (!confirm('This will reset the admin login to:\n\nEmail: ' + ADMIN_EMAIL + '\nPassword: ' + ADMIN_PASS + '\n\nYour existing articles, announcements and users will be kept safe.\n\nContinue?')) return;
   const articles      = DB.get('articles')      || [];
   const announcements = DB.get('announcements') || [];
   const completions   = DB.get('completions')   || {};
   const audit         = DB.get('audit')         || [];
-  // Clear everything
   Object.keys(localStorage).filter(k => k.startsWith('cshub_')).forEach(k => localStorage.removeItem(k));
-  // Re-seed with correct admin + preserved content
-  DB.set('users',         [{ id:'u1', first:'Lawrence', last:'Flitton', email:'lawrence.flitton@unicity.com', password:'Password123$$', role:'admin', dept:'Management', active:true, created:today() }]);
+  DB.set('users',         [{ id:'u1', first:'Lawrence', last:'Flitton', email: ADMIN_EMAIL, password: ADMIN_PASS, role:'admin', dept:'Management', active:true, created:today() }]);
   DB.set('articles',      articles);
   DB.set('announcements', announcements);
   DB.set('completions',   completions);
   DB.set('audit',         audit);
   DB.set('initialized',   true);
   DB.set('version',       '3.0');
-  // Pre-fill the login form
-  document.getElementById('login-email').value    = 'lawrence.flitton@unicity.com';
-  document.getElementById('login-password').value = 'Password123$$';
+  document.getElementById('login-email').value    = ADMIN_EMAIL;
+  document.getElementById('login-password').value = ADMIN_PASS;
   document.getElementById('login-error').style.display = 'none';
-  alert('✅ Admin access restored!\n\nEmail: lawrence.flitton@unicity.com\nPassword: Password123$$\n\nClick Sign In to continue.');
+  alert('✅ Admin access restored!\n\nEmail: ' + ADMIN_EMAIL + '\nPassword: ' + ADMIN_PASS + '\n\nClick Sign In to continue.');
 }
 
 // ═══════════════════════════════════════════
