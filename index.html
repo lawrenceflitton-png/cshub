@@ -9,45 +9,31 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy: #0D1B2A;
-  --navy-mid: #1A2E42;
-  --navy-light: #243B55;
-  --teal: #00C9A7;
-  --teal-dark: #00A389;
-  --teal-glow: rgba(0,201,167,0.15);
-  --amber: #F4A535;
-  --red: #E84545;
-  --green: #2ECC71;
-  --white: #FFFFFF;
-  --bg: #F0F4F8;
-  --bg-card: #FFFFFF;
-  --text: #1A2E42;
-  --text-muted: #6B7A90;
-  --border: #DDE3EC;
-  --sidebar-w: 240px;
-  --radius: 10px;
-  --shadow: 0 2px 12px rgba(13,27,42,0.08);
-  --shadow-lg: 0 8px 32px rgba(13,27,42,0.14);
-  --font: 'IBM Plex Sans', sans-serif;
-  --font-display: 'Playfair Display', serif;
+  --navy:#0D1B2A;--navy-mid:#1A2E42;--navy-light:#243B55;
+  --teal:#00C9A7;--teal-dark:#00A389;--teal-glow:rgba(0,201,167,0.15);
+  --amber:#F4A535;--red:#E84545;--green:#2ECC71;
+  --white:#FFFFFF;--bg:#F0F4F8;--bg-card:#FFFFFF;
+  --text:#1A2E42;--text-muted:#6B7A90;--border:#DDE3EC;
+  --sidebar-w:240px;--radius:10px;
+  --shadow:0 2px 12px rgba(13,27,42,0.08);--shadow-lg:0 8px 32px rgba(13,27,42,0.14);
+  --font:'IBM Plex Sans',sans-serif;--font-display:'Playfair Display',serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 button{cursor:pointer;font-family:var(--font)}
 input,textarea,select{font-family:var(--font)}
-a{color:inherit;text-decoration:none}
 
-/* LOGIN */
+/* ── LOGIN ── */
 #login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 60%,#1e4d6b 100%);position:relative;overflow:hidden}
-#login-screen::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(0,201,167,0.12) 0%,transparent 70%);top:-150px;right:-100px}
-#login-screen::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(0,201,167,0.08) 0%,transparent 70%);bottom:-100px;left:-80px}
+#login-screen::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(0,201,167,0.12) 0%,transparent 70%);top:-150px;right:-100px;pointer-events:none}
+#login-screen::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(0,201,167,0.08) 0%,transparent 70%);bottom:-100px;left:-80px;pointer-events:none}
 .login-card{background:rgba(255,255,255,0.03);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:48px;width:420px;position:relative;z-index:1}
 .login-logo{display:flex;align-items:center;gap:12px;margin-bottom:36px}
 .login-logo .logo-icon{width:44px;height:44px;background:var(--teal);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px}
 .login-logo .logo-text{font-family:var(--font-display);font-size:26px;color:var(--white);letter-spacing:-0.5px}
 .login-logo .logo-text span{color:var(--teal)}
 .login-card h2{font-family:var(--font-display);color:var(--white);font-size:22px;margin-bottom:6px}
-.login-card p{color:rgba(255,255,255,0.5);font-size:14px;margin-bottom:28px}
+.login-card>p{color:rgba(255,255,255,0.5);font-size:14px;margin-bottom:28px}
 .field-group{margin-bottom:16px}
 .field-group label{display:block;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:8px}
 .field-group input{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 14px;color:var(--white);font-size:14px;transition:border-color 0.2s}
@@ -56,22 +42,19 @@ a{color:inherit;text-decoration:none}
 .btn-login{width:100%;background:var(--teal);color:var(--navy);border:none;border-radius:8px;padding:14px;font-size:15px;font-weight:700;margin-top:8px;transition:all 0.2s;letter-spacing:0.02em}
 .btn-login:hover{background:var(--teal-dark);transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,201,167,0.35)}
 .login-error{background:rgba(232,69,69,0.15);border:1px solid rgba(232,69,69,0.3);color:#ff8585;border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:16px;display:none}
-.demo-accounts{margin-top:28px;border-top:1px solid rgba(255,255,255,0.08);padding-top:20px}
-.demo-accounts p{font-size:12px;color:rgba(255,255,255,0.35);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.06em;font-weight:600}
-.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.demo-pill{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:7px 10px;font-size:11px;color:rgba(255,255,255,0.45);cursor:pointer;transition:all 0.2s;text-align:left}
-.demo-pill:hover{background:rgba(0,201,167,0.1);border-color:var(--teal);color:var(--teal)}
-.demo-pill strong{display:block;color:rgba(255,255,255,0.7);font-size:11px;margin-bottom:1px}
+.login-hint{margin-top:20px;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px;font-size:12px;color:rgba(255,255,255,0.3);text-align:center}
 
-/* LAYOUT */
+/* ── LAYOUT ── */
 #app{display:flex;min-height:100vh}
 .sidebar{width:var(--sidebar-w);background:var(--navy);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:100}
 .sidebar-logo{padding:24px 20px 20px;border-bottom:1px solid rgba(255,255,255,0.06)}
-.sidebar-logo .logo-mark{display:flex;align-items:center;gap:10px}
-.sidebar-logo .lm-icon{width:36px;height:36px;background:var(--teal);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.sidebar-logo .lm-text{font-family:var(--font-display);color:var(--white);font-size:20px;letter-spacing:-0.5px}
-.sidebar-logo .lm-text span{color:var(--teal)}
-.sidebar-user{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:10px}
+.sidebar-logo .logo-mark{display:flex;align-items:center;gap:10px;cursor:pointer;transition:opacity 0.2s;border-radius:8px;padding:4px}
+.sidebar-logo .logo-mark:hover{opacity:0.75}
+.lm-icon{width:36px;height:36px;background:var(--teal);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.lm-text{font-family:var(--font-display);color:var(--white);font-size:20px;letter-spacing:-0.5px}
+.lm-text span{color:var(--teal)}
+.sidebar-user{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:10px;cursor:pointer;transition:background 0.2s}
+.sidebar-user:hover{background:rgba(255,255,255,0.04)}
 .user-avatar{width:34px;height:34px;border-radius:50%;background:var(--navy-light);border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--teal);flex-shrink:0}
 .user-info{min-width:0}
 .user-name{font-size:13px;font-weight:600;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -88,39 +71,33 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
 .btn-logout{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:8px;color:rgba(255,255,255,0.35);font-size:13px;cursor:pointer;background:none;border:none;width:100%;transition:all 0.18s;font-family:var(--font)}
 .btn-logout:hover{background:rgba(232,69,69,0.12);color:var(--red)}
 
-/* MAIN */
+/* ── MAIN ── */
 .main{margin-left:var(--sidebar-w);flex:1;min-width:0}
 .topbar{background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
 .topbar-title{font-size:18px;font-weight:700;color:var(--navy);font-family:var(--font-display)}
 .topbar-actions{display:flex;align-items:center;gap:12px}
-.page{padding:32px;animation:fadeIn 0.25s ease}
+.page{padding:32px;animation:fadeIn 0.22s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-/* CARDS */
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;margin-bottom:32px}
+/* ── STATS ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;margin-bottom:32px}
 .stat-card{background:var(--bg-card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);border:1px solid var(--border);position:relative;overflow:hidden}
 .stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.stat-card.teal::after{background:var(--teal)}
-.stat-card.amber::after{background:var(--amber)}
-.stat-card.red::after{background:var(--red)}
-.stat-card.green::after{background:var(--green)}
+.stat-card.teal::after{background:var(--teal)}.stat-card.amber::after{background:var(--amber)}
+.stat-card.red::after{background:var(--red)}.stat-card.green::after{background:var(--green)}
 .stat-num{font-size:36px;font-weight:700;font-family:var(--font-display);color:var(--navy);line-height:1}
 .stat-label{font-size:13px;color:var(--text-muted);margin-top:6px;font-weight:500}
 .stat-icon{position:absolute;top:20px;right:20px;font-size:28px;opacity:0.15}
 
-/* BUTTONS */
+/* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:600;border:none;transition:all 0.18s;cursor:pointer;font-family:var(--font)}
-.btn-primary{background:var(--teal);color:var(--navy)}
-.btn-primary:hover{background:var(--teal-dark);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,201,167,0.3)}
-.btn-secondary{background:var(--bg);color:var(--text);border:1px solid var(--border)}
-.btn-secondary:hover{background:var(--border)}
-.btn-danger{background:rgba(232,69,69,0.1);color:var(--red);border:1px solid rgba(232,69,69,0.2)}
-.btn-danger:hover{background:var(--red);color:var(--white)}
-.btn-ghost{background:transparent;color:var(--text-muted);padding:6px 10px}
-.btn-ghost:hover{background:var(--bg);color:var(--text)}
+.btn-primary{background:var(--teal);color:var(--navy)}.btn-primary:hover{background:var(--teal-dark);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,201,167,0.3)}
+.btn-secondary{background:var(--bg);color:var(--text);border:1px solid var(--border)}.btn-secondary:hover{background:var(--border)}
+.btn-danger{background:rgba(232,69,69,0.1);color:var(--red);border:1px solid rgba(232,69,69,0.2)}.btn-danger:hover{background:var(--red);color:var(--white)}
+.btn-ghost{background:transparent;color:var(--text-muted);padding:6px 10px}.btn-ghost:hover{background:var(--bg);color:var(--text)}
 .btn-sm{padding:6px 13px;font-size:12px}
 
-/* SEARCH */
+/* ── SEARCH BAR ── */
 .search-wrap{position:relative;margin-bottom:24px}
 .search-wrap input{width:100%;padding:14px 18px 14px 46px;border:1px solid var(--border);border-radius:10px;font-size:14px;background:var(--white);box-shadow:var(--shadow);transition:all 0.2s}
 .search-wrap input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow)}
@@ -134,41 +111,48 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
 .ai-result-banner .ai-text strong{color:var(--teal);font-size:14px;display:block;margin-bottom:4px}
 .thinking-dots{display:inline-flex;gap:3px;align-items:center}
 .thinking-dots span{width:5px;height:5px;background:var(--teal);border-radius:50%;animation:bounce 1.2s infinite}
-.thinking-dots span:nth-child(2){animation-delay:0.2s}
-.thinking-dots span:nth-child(3){animation-delay:0.4s}
+.thinking-dots span:nth-child(2){animation-delay:0.2s}.thinking-dots span:nth-child(3){animation-delay:0.4s}
 @keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
 
-/* ARTICLES */
-.article-grid{display:grid;gap:16px}
-.article-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;cursor:pointer;transition:all 0.18s}
+/* ── ARTICLES ── */
+.article-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;cursor:pointer;transition:all 0.18s;margin-bottom:12px}
 .article-card:hover{border-color:var(--teal);box-shadow:var(--shadow-lg);transform:translateY(-1px)}
 .article-card h3{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px}
 .article-card .short-ans{font-size:13px;color:var(--teal-dark);font-weight:500;margin-bottom:8px}
-.article-card .meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.article-card .meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .tag{display:inline-block;background:var(--bg);border:1px solid var(--border);border-radius:99px;padding:3px 10px;font-size:11px;font-weight:600;color:var(--text-muted)}
 .tag.teal{background:rgba(0,201,167,0.1);border-color:rgba(0,201,167,0.25);color:var(--teal-dark)}
 .article-detail{background:var(--white);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow);border:1px solid var(--border)}
 .article-detail h2{font-family:var(--font-display);font-size:26px;color:var(--navy);margin-bottom:8px}
-.article-detail .short-block{background:linear-gradient(135deg,rgba(0,201,167,0.08),rgba(0,201,167,0.04));border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0;font-size:14px;color:var(--teal-dark);font-weight:500}
-.article-detail .body-content{font-size:15px;line-height:1.75;color:var(--text);white-space:pre-wrap;margin-top:20px}
-.article-detail .meta-row{display:flex;gap:20px;flex-wrap:wrap;padding:16px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:16px 0;font-size:13px;color:var(--text-muted)}
-.article-detail .meta-row span strong{color:var(--text)}
+.short-block{background:linear-gradient(135deg,rgba(0,201,167,0.08),rgba(0,201,167,0.04));border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0;font-size:14px;color:var(--teal-dark);font-weight:500}
+.body-content{font-size:15px;line-height:1.75;color:var(--text);white-space:pre-wrap;margin-top:20px}
+.meta-row{display:flex;gap:20px;flex-wrap:wrap;padding:16px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:16px 0;font-size:13px;color:var(--text-muted)}
+.meta-row span strong{color:var(--text)}
 
-/* ANNOUNCEMENTS */
+/* ── VERSION HISTORY ── */
+.version-list{display:grid;gap:10px;margin-top:16px}
+.version-item{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px;cursor:pointer;transition:all 0.15s}
+.version-item:hover{border-color:var(--teal);background:var(--teal-glow)}
+.version-item.current{border-color:var(--teal);border-left:3px solid var(--teal)}
+.version-num{font-size:12px;font-weight:700;color:var(--teal-dark);margin-bottom:4px}
+.version-meta{font-size:12px;color:var(--text-muted)}
+.diff-view{background:var(--bg);border-radius:8px;padding:16px;margin-top:12px;font-size:13px;line-height:1.6;white-space:pre-wrap;border:1px solid var(--border);max-height:300px;overflow-y:auto}
+
+/* ── ANNOUNCEMENTS ── */
 .announcement-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:14px;cursor:pointer;transition:all 0.18s}
 .announcement-card:hover{border-color:var(--teal);box-shadow:var(--shadow)}
 .announcement-card.unread{border-left:3px solid var(--amber)}
 .announcement-card.read-done{border-left:3px solid var(--green)}
 .ann-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px}
 .ann-header h3{font-size:15px;font-weight:700;color:var(--navy)}
-.status-chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;flex-shrink:0}
+.status-chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;flex-shrink:0;white-space:nowrap}
 .status-chip.pending{background:rgba(244,165,53,0.12);color:#C17D0A}
 .status-chip.done{background:rgba(46,204,113,0.12);color:#1A8A48}
 .status-chip.failed{background:rgba(232,69,69,0.12);color:var(--red)}
 .ann-excerpt{font-size:13px;color:var(--text-muted);line-height:1.5;margin-bottom:10px}
 .ann-footer{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--text-muted)}
 
-/* QUIZ */
+/* ── QUIZ ── */
 .quiz-wrap{background:var(--bg);border-radius:12px;padding:24px;margin-top:24px;border:1px solid var(--border)}
 .quiz-wrap h3{font-family:var(--font-display);font-size:18px;color:var(--navy);margin-bottom:4px}
 .quiz-wrap p.sub{font-size:13px;color:var(--text-muted);margin-bottom:20px}
@@ -177,7 +161,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
 .option-list{display:grid;gap:8px}
 .option-btn{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg);cursor:pointer;font-size:13px;text-align:left;transition:all 0.15s;font-family:var(--font)}
 .option-btn:hover:not(:disabled){border-color:var(--teal);background:var(--teal-glow)}
-.option-btn.selected{border-color:var(--teal);background:var(--teal-glow);color:var(--navy);font-weight:600}
+.option-btn.selected{border-color:var(--teal);background:var(--teal-glow);font-weight:600}
 .option-btn.correct{border-color:var(--green);background:rgba(46,204,113,0.1);color:#1A8A48;font-weight:600}
 .option-btn.wrong{border-color:var(--red);background:rgba(232,69,69,0.1);color:var(--red)}
 .quiz-result{border-radius:12px;padding:24px;text-align:center;margin-top:20px}
@@ -187,7 +171,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
 .quiz-result h3{font-family:var(--font-display);font-size:22px;margin-bottom:6px}
 .quiz-result p{font-size:14px;color:var(--text-muted)}
 
-/* PAGINATION */
+/* ── PAGINATION ── */
 .pagination{display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding:12px 0}
 .pagination-info{font-size:13px;color:var(--text-muted)}
 .pagination-btns{display:flex;gap:6px}
@@ -196,7 +180,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
 .page-btn.active{background:var(--teal);border-color:var(--teal);color:var(--navy)}
 .page-btn:disabled{opacity:0.4;cursor:not-allowed}
 
-/* REPORTS TABLE */
+/* ── REPORTS ── */
 .report-table-wrap{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border)}
 .report-table{width:100%;border-collapse:collapse}
 .report-table th{background:var(--navy);color:rgba(255,255,255,0.6);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:12px 16px;text-align:left}
@@ -206,43 +190,46 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
 .report-table tr:hover td{background:var(--bg)}
 .progress-bar-wrap{background:var(--bg);border-radius:99px;height:6px;width:100px;overflow:hidden}
 .progress-bar{height:100%;border-radius:99px;background:var(--teal)}
-.completion-rate{font-weight:700;color:var(--navy)}
 
-/* AUDIT LOG */
+/* ── AUDIT ── */
 .audit-row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
 .audit-row:last-child{border-bottom:none}
 .audit-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
-.audit-dot.create{background:var(--green)}
-.audit-dot.edit{background:var(--teal)}
-.audit-dot.delete{background:var(--red)}
-.audit-dot.login{background:var(--amber)}
-.audit-dot.quiz{background:#9b59b6}
+.audit-dot.create{background:var(--green)}.audit-dot.edit{background:var(--teal)}
+.audit-dot.delete{background:var(--red)}.audit-dot.login{background:var(--amber)}.audit-dot.quiz{background:#9b59b6}
 .audit-text{flex:1;font-size:13px;color:var(--text)}
 .audit-time{font-size:11px;color:var(--text-muted);flex-shrink:0;margin-top:2px}
 
-/* FORM / EDITOR */
+/* ── FORM ── */
 .form-card{background:var(--white);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);border:1px solid var(--border)}
 .form-row{margin-bottom:20px}
 .form-row label{display:block;font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
 .form-row input,.form-row textarea,.form-row select{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;color:var(--text);background:var(--bg);transition:all 0.2s}
 .form-row input:focus,.form-row textarea:focus,.form-row select:focus{outline:none;border-color:var(--teal);background:white;box-shadow:0 0 0 3px var(--teal-glow)}
 .form-row textarea{resize:vertical;min-height:120px;line-height:1.6}
-.form-row .char-count{font-size:11px;color:var(--text-muted);text-align:right;margin-top:4px}
+.char-count{font-size:11px;color:var(--text-muted);text-align:right;margin-top:4px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 
-/* USER TABLE */
+/* ── USERS ── */
 .user-table-wrap{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border)}
 .user-table{width:100%;border-collapse:collapse}
-.user-table th{background:var(--navy);color:rgba(255,255,255,0.6);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:12px 16px;text-align:left}
+.user-table th{background:var(--navy);color:rgba(255,255,255,0.6);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:12px 16px;text-align:left;cursor:pointer;user-select:none}
+.user-table th:hover{color:var(--white)}
 .user-table td{padding:11px 16px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle}
 .user-table tr:last-child td{border-bottom:none}
+.user-table tr:hover td{background:var(--bg)}
 .role-badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;text-transform:uppercase;letter-spacing:0.05em}
 .role-badge.admin{background:rgba(244,165,53,0.15);color:#A0660A}
 .role-badge.team_lead{background:rgba(0,201,167,0.12);color:var(--teal-dark)}
 .role-badge.author{background:rgba(100,100,255,0.12);color:#5555cc}
 .role-badge.agent{background:rgba(107,122,144,0.12);color:var(--text-muted)}
+.user-filter-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.filter-input{padding:9px 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--white);color:var(--text);min-width:200px;font-family:var(--font)}
+.filter-input:focus{outline:none;border-color:var(--teal)}
+.filter-select{padding:9px 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--white);color:var(--text);font-family:var(--font)}
+.filter-select:focus{outline:none;border-color:var(--teal)}
 
-/* DATA MANAGEMENT */
+/* ── DATA MGMT ── */
 .data-mgmt-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:28px}
 .data-card{background:var(--white);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);border:1px solid var(--border)}
 .data-card h4{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px}
@@ -251,23 +238,24 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
 .storage-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--teal-dark))}
 .storage-label{font-size:12px;color:var(--text-muted)}
 
-/* MODAL */
+/* ── MODAL ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(13,27,42,0.6);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
-.modal{background:var(--white);border-radius:16px;width:100%;max-width:560px;box-shadow:var(--shadow-lg);max-height:90vh;overflow-y:auto}
+.modal{background:var(--white);border-radius:16px;width:100%;max-width:580px;box-shadow:var(--shadow-lg);max-height:90vh;overflow-y:auto}
+.modal-lg{max-width:760px}
 .modal-header{padding:24px 28px 0;display:flex;align-items:center;justify-content:space-between}
 .modal-header h3{font-family:var(--font-display);font-size:20px;color:var(--navy)}
 .modal-body{padding:20px 28px 28px}
 .modal-close{background:none;border:none;font-size:22px;color:var(--text-muted);cursor:pointer;line-height:1;padding:4px}
 .modal-close:hover{color:var(--red)}
 
-/* MISC */
+/* ── MISC ── */
 .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
 .page-header h2{font-family:var(--font-display);font-size:26px;color:var(--navy)}
 .page-header p{font-size:14px;color:var(--text-muted);margin-top:2px}
 .empty-state{text-align:center;padding:64px 32px;color:var(--text-muted)}
 .empty-state .es-icon{font-size:52px;margin-bottom:16px;opacity:0.4}
 .empty-state h3{font-size:18px;font-weight:700;margin-bottom:8px;color:var(--text)}
-.empty-state p{font-size:14px;line-height:1.6}
+.empty-state p{font-size:14px;line-height:1.6;max-width:360px;margin:0 auto}
 .toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:var(--white);padding:13px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:9999;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow-lg);transform:translateY(80px);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1)}
 .toast.show{transform:translateY(0);opacity:1}
 .toast.success::before{content:'✓';background:var(--green);color:white;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
@@ -278,7 +266,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
 .back-btn:hover{color:var(--teal)}
 .hidden{display:none!important}
 .flex-gap{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.tabs{display:flex;gap:4px;background:var(--bg);border-radius:10px;padding:4px;border:1px solid var(--border);width:fit-content}
+.tabs-bar{display:flex;gap:4px;background:var(--bg);border-radius:10px;padding:4px;border:1px solid var(--border);width:fit-content;margin-bottom:24px}
 .tab{padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all 0.15s;background:none;border:none;font-family:var(--font)}
 .tab.active{background:var(--white);color:var(--navy);box-shadow:0 1px 4px rgba(0,0,0,0.08)}
 .info-banner{background:rgba(0,201,167,0.08);border:1px solid rgba(0,201,167,0.2);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--teal-dark);margin-bottom:20px}
@@ -296,7 +284,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
     </div>
     <h2>Welcome back</h2>
     <p>Sign in to access the Knowledge & Learning Centre</p>
-    <div class="login-error" id="login-error">Invalid email or password. Please try again.</div>
+    <div class="login-error" id="login-error">Incorrect email or password. Please try again.</div>
     <div class="field-group">
       <label>Email Address</label>
       <input type="email" id="login-email" placeholder="you@company.com" autocomplete="username">
@@ -306,15 +294,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
       <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
     </div>
     <button class="btn-login" onclick="doLogin()">Sign In →</button>
-    <div class="demo-accounts">
-      <p>Quick Demo Access</p>
-      <div class="demo-grid">
-        <div class="demo-pill" onclick="quickLogin('admin@cshub.com','admin123')"><strong>👑 Admin</strong>admin@cshub.com</div>
-        <div class="demo-pill" onclick="quickLogin('lead@cshub.com','lead123')"><strong>🎯 Team Lead</strong>lead@cshub.com</div>
-        <div class="demo-pill" onclick="quickLogin('author@cshub.com','author123')"><strong>✍️ Author</strong>author@cshub.com</div>
-        <div class="demo-pill" onclick="quickLogin('agent1@cshub.com','agent123')"><strong>🎧 Agent</strong>agent1@cshub.com</div>
-      </div>
-    </div>
+    <div class="login-hint" id="login-hint" style="display:none">Default admin: admin@cshub.com / admin123</div>
   </div>
 </div>
 
@@ -322,38 +302,42 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
 <div id="app" class="hidden">
   <aside class="sidebar">
     <div class="sidebar-logo">
-      <div class="logo-mark">
+      <div class="logo-mark" onclick="doLogout()" title="Switch account">
         <div class="lm-icon">📚</div>
         <div class="lm-text">CS<span>Hub</span></div>
       </div>
     </div>
-    <div class="sidebar-user">
-      <div class="user-avatar" id="sb-avatar">A</div>
+    <div class="sidebar-user" onclick="showPage('profile')" title="My Profile">
+      <div class="user-avatar" id="sb-avatar">?</div>
       <div class="user-info">
-        <div class="user-name" id="sb-name">User Name</div>
-        <div class="user-role" id="sb-role">Agent</div>
+        <div class="user-name" id="sb-name">—</div>
+        <div class="user-role" id="sb-role">—</div>
       </div>
     </div>
     <nav>
       <div class="nav-section">
         <div class="nav-section-label">Overview</div>
-        <button class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard"><span class="ni-icon">⊞</span> Dashboard</button>
+        <button class="nav-item" onclick="showPage('dashboard')" id="nav-dashboard"><span class="ni-icon">⊞</span>Dashboard</button>
       </div>
       <div class="nav-section">
         <div class="nav-section-label">Knowledge Base</div>
-        <button class="nav-item" onclick="showPage('kb')" id="nav-kb"><span class="ni-icon">📖</span> Articles</button>
-        <button class="nav-item admin-only hidden" onclick="showPage('kb-new')" id="nav-kb-new"><span class="ni-icon">＋</span> New Article</button>
+        <button class="nav-item" onclick="showPage('kb')" id="nav-kb"><span class="ni-icon">📖</span>Articles</button>
+        <button class="nav-item can-edit hidden" onclick="showPage('kb-new')" id="nav-kb-new"><span class="ni-icon">＋</span>New Article</button>
       </div>
       <div class="nav-section">
         <div class="nav-section-label">Learning</div>
-        <button class="nav-item" onclick="showPage('lms')" id="nav-lms"><span class="ni-icon">📢</span> Announcements <span class="nav-badge hidden" id="lms-badge">0</span></button>
-        <button class="nav-item admin-only hidden" onclick="showPage('lms-new')" id="nav-lms-new"><span class="ni-icon">＋</span> New Announcement</button>
+        <button class="nav-item" onclick="showPage('lms')" id="nav-lms"><span class="ni-icon">📢</span>Announcements<span class="nav-badge hidden" id="lms-badge">0</span></button>
+        <button class="nav-item can-manage hidden" onclick="showPage('lms-new')" id="nav-lms-new"><span class="ni-icon">＋</span>New Announcement</button>
       </div>
       <div class="nav-section">
         <div class="nav-section-label">Management</div>
-        <button class="nav-item admin-only hidden" onclick="showPage('reports')" id="nav-reports"><span class="ni-icon">📊</span> Reports</button>
-        <button class="nav-item admin-only hidden" onclick="showPage('audit')" id="nav-audit"><span class="ni-icon">🔍</span> Audit Log</button>
-        <button class="nav-item admin-only hidden" onclick="showPage('users')" id="nav-users"><span class="ni-icon">👥</span> Users</button>
+        <button class="nav-item can-report hidden" onclick="showPage('reports')" id="nav-reports"><span class="ni-icon">📊</span>Reports</button>
+        <button class="nav-item can-report hidden" onclick="showPage('audit')" id="nav-audit"><span class="ni-icon">🔍</span>Audit Log</button>
+        <button class="nav-item admin-only hidden" onclick="showPage('users')" id="nav-users"><span class="ni-icon">👥</span>Users</button>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-label">Account</div>
+        <button class="nav-item" onclick="showPage('profile')" id="nav-profile"><span class="ni-icon">👤</span>My Profile</button>
       </div>
     </nav>
     <div class="sidebar-footer">
@@ -374,25 +358,16 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
     <div class="page hidden" id="page-dashboard">
       <div class="cards-grid" id="dash-stats"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-        <div class="form-card">
-          <div class="section-title">📢 Recent Announcements</div>
-          <div id="dash-announcements"></div>
-        </div>
-        <div class="form-card">
-          <div class="section-title">📖 Recently Added Articles</div>
-          <div id="dash-articles"></div>
-        </div>
+        <div class="form-card"><div class="section-title">📢 Recent Announcements</div><div id="dash-announcements"></div></div>
+        <div class="form-card"><div class="section-title">📖 Recently Added Articles</div><div id="dash-articles"></div></div>
       </div>
     </div>
 
     <!-- KB LIST -->
     <div class="page hidden" id="page-kb">
       <div class="page-header">
-        <div>
-          <h2>Knowledge Base</h2>
-          <p>Search and browse all CS articles · AI-powered search available</p>
-        </div>
-        <div class="tabs" id="kb-tabs">
+        <div><h2>Knowledge Base</h2><p>Search and browse all CS articles · AI-powered search available</p></div>
+        <div class="tabs-bar" style="margin-bottom:0" id="kb-tabs">
           <button class="tab active" onclick="setKbTab('all',this)">All</button>
           <button class="tab" onclick="setKbTab('Policy',this)">Policy</button>
           <button class="tab" onclick="setKbTab('Process',this)">Process</button>
@@ -400,9 +375,10 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
           <button class="tab" onclick="setKbTab('FAQ',this)">FAQ</button>
         </div>
       </div>
+      <div style="height:20px"></div>
       <div class="search-wrap">
         <span class="s-icon">🔍</span>
-        <input type="text" id="kb-search" placeholder="Ask a question or search articles… (AI-powered)" onkeydown="if(event.key==='Enter')runAiSearch()">
+        <input type="text" id="kb-search" placeholder="Ask a question or search articles… (AI-powered)" onkeydown="if(event.key==='Enter')runAiSearch()" oninput="if(!this.value){document.getElementById('ai-result-area').innerHTML='';renderKb()}">
         <button class="btn btn-primary btn-sm s-btn" onclick="runAiSearch()">✦ Ask AI</button>
       </div>
       <div id="ai-result-area"></div>
@@ -410,7 +386,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
       <div id="kb-pagination"></div>
     </div>
 
-    <!-- KB ARTICLE DETAIL -->
+    <!-- KB DETAIL -->
     <div class="page hidden" id="page-kb-detail">
       <button class="back-btn" onclick="showPage('kb')">← Back to Articles</button>
       <div id="kb-detail-content"></div>
@@ -419,9 +395,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
     <!-- KB NEW/EDIT -->
     <div class="page hidden" id="page-kb-new">
       <button class="back-btn" onclick="showPage('kb')">← Back to Articles</button>
-      <div class="page-header">
-        <div><h2 id="kb-form-title">New Article</h2><p>Create a new knowledge base article</p></div>
-      </div>
+      <div class="page-header"><div><h2 id="kb-form-title">New Article</h2><p>Create a new knowledge base article</p></div></div>
       <div class="form-card">
         <input type="hidden" id="edit-article-id">
         <div class="form-row"><label>Article Title *</label><input type="text" id="art-title" placeholder="e.g. How to process a refund"></div>
@@ -432,11 +406,14 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
           <div class="form-row"><label>Tags (comma separated)</label><input type="text" id="art-tags" placeholder="refund, billing, payment"></div>
         </div>
         <div class="form-row">
-          <label>Short Answer <span style="font-weight:400;text-transform:none;letter-spacing:0">(shown in search results — keep under 120 chars)</span></label>
-          <input type="text" id="art-short" placeholder="Brief direct answer…" maxlength="120" oninput="document.getElementById('short-count').textContent=this.value.length+'/120'">
+          <label>Short Answer <span style="font-weight:400;text-transform:none;letter-spacing:0">(shown in search results — max 120 chars)</span></label>
+          <input type="text" id="art-short" placeholder="Brief direct answer an agent can read quickly…" maxlength="120" oninput="document.getElementById('short-count').textContent=this.value.length+'/120'">
           <div class="char-count"><span id="short-count">0/120</span></div>
         </div>
-        <div class="form-row"><label>Full Article Content *</label><textarea id="art-body" rows="12" placeholder="Write the full article content here…"></textarea></div>
+        <div class="form-row"><label>Full Article Content *</label><textarea id="art-body" rows="14" placeholder="Write the full article content here. Use clear sections, steps, and examples."></textarea></div>
+        <div class="form-row"><label>Change Summary <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional — describe what you changed)</span></label>
+          <input type="text" id="art-change-note" placeholder="e.g. Updated refund threshold to £150">
+        </div>
         <div class="flex-gap" style="justify-content:flex-end">
           <button class="btn btn-secondary" onclick="showPage('kb')">Cancel</button>
           <button class="btn btn-primary" onclick="saveArticle()">💾 Save Article</button>
@@ -446,9 +423,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
 
     <!-- LMS LIST -->
     <div class="page hidden" id="page-lms">
-      <div class="page-header">
-        <div><h2>Announcements</h2><p>Weekly updates — read, acknowledge, and pass the quiz to certify</p></div>
-      </div>
+      <div class="page-header"><div><h2>Announcements</h2><p>Weekly updates — read, acknowledge, and pass the quiz to certify</p></div></div>
       <div id="lms-list"></div>
     </div>
 
@@ -461,9 +436,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
     <!-- LMS NEW -->
     <div class="page hidden" id="page-lms-new">
       <button class="back-btn" onclick="showPage('lms')">← Back to Announcements</button>
-      <div class="page-header">
-        <div><h2 id="lms-form-title">New Announcement</h2><p>Create a weekly announcement with a certification quiz</p></div>
-      </div>
+      <div class="page-header"><div><h2 id="lms-form-title">New Announcement</h2><p>Create a weekly announcement with a certification quiz</p></div></div>
       <div class="form-card">
         <input type="hidden" id="edit-ann-id">
         <div class="form-row"><label>Announcement Title *</label><input type="text" id="ann-title" placeholder="e.g. Updated Refund Policy — Week 24"></div>
@@ -476,7 +449,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
         <div class="form-row"><label>Announcement Content *</label><textarea id="ann-body" rows="10" placeholder="Write the full announcement content here…"></textarea></div>
         <div class="divider"></div>
         <div class="section-title">📝 Certification Quiz</div>
-        <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Add 1–5 questions. Agents must score 100% to certify.</p>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">Add 1–5 questions. Staff must score 100% to certify.</p>
         <div id="quiz-builder"></div>
         <button class="btn btn-secondary btn-sm" onclick="addQuestion()" style="margin-top:4px">+ Add Question</button>
         <div class="divider"></div>
@@ -504,9 +477,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
         <div><h2>Audit Log</h2><p>Complete record of all actions across CS Hub</p></div>
         <button class="btn btn-secondary" onclick="clearAudit()">🗑 Clear Log</button>
       </div>
-      <div class="form-card">
-        <div id="audit-log-content"></div>
-      </div>
+      <div class="form-card"><div id="audit-log-content"></div></div>
     </div>
 
     <!-- USERS -->
@@ -515,40 +486,88 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
         <div><h2>User Management</h2><p>Manage staff access and roles</p></div>
         <div class="flex-gap">
           <button class="btn btn-secondary" onclick="showModal('modal-csv')">⬆ Bulk Upload CSV</button>
-          <button class="btn btn-primary" onclick="showModal('modal-add-user')">+ Add User</button>
+          <button class="btn btn-primary" onclick="openAddUser()">+ Add User</button>
         </div>
+      </div>
+      <div class="user-filter-bar">
+        <input class="filter-input" type="text" id="user-search" placeholder="🔍  Search by name or email…" oninput="renderUsers()">
+        <select class="filter-select" id="user-role-filter" onchange="renderUsers()">
+          <option value="">All Roles</option>
+          <option value="admin">Admin</option>
+          <option value="team_lead">Team Lead</option>
+          <option value="author">Author</option>
+          <option value="agent">Agent</option>
+        </select>
+        <select class="filter-select" id="user-status-filter" onchange="renderUsers()">
+          <option value="">All Status</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+        <span id="user-count" style="font-size:13px;color:var(--text-muted);margin-left:4px"></span>
       </div>
       <div class="user-table-wrap">
         <table class="user-table">
-          <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Department</th><th>Status</th><th>Actions</th></tr></thead>
+          <thead><tr>
+            <th onclick="sortUsers('name')">Name ↕</th>
+            <th>Email</th>
+            <th onclick="sortUsers('role')">Role ↕</th>
+            <th>Department</th>
+            <th onclick="sortUsers('status')">Status ↕</th>
+            <th>Actions</th>
+          </tr></thead>
           <tbody id="users-tbody"></tbody>
         </table>
       </div>
       <div class="divider"></div>
       <div class="section-title">💾 Data Management</div>
-      <div class="info-banner">Your data is stored in this browser's local storage. Use the backup function regularly to avoid data loss if the browser cache is cleared.</div>
+      <div class="info-banner">All data is stored in this browser's local storage. Download a backup regularly to prevent data loss if browser cache is cleared.</div>
       <div id="storage-stats" style="margin-bottom:16px"></div>
       <div class="data-mgmt-grid">
         <div class="data-card">
           <h4>⬇ Backup All Data</h4>
-          <p>Export all articles, announcements, users and completion records as a JSON file. Store this file safely — it lets you fully restore CS Hub.</p>
+          <p>Export all articles, announcements, users and completion records as a JSON file you can store safely.</p>
           <button class="btn btn-primary" onclick="backupData()">Download Backup</button>
         </div>
         <div class="data-card">
           <h4>⬆ Restore from Backup</h4>
-          <p>Upload a previously exported JSON backup file to restore all data. This will overwrite your current data — make a backup first.</p>
+          <p>Upload a previously exported backup file to restore all data. Make a fresh backup first.</p>
           <input type="file" id="restore-file" accept=".json" style="display:none" onchange="restoreData(this)">
           <button class="btn btn-secondary" onclick="document.getElementById('restore-file').click()">Upload Backup File</button>
         </div>
         <div class="data-card" style="border-color:rgba(232,69,69,0.2)">
-          <h4 style="color:var(--red)">⚠ Reset to Demo Data</h4>
-          <p>Wipe all data and restore the original demo articles, announcements and users. All real data will be permanently deleted.</p>
-          <button class="btn btn-danger" onclick="resetToDefaults()">Reset to Demo Data</button>
+          <h4 style="color:var(--red)">⚠ Wipe All Data</h4>
+          <p>Permanently delete all articles, announcements and completion records. Users are kept. Cannot be undone.</p>
+          <button class="btn btn-danger" onclick="wipeData()">Wipe Content Data</button>
         </div>
         <div class="data-card">
           <h4>📊 Storage Usage</h4>
-          <p>CS Hub stores data in your browser's localStorage (typically 5–10 MB limit).</p>
+          <p>CS Hub uses your browser's localStorage (typically 5–10 MB limit).</p>
           <div id="storage-bar-detail"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="page hidden" id="page-profile">
+      <div class="page-header"><div><h2>My Profile</h2><p>Update your personal details and change your password</p></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:860px">
+        <div class="form-card">
+          <div class="section-title" style="font-size:16px;margin-bottom:20px">👤 Personal Details</div>
+          <div class="form-grid">
+            <div class="form-row"><label>First Name</label><input type="text" id="prof-first"></div>
+            <div class="form-row"><label>Last Name</label><input type="text" id="prof-last"></div>
+          </div>
+          <div class="form-row"><label>Email Address</label><input type="email" id="prof-email"></div>
+          <div class="form-row"><label>Department</label><input type="text" id="prof-dept"></div>
+          <div class="form-row"><label>Role</label><input type="text" id="prof-role" disabled style="opacity:0.5;cursor:not-allowed"></div>
+          <button class="btn btn-primary" onclick="saveProfile()">Save Details</button>
+        </div>
+        <div class="form-card">
+          <div class="section-title" style="font-size:16px;margin-bottom:20px">🔒 Change Password</div>
+          <div class="form-row"><label>Current Password</label><input type="password" id="pw-current" placeholder="Enter your current password"></div>
+          <div class="form-row"><label>New Password</label><input type="password" id="pw-new" placeholder="At least 6 characters"></div>
+          <div class="form-row"><label>Confirm New Password</label><input type="password" id="pw-confirm" placeholder="Repeat new password"></div>
+          <button class="btn btn-primary" onclick="changePassword()">Update Password</button>
         </div>
       </div>
     </div>
@@ -556,26 +575,27 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
   </main>
 </div>
 
-<!-- MODAL: ADD USER -->
+<!-- MODAL: ADD/EDIT USER -->
 <div class="modal-overlay hidden" id="modal-add-user">
   <div class="modal">
-    <div class="modal-header"><h3>Add New User</h3><button class="modal-close" onclick="hideModal('modal-add-user')">×</button></div>
+    <div class="modal-header"><h3 id="user-modal-title">Add New User</h3><button class="modal-close" onclick="hideModal('modal-add-user')">×</button></div>
     <div class="modal-body">
+      <input type="hidden" id="edit-user-id">
       <div class="form-grid">
-        <div class="form-row"><label>First Name</label><input type="text" id="nu-first" placeholder="Jane"></div>
-        <div class="form-row"><label>Last Name</label><input type="text" id="nu-last" placeholder="Smith"></div>
+        <div class="form-row"><label>First Name *</label><input type="text" id="nu-first" placeholder="Jane"></div>
+        <div class="form-row"><label>Last Name *</label><input type="text" id="nu-last" placeholder="Smith"></div>
       </div>
-      <div class="form-row"><label>Email Address</label><input type="email" id="nu-email" placeholder="jane.smith@company.com"></div>
+      <div class="form-row"><label>Email Address *</label><input type="email" id="nu-email" placeholder="jane.smith@company.com"></div>
       <div class="form-grid">
         <div class="form-row"><label>Role</label>
           <select id="nu-role"><option value="agent">Agent</option><option value="author">Author</option><option value="team_lead">Team Lead</option><option value="admin">Admin</option></select>
         </div>
         <div class="form-row"><label>Department</label><input type="text" id="nu-dept" placeholder="Customer Service"></div>
       </div>
-      <div class="form-row"><label>Password</label><input type="password" id="nu-pass" placeholder="Set initial password"></div>
+      <div class="form-row" id="nu-pass-row"><label>Password *</label><input type="password" id="nu-pass" placeholder="Set initial password"></div>
       <div class="flex-gap" style="justify-content:flex-end;margin-top:8px">
         <button class="btn btn-secondary" onclick="hideModal('modal-add-user')">Cancel</button>
-        <button class="btn btn-primary" onclick="addUser()">Create User</button>
+        <button class="btn btn-primary" id="user-modal-btn" onclick="saveUser()">Create User</button>
       </div>
     </div>
   </div>
@@ -586,13 +606,28 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
   <div class="modal">
     <div class="modal-header"><h3>Bulk Upload Users via CSV</h3><button class="modal-close" onclick="hideModal('modal-csv')">×</button></div>
     <div class="modal-body">
-      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">CSV format: <code>first_name, last_name, email, role, department, password</code></p>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">CSV format — one user per line:<br><code style="background:var(--bg);padding:4px 8px;border-radius:4px;font-size:12px">first_name, last_name, email, role, department, password</code></p>
       <div class="form-row"><label>Paste CSV Data</label>
-        <textarea id="csv-data" rows="8" placeholder="Jane,Smith,jane@co.com,agent,CS,pass123&#10;John,Doe,john@co.com,team_lead,CS,pass456"></textarea>
+        <textarea id="csv-data" rows="8" placeholder="Jane,Smith,jane@co.com,agent,Customer Service,password123&#10;John,Doe,john@co.com,team_lead,Customer Service,password456"></textarea>
       </div>
       <div class="flex-gap" style="justify-content:flex-end">
         <button class="btn btn-secondary" onclick="hideModal('modal-csv')">Cancel</button>
-        <button class="btn btn-primary" onclick="importCSV()">Upload Users</button>
+        <button class="btn btn-primary" onclick="importCSV()">Import Users</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: VERSION HISTORY -->
+<div class="modal-overlay hidden" id="modal-history">
+  <div class="modal modal-lg">
+    <div class="modal-header"><h3>Article Version History</h3><button class="modal-close" onclick="hideModal('modal-history')">×</button></div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:220px 1fr;gap:20px;min-height:300px">
+        <div><div id="history-list"></div></div>
+        <div>
+          <div id="history-detail" style="font-size:13px;color:var(--text-muted)">Select a version to preview.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -601,297 +636,58 @@ nav{flex:1;padding:16px 12px;overflow-y:auto}
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════
-// STORAGE LAYER — all data lives in localStorage under 'cshub_' prefix
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// STORAGE LAYER
+// ═══════════════════════════════════════════
 const DB = {
-  get(key) {
-    try { const v = localStorage.getItem('cshub_' + key); return v ? JSON.parse(v) : null; } catch { return null; }
-  },
-  set(key, val) {
-    try { localStorage.setItem('cshub_' + key, JSON.stringify(val)); return true; }
-    catch(e) { console.error('Storage write failed', e); showToast('Storage full — please backup and clear old data','error'); return false; }
-  },
-  remove(key) { localStorage.removeItem('cshub_' + key); },
-  sizeKB() {
-    let total = 0;
-    for (let k in localStorage) { if (k.startsWith('cshub_')) total += (localStorage[k]||'').length * 2; }
-    return Math.round(total / 1024);
-  }
+  get(k) { try { const v=localStorage.getItem('cshub_'+k); return v?JSON.parse(v):null; } catch{return null;} },
+  set(k,v) { try { localStorage.setItem('cshub_'+k,JSON.stringify(v)); return true; } catch(e){ showToast('Storage limit reached — please export a backup','error'); return false; } },
+  remove(k) { localStorage.removeItem('cshub_'+k); },
+  sizeKB() { let t=0; for(let k in localStorage){ if(k.startsWith('cshub_')) t+=(localStorage[k]||'').length*2; } return Math.round(t/1024); }
 };
 
-// ═══════════════════════════════════════════════════════════════
-// DEFAULT / SEED DATA (used only on first run or reset)
-// ═══════════════════════════════════════════════════════════════
-const DEFAULT_USERS = [
-  {id:'u1',first:'Sarah',last:'Mitchell',email:'admin@cshub.com',password:'admin123',role:'admin',dept:'Management',active:true,created:'2025-01-01'},
-  {id:'u2',first:'Marcus',last:'Webb',email:'lead@cshub.com',password:'lead123',role:'team_lead',dept:'Customer Service',active:true,created:'2025-01-01'},
-  {id:'u3',first:'Priya',last:'Sharma',email:'author@cshub.com',password:'author123',role:'author',dept:'Knowledge Management',active:true,created:'2025-01-01'},
-  {id:'u4',first:'Tom',last:'Bailey',email:'agent1@cshub.com',password:'agent123',role:'agent',dept:'Customer Service',active:true,created:'2025-01-01'},
-  {id:'u5',first:'Aisha',last:'Nkemelu',email:'agent2@cshub.com',password:'agent123',role:'agent',dept:'Customer Service',active:true,created:'2025-01-01'},
+// ═══════════════════════════════════════════
+// SEED DATA — single admin, no content
+// ═══════════════════════════════════════════
+const SEED_USERS = [
+  {id:'u1',first:'Admin',last:'User',email:'admin@cshub.com',password:'admin123',role:'admin',dept:'Management',active:true,created:today()}
 ];
 
-const DEFAULT_ARTICLES = [
-  {id:'a1',title:'Standard Refund Policy & Processing Times',category:'Policy',tags:['refund','billing','payment'],shortAnswer:'Refunds are processed within 5–7 business days to the original payment method.',body:`Our standard refund policy applies to all purchases made within the last 30 days.
+function today(){ return new Date().toISOString().slice(0,10); }
 
-KEY RULES:
-• Refunds must be requested within 30 days of purchase
-• Physical products require return before refund is issued
-• Digital products are non-refundable once downloaded
-• Subscriptions can be cancelled but no partial refunds for mid-cycle cancellations
-
-PROCESSING TIMELINE:
-1. Refund request received and verified — same day
-2. Refund approved and initiated — 1–2 business days
-3. Funds returned to original payment method — 3–5 business days
-4. Bank processing time — additional 2–3 business days (beyond our control)
-
-HOW TO PROCESS:
-1. Open the customer's account in the CRM
-2. Navigate to Orders → Select the relevant order
-3. Click "Initiate Refund" and select the reason
-4. Confirm the refund amount (partial or full)
-5. Submit and note the refund reference number
-6. Inform customer of the reference and timeline
-
-EXCEPTIONS:
-- Promotional purchases may have modified refund terms
-- Items marked "Final Sale" are not eligible for refund
-- Wholesale accounts follow a separate refund schedule`,author:'u3',created:'2025-05-01',updated:'2025-05-15'},
-  {id:'a2',title:'Password Reset & Account Recovery Procedure',category:'Process',tags:['password','account','login','security'],shortAnswer:'Use the self-service portal first. For locked accounts, verify identity before manual reset.',body:`Customer account access issues are one of our most frequent contact reasons. Use this guide to resolve them efficiently.
-
-SELF-SERVICE FIRST:
-Always direct customers to self-service options before performing manual resets.
-→ Portal: support.company.com/reset
-→ Mobile App: Settings → Account → Reset Password
-
-MANUAL RESET (when self-service fails):
-1. VERIFY IDENTITY — This step is mandatory
-   - Ask for: Full name, email on account, last 4 digits of payment method, or last order number
-   - You need at least 2 matching data points
-   - If customer cannot verify — escalate to Team Lead, DO NOT reset
-2. Open CRM → Customer profile → Security tab
-3. Click "Admin Password Reset"
-4. Select "Send Reset Email" (preferred) or "Generate Temp Password"
-5. Temp passwords expire in 24 hours — inform customer
-6. Log the action in the case notes with your agent ID
-
-LOCKED ACCOUNTS (5+ failed attempts):
-- 15-minute auto-unlock: advise customer to wait
-- Immediate unlock: requires Team Lead approval
-- Suspicious activity flag: escalate to Security team, do not unlock
-
-SECURITY REMINDERS:
-⚠ Never share what ID information you used to verify
-⚠ Never perform a reset if the customer becomes aggressive about verification
-⚠ Log every manual reset — compliance audits these records`,author:'u3',created:'2025-05-03',updated:'2025-05-20'},
-  {id:'a3',title:'Subscription Plan Changes & Proration',category:'Policy',tags:['subscription','upgrade','downgrade','billing'],shortAnswer:'Upgrades are immediate and prorated. Downgrades take effect at the end of the billing cycle.',body:`PLAN CHANGES — QUICK REFERENCE:
-
-UPGRADES (moving to a higher tier):
-• Effective: Immediately upon confirmation
-• Billing: Customer is charged the prorated difference for the remainder of current cycle
-• Example: Customer upgrades on day 15 of a 30-day cycle → charged 50% of the price difference
-
-DOWNGRADES (moving to a lower tier):
-• Effective: First day of NEXT billing cycle
-• Billing: No refund for current cycle — customer retains current plan features until cycle end
-
-HOW TO PROCESS IN CRM:
-1. Open customer subscription → Plan Management
-2. Select "Change Plan" → Choose new plan
-3. System will display proration summary — review with customer
-4. Confirm with customer verbally before clicking "Apply"
-5. Send confirmation email (automated)
-
-TALKING POINTS:
-"If you upgrade today, you'll only pay the difference for the remaining days in your current cycle."
-"Your downgrade will kick in from your next renewal date, so you'll still have access to [feature] until then."`,author:'u1',created:'2025-04-20',updated:'2025-05-18'},
-  {id:'a4',title:'Escalation Matrix & When to Escalate',category:'Process',tags:['escalation','team lead','manager','complaints'],shortAnswer:'Escalate when: customer requests it, 2+ failed resolutions, legal/fraud risk, or media threat.',body:`ESCALATION DECISION TREE:
-
-IMMEDIATE ESCALATION (do not attempt to resolve yourself):
-🔴 Customer mentions legal action or solicitors
-🔴 Customer mentions social media, press, or regulatory bodies
-🔴 Suspected fraud or account compromise
-🔴 Safeguarding concerns
-🔴 Customer is abusive or threatening (end call, log, escalate)
-
-STANDARD ESCALATION (after 2 failed resolution attempts):
-🟡 Customer explicitly requests to speak to a manager
-🟡 Two separate contacts with same unresolved issue
-🟡 Complaint about a specific agent (including yourself)
-🟡 Requests outside your authority (refunds >£500, account exceptions)
-
-HOW TO ESCALATE:
-1. Inform customer: "I'm going to connect you with my Team Lead who can assist further."
-2. DO NOT put customer on hold without informing them
-3. Warm transfer — brief Team Lead with: customer name, issue summary, steps already taken
-4. Update CRM case with escalation reason and who you escalated to
-
-ESCALATION PATH:
-Agent → Team Lead → Department Manager → Senior Management`,author:'u2',created:'2025-05-05',updated:'2025-05-22'},
-  {id:'a5',title:'Product Returns — Physical Goods',category:'Process',tags:['return','shipping','physical','warehouse'],shortAnswer:'Customer returns physical goods via prepaid label. Refund issued within 48hrs of warehouse receipt.',body:`PHYSICAL RETURN PROCESS:
-
-ELIGIBILITY CHECK:
-✅ Purchase within last 30 days?
-✅ Item in original/resalable condition?
-✅ All accessories/packaging included?
-✅ Not a "Final Sale" item?
-✅ Not a personalised/custom item?
-
-INITIATING A RETURN:
-1. Verify eligibility (above checklist)
-2. In CRM: Orders → Return/Exchange → Create Return Request
-3. Select return reason from dropdown
-4. System generates prepaid return label — emailed to customer automatically
-5. Advise customer to package securely and drop off within 14 days
-
-TRACKING & REFUND:
-- Warehouse confirms receipt: refund initiated within 48 hours
-- Refund processing: standard 5–7 days
-- If no warehouse confirmation after 10 days: raise a trace request in CRM
-
-COMMON QUESTIONS:
-Q: "Can I exchange instead of refund?"
-A: Yes — on step 3, select "Exchange" and choose the replacement SKU.
-
-Q: "What if the item was damaged when I received it?"
-A: Select "Damaged Goods" — expedited refund, no return needed for values under £50.`,author:'u3',created:'2025-04-25',updated:'2025-05-10'},
-  {id:'a6',title:'Handling Vulnerable Customers',category:'Policy',tags:['vulnerable','wellbeing','safeguarding','sensitive'],shortAnswer:'Identify vulnerability indicators, adjust communication, escalate to Team Lead if urgent support needed.',body:`PROTECTING VULNERABLE CUSTOMERS — MANDATORY POLICY
-
-WHAT IS VULNERABILITY?
-A customer may be vulnerable due to: age, mental health challenges, bereavement, financial hardship, physical health condition, or language barrier.
-
-SPOTTING THE SIGNS:
-- Confusion or difficulty understanding
-- Signs of distress, crying, or agitation
-- Mentioning personal difficulties unprompted
-- Indicating they are acting on behalf of someone who cannot communicate
-
-HOW TO RESPOND:
-1. Slow down — speak clearly, avoid jargon
-2. Confirm understanding: "Can I check you're happy with what I've explained?"
-3. Offer alternatives: written confirmation, callback, or carer involvement
-4. Do not rush or pressure
-5. Show empathy: "I completely understand, let's take this step by step."
-
-ESCALATION:
-• Immediately flag to Team Lead if you are concerned for customer wellbeing
-• If customer mentions harm to self or others → follow Safeguarding Protocol
-
-DOCUMENTATION:
-• Mark the customer account as "Vulnerable Flag" in CRM → Account Settings
-• Review flag quarterly
-
-⚠ This policy is subject to regulatory requirement. Non-compliance is a disciplinary matter.`,author:'u1',created:'2025-03-15',updated:'2025-05-01'},
-];
-
-const DEFAULT_ANNOUNCEMENTS = [
-  {id:'n1',title:'Updated Refund Thresholds & Agent Authority — Effective Immediately',week:'Week 22 — June 2025',mandatory:'all',body:`Important update to our refund authorisation levels — please read carefully.
-
-WHAT'S CHANGING:
-From this week, agents are authorised to approve refunds up to £150 without Team Lead approval. Previously, this limit was £75.
-
-WHY THE CHANGE:
-Analysis showed 68% of escalations were for refunds between £75–£150 which Team Leads were approving in under 2 minutes. This reduces customer wait times and frees up Team Lead bandwidth.
-
-WHAT STAYS THE SAME:
-• Refunds above £150 still require Team Lead sign-off
-• All refunds must follow the standard eligibility checks
-• All refunds must be logged in CRM with reason code
-• Goodwill gestures above £25 still require authorisation
-
-ACTION REQUIRED: Read and acknowledge this announcement. You must pass the quiz below to confirm your understanding.`,questions:[
-    {q:'What is the new agent refund authorisation limit?',options:['£75','£100','£150','£200'],correct:2},
-    {q:'What happens when a refund exceeds your authorisation limit?',options:['Approve it and inform TL','Select "Request Approval" in CRM','Decline the refund','Offer a credit note instead'],correct:1},
-    {q:'Do goodwill gestures under £25 require authorisation?',options:['Yes, always','No, agents can approve these directly','Only above £10','Depends on the case'],correct:1},
-  ],created:'2025-06-01',author:'u1'},
-  {id:'n2',title:'Bank Holiday Coverage Plan — August Schedule',week:'Week 24 — June 2025',mandatory:'all',body:`Planning ahead for the August bank holiday period.
-
-DATES AFFECTED:
-• Monday 25th August — Bank Holiday (reduced staffing)
-• Friday 22nd August — Pre-holiday preparation day
-
-SLA ADJUSTMENTS:
-• Response time SLA paused on 25th August
-• All tickets raised on 25th will have clock started from 26th August
-• Priority tickets (P1/P2) are excluded — standard SLA applies
-
-Please acknowledge this announcement and pass the quiz below.`,questions:[
-    {q:'On which date is the UK Bank Holiday?',options:['22nd August','25th August','26th August','1st September'],correct:1},
-    {q:'What happens to standard SLA response times on the bank holiday?',options:['They are doubled','They are paused','They remain unchanged','They are reduced by half'],correct:1},
-    {q:'Which ticket types are excluded from the SLA pause?',options:['All tickets','P1 and P2 priority tickets','Tickets from VIP customers','Subscription tickets only'],correct:1},
-  ],created:'2025-06-10',author:'u2'},
-  {id:'n3',title:'New CRM Feature: Smart Case Linking',week:'Week 25 — June 2025',mandatory:'all',body:`We have rolled out a new feature in our CRM that automatically suggests related cases.
-
-HOW TO USE IT:
-1. Open any case as normal
-2. Look for the new "Related Cases" panel on the right side of the case view
-3. Click any related case to preview it in a side panel without leaving your current case
-4. If cases are genuinely linked, click "Mark as Related"
-
-IMPORTANT NOTES:
-• Related case suggestions are AI-generated and may not always be accurate
-• Do not merge cases based on a suggestion alone — always verify manually`,questions:[
-    {q:'Where does the "Related Cases" panel appear in the CRM?',options:['Bottom of the case','Left side navigation','Right side of the case view','In a separate tab'],correct:2},
-    {q:'What should you do if two cases are genuinely related?',options:['Merge them immediately','Click "Mark as Related"','Close one of the cases','Email your Team Lead'],correct:1},
-    {q:'Should you merge cases based solely on an AI suggestion?',options:['Yes, if confident','No, always verify manually first','Only for low-value cases','Yes, it saves time'],correct:1},
-  ],created:'2025-06-15',author:'u1'},
-];
-
-const DEFAULT_COMPLETIONS = {
-  'u4_n1':{read:true,passed:true,score:100,date:'2025-06-02'},
-  'u4_n2':{read:true,passed:true,score:100,date:'2025-06-11'},
-  'u5_n1':{read:true,passed:false,score:67,date:'2025-06-03'},
-  'u2_n1':{read:true,passed:true,score:100,date:'2025-06-01'},
-  'u2_n2':{read:true,passed:true,score:100,date:'2025-06-10'},
-  'u3_n1':{read:true,passed:true,score:100,date:'2025-06-02'},
-  'u3_n2':{read:true,passed:true,score:100,date:'2025-06-12'},
-  'u3_n3':{read:true,passed:true,score:100,date:'2025-06-16'},
-};
-
-// ═══════════════════════════════════════════════════════════════
-// INIT STORAGE — seed default data if this is a first run
-// ═══════════════════════════════════════════════════════════════
 function initStorage() {
   if (!DB.get('initialized')) {
-    DB.set('users', DEFAULT_USERS);
-    DB.set('articles', DEFAULT_ARTICLES);
-    DB.set('announcements', DEFAULT_ANNOUNCEMENTS);
-    DB.set('completions', DEFAULT_COMPLETIONS);
+    DB.set('users', SEED_USERS);
+    DB.set('articles', []);
+    DB.set('announcements', []);
+    DB.set('completions', {});
     DB.set('audit', []);
     DB.set('initialized', true);
-    DB.set('version', '2.0');
+    DB.set('version', '3.0');
+    // Show hint on login screen for very first run
+    document.getElementById('login-hint').style.display = 'block';
   }
 }
 
-// Helpers to read/write live data
-function getUsers() { return DB.get('users') || []; }
-function getArticles() { return DB.get('articles') || []; }
+function getUsers()         { return DB.get('users')         || []; }
+function getArticles()      { return DB.get('articles')      || []; }
 function getAnnouncements() { return DB.get('announcements') || []; }
-function getCompletions() { return DB.get('completions') || {}; }
-function getAudit() { return DB.get('audit') || []; }
-
-function saveUsers(v) { DB.set('users', v); }
-function saveArticles(v) { DB.set('articles', v); }
+function getCompletions()   { return DB.get('completions')   || {}; }
+function getAudit()         { return DB.get('audit')         || []; }
+function saveUsers(v)         { DB.set('users', v); }
+function saveArticles(v)      { DB.set('articles', v); }
 function saveAnnouncements(v) { DB.set('announcements', v); }
-function saveCompletions(v) { DB.set('completions', v); }
+function saveCompletions(v)   { DB.set('completions', v); }
 
 function addAudit(action, detail, type='edit') {
   const log = getAudit();
-  log.unshift({
-    id: Date.now(),
-    action,
-    detail,
-    type,
-    user: currentUser ? `${currentUser.first} ${currentUser.last}` : 'System',
-    time: new Date().toISOString()
-  });
-  DB.set('audit', log.slice(0, 500)); // Keep last 500 entries
+  log.unshift({ id:Date.now(), action, detail, type, user: currentUser?`${currentUser.first} ${currentUser.last}`:'System', time: new Date().toISOString() });
+  DB.set('audit', log.slice(0,500));
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 // STATE
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 let currentUser = null;
 let kbTab = 'all';
 let kbPage = 1;
@@ -901,379 +697,454 @@ let quizSubmitted = false;
 let quizQCount = 0;
 let editingArticleId = null;
 let editingAnnId = null;
+let editingUserId = null;
 let qIdx = 0;
+let userSortKey = 'name';
+let userSortAsc = true;
+let historyArticleId = null;
 
-// ═══════════════════════════════════════════════════════════════
-// AUTH — with session persistence
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════
 function doLogin() {
   const email = document.getElementById('login-email').value.trim().toLowerCase();
-  const pass = document.getElementById('login-password').value;
-  const users = getUsers();
-  const user = users.find(u => u.email === email && u.password === pass && u.active);
-  if (!user) {
-    document.getElementById('login-error').style.display = 'block';
-    return;
-  }
-  document.getElementById('login-error').style.display = 'none';
+  const pass  = document.getElementById('login-password').value;
+  const user  = getUsers().find(u => u.email===email && u.password===pass && u.active);
+  if (!user) { document.getElementById('login-error').style.display='block'; return; }
+  document.getElementById('login-error').style.display='none';
   currentUser = user;
-  // Persist session
   localStorage.setItem('cshub_session', user.id);
   addAudit('Login', `${user.first} ${user.last} signed in`, 'login');
   initApp();
 }
 
-function quickLogin(email, pass) {
-  document.getElementById('login-email').value = email;
-  document.getElementById('login-password').value = pass;
-  doLogin();
-}
-
 function tryRestoreSession() {
   const sid = localStorage.getItem('cshub_session');
-  if (sid) {
-    const user = getUsers().find(u => u.id === sid && u.active);
-    if (user) { currentUser = user; initApp(); return true; }
-  }
+  if (sid) { const u = getUsers().find(u=>u.id===sid&&u.active); if(u){currentUser=u;initApp();return true;} }
   return false;
 }
 
 function doLogout() {
-  addAudit('Logout', `${currentUser.first} ${currentUser.last} signed out`, 'login');
+  if (currentUser) addAudit('Logout', `${currentUser.first} ${currentUser.last} signed out`, 'login');
   localStorage.removeItem('cshub_session');
   currentUser = null;
   document.getElementById('app').classList.add('hidden');
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('login-email').value = '';
-  document.getElementById('login-password').value = '';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('login-email').value='';
+  document.getElementById('login-password').value='';
+  document.getElementById('login-error').style.display='none';
+  // Show hint if this is still the default admin
+  const users = getUsers();
+  if (users.length===1 && users[0].email==='admin@cshub.com') document.getElementById('login-hint').style.display='block';
+  else document.getElementById('login-hint').style.display='none';
 }
 
-document.getElementById('login-password').addEventListener('keydown', e => { if (e.key==='Enter') doLogin(); });
-document.getElementById('login-email').addEventListener('keydown', e => { if (e.key==='Enter') doLogin(); });
+document.getElementById('login-email').addEventListener('keydown',    e=>{ if(e.key==='Enter') doLogin(); });
+document.getElementById('login-password').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 // APP INIT
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 function initApp() {
-  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display='none';
   document.getElementById('app').classList.remove('hidden');
-  document.getElementById('sb-avatar').textContent = currentUser.first[0] + currentUser.last[0];
-  document.getElementById('sb-name').textContent = `${currentUser.first} ${currentUser.last}`;
-  document.getElementById('sb-role').textContent = roleLabel(currentUser.role);
-  const isAdmin = ['admin','team_lead','author'].includes(currentUser.role);
-  const canReport = ['admin','team_lead'].includes(currentUser.role);
+  document.getElementById('sb-avatar').textContent = currentUser.first[0]+currentUser.last[0];
+  document.getElementById('sb-name').textContent   = `${currentUser.first} ${currentUser.last}`;
+  document.getElementById('sb-role').textContent   = roleLabel(currentUser.role);
+  const canEdit   = ['admin','author','team_lead'].includes(currentUser.role);
+  const canManage = ['admin','team_lead'].includes(currentUser.role);
+  const isAdmin   = currentUser.role === 'admin';
+  document.querySelectorAll('.can-edit').forEach(el   => el.classList.toggle('hidden', !canEdit));
+  document.querySelectorAll('.can-manage').forEach(el => el.classList.toggle('hidden', !canManage));
+  document.querySelectorAll('.can-report').forEach(el => el.classList.toggle('hidden', !canManage));
   document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('hidden', !isAdmin));
-  document.getElementById('nav-reports').classList.toggle('hidden', !canReport);
-  document.getElementById('nav-audit').classList.toggle('hidden', !canReport);
-  document.getElementById('nav-users').classList.toggle('hidden', currentUser.role !== 'admin');
   updateStorageIndicator();
   updateLmsBadge();
   showPage('dashboard');
 }
 
 function roleLabel(r) {
-  return {admin:'Administrator',team_lead:'Team Lead',author:'Content Author',agent:'CS Agent'}[r] || r;
+  return {admin:'Administrator',team_lead:'Team Lead',author:'Content Author',agent:'CS Agent'}[r]||r;
 }
 
 function updateStorageIndicator() {
-  const kb = DB.sizeKB();
-  document.getElementById('storage-indicator').textContent = `Storage: ${kb} KB used`;
+  document.getElementById('storage-indicator').textContent = `Storage: ${DB.sizeKB()} KB`;
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 // NAVIGATION
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 function showPage(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   const el = document.getElementById(`page-${page}`);
   if (el) el.classList.remove('hidden');
-  const navId = `nav-${page.split('-')[0]}`;
-  const nav = document.getElementById(navId);
+  const nav = document.getElementById(`nav-${page.split('-')[0]}`);
   if (nav) nav.classList.add('active');
   const titles = {
-    dashboard:'Dashboard',kb:'Knowledge Base','kb-detail':'Article',
-    'kb-new':'Article Editor',lms:'Announcements','lms-detail':'Announcement',
-    'lms-new':'Announcement Editor',reports:'Compliance Reports',
-    audit:'Audit Log',users:'User Management'
+    dashboard:'Dashboard', kb:'Knowledge Base', 'kb-detail':'Article',
+    'kb-new':'Article Editor', lms:'Announcements', 'lms-detail':'Announcement',
+    'lms-new':'Announcement Editor', reports:'Compliance Reports',
+    audit:'Audit Log', users:'User Management', profile:'My Profile'
   };
-  document.getElementById('topbar-title').textContent = titles[page] || 'CS Hub';
+  document.getElementById('topbar-title').textContent = titles[page]||'CS Hub';
   window.scrollTo(0,0);
-  if (page==='dashboard') renderDashboard();
-  if (page==='kb') { kbPage=1; renderKb(); }
-  if (page==='lms') renderLms();
-  if (page==='reports') renderReports();
-  if (page==='audit') renderAudit();
-  if (page==='users') { renderUsers(); renderStorageStats(); }
-  if (page==='kb-new' && !editingArticleId) clearArticleForm();
-  if (page==='lms-new' && !editingAnnId) clearAnnForm();
+  if (page==='dashboard')  renderDashboard();
+  if (page==='kb')         { kbPage=1; renderKb(); }
+  if (page==='lms')        renderLms();
+  if (page==='reports')    renderReports();
+  if (page==='audit')      renderAudit();
+  if (page==='users')      { renderUsers(); renderStorageStats(); }
+  if (page==='profile')    loadProfile();
+  if (page==='kb-new'  && !editingArticleId) clearArticleForm();
+  if (page==='lms-new' && !editingAnnId)     clearAnnForm();
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 // DASHBOARD
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 function renderDashboard() {
-  const uid = currentUser.id;
+  const uid  = currentUser.id;
   const anns = getAnnouncements();
   const arts = getArticles();
-  const completions = getCompletions();
-  const myCompleted = anns.filter(a => completions[`${uid}_${a.id}`]?.passed).length;
-  const pending = anns.length - myCompleted;
+  const comp = getCompletions();
+  const done    = anns.filter(a=>comp[`${uid}_${a.id}`]?.passed).length;
+  const pending = anns.length - done;
   document.getElementById('dash-stats').innerHTML = `
     <div class="stat-card teal"><div class="stat-num">${arts.length}</div><div class="stat-label">Knowledge Articles</div><div class="stat-icon">📖</div></div>
     <div class="stat-card amber"><div class="stat-num">${pending}</div><div class="stat-label">Announcements Pending</div><div class="stat-icon">📢</div></div>
-    <div class="stat-card green"><div class="stat-num">${myCompleted}</div><div class="stat-label">Certifications Earned</div><div class="stat-icon">✅</div></div>
-    ${['admin','team_lead'].includes(currentUser.role) ? `<div class="stat-card red"><div class="stat-num">${getUsers().filter(u=>u.active).length}</div><div class="stat-label">Active Team Members</div><div class="stat-icon">👥</div></div>` : ''}
+    <div class="stat-card green"><div class="stat-num">${done}</div><div class="stat-label">Certifications Earned</div><div class="stat-icon">✅</div></div>
+    ${['admin','team_lead'].includes(currentUser.role)?`<div class="stat-card red"><div class="stat-num">${getUsers().filter(u=>u.active).length}</div><div class="stat-label">Active Team Members</div><div class="stat-icon">👥</div></div>`:''}
   `;
-  const annHtml = anns.slice(0,3).map(a => {
-    const c = completions[`${uid}_${a.id}`];
-    const chip = c?.passed ? '<span class="status-chip done">✓ Certified</span>' : '<span class="status-chip pending">⚠ Action Required</span>';
-    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);cursor:pointer" onclick="openAnnouncement('${a.id}')">
-      <div><div style="font-size:13px;font-weight:600;margin-bottom:3px">${a.title}</div><div style="font-size:12px;color:var(--text-muted)">${a.week}</div></div>${chip}</div>`;
-  }).join('');
-  document.getElementById('dash-announcements').innerHTML = annHtml || '<p style="font-size:13px;color:var(--text-muted)">No announcements yet.</p>';
-  const artHtml = arts.slice(0,4).map(a => `
+  document.getElementById('dash-announcements').innerHTML = anns.length ? anns.slice(0,4).map(a=>{
+    const c=comp[`${uid}_${a.id}`];
+    const chip=c?.passed?'<span class="status-chip done">✓ Certified</span>':'<span class="status-chip pending">⚠ Action Required</span>';
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border);cursor:pointer" onclick="openAnnouncement('${a.id}')">
+      <div><div style="font-size:13px;font-weight:600;margin-bottom:2px">${a.title}</div><div style="font-size:12px;color:var(--text-muted)">${a.week}</div></div>${chip}</div>`;
+  }).join('') : '<div style="font-size:13px;color:var(--text-muted);padding:20px 0;text-align:center">No announcements yet.</div>';
+  document.getElementById('dash-articles').innerHTML = arts.length ? arts.slice(0,4).map(a=>`
     <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer" onclick="openArticle('${a.id}')">
       <div><div style="font-size:13px;font-weight:600;margin-bottom:2px">${a.title}</div><div style="font-size:12px;color:var(--text-muted)">${a.category} · Updated ${a.updated}</div></div>
-      <span class="tag">${a.category}</span></div>`).join('');
-  document.getElementById('dash-articles').innerHTML = artHtml || '<p style="font-size:13px;color:var(--text-muted)">No articles yet.</p>';
+      <span class="tag">${a.category}</span></div>`).join('') :
+    '<div style="font-size:13px;color:var(--text-muted);padding:20px 0;text-align:center">No articles yet.</div>';
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 // KNOWLEDGE BASE
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 function setKbTab(t, el) {
-  kbTab = t; kbPage = 1;
-  document.querySelectorAll('#kb-tabs .tab').forEach(b => b.classList.remove('active'));
+  kbTab=t; kbPage=1;
+  document.querySelectorAll('#kb-tabs .tab').forEach(b=>b.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('ai-result-area').innerHTML = '';
+  document.getElementById('ai-result-area').innerHTML='';
   renderKb();
 }
 
 function renderKb() {
-  const q = (document.getElementById('kb-search')?.value || '').toLowerCase().trim();
+  const q = (document.getElementById('kb-search')?.value||'').toLowerCase().trim();
   let list = getArticles();
-  if (kbTab !== 'all') list = list.filter(a => a.category === kbTab);
+  if (kbTab!=='all') list=list.filter(a=>a.category===kbTab);
   if (q && !document.getElementById('ai-result-area').innerHTML) {
-    list = list.filter(a =>
-      a.title.toLowerCase().includes(q) ||
-      a.tags.some(t => t.includes(q)) ||
-      a.shortAnswer.toLowerCase().includes(q) ||
-      a.body.toLowerCase().includes(q)
-    );
+    list=list.filter(a=>a.title.toLowerCase().includes(q)||a.tags.some(t=>t.includes(q))||a.shortAnswer.toLowerCase().includes(q)||a.body.toLowerCase().includes(q));
   }
   const total = list.length;
-  const pages = Math.ceil(total / KB_PER_PAGE);
-  const paginated = list.slice((kbPage-1)*KB_PER_PAGE, kbPage*KB_PER_PAGE);
+  const pages = Math.max(1, Math.ceil(total/KB_PER_PAGE));
+  if (kbPage>pages) kbPage=pages;
+  const paged = list.slice((kbPage-1)*KB_PER_PAGE, kbPage*KB_PER_PAGE);
   const canEdit = ['admin','author','team_lead'].includes(currentUser.role);
-  document.getElementById('kb-list').innerHTML = paginated.length ? paginated.map(a => `
+  document.getElementById('kb-list').innerHTML = paged.length ? paged.map(a=>`
     <div class="article-card" onclick="openArticle('${a.id}')">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
         <div style="flex:1;min-width:0">
           <h3>${a.title}</h3>
-          <div class="short-ans">💡 ${a.shortAnswer}</div>
+          <div class="short-ans">💡 ${a.shortAnswer||'No short answer provided.'}</div>
           <div class="meta">
             <span class="tag teal">${a.category}</span>
             ${a.tags.map(t=>`<span class="tag">${t}</span>`).join('')}
             <span style="font-size:12px;color:var(--text-muted)">Updated ${a.updated}</span>
           </div>
         </div>
-        ${canEdit ? `<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();editArticle('${a.id}')">✏ Edit</button>` : ''}
+        ${canEdit?`<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();editArticle('${a.id}')">✏ Edit</button>`:''}
       </div>
     </div>`).join('') :
-    `<div class="empty-state"><div class="es-icon">🔍</div><h3>No articles found</h3><p>Try a different search term or tab filter.</p></div>`;
+    `<div class="empty-state"><div class="es-icon">📖</div><h3>${getArticles().length===0?'No articles yet':'No articles found'}</h3>
+    <p>${getArticles().length===0?'Start building your knowledge base by clicking "New Article" in the sidebar.':'Try a different search or category filter.'}</p></div>`;
   // Pagination
-  if (pages > 1) {
-    let btns = `<button class="page-btn" onclick="kbPage--;renderKb()" ${kbPage===1?'disabled':''}>‹</button>`;
-    for (let i=1; i<=pages; i++) btns += `<button class="page-btn ${i===kbPage?'active':''}" onclick="kbPage=${i};renderKb()">${i}</button>`;
-    btns += `<button class="page-btn" onclick="kbPage++;renderKb()" ${kbPage===pages?'disabled':''}>›</button>`;
-    document.getElementById('kb-pagination').innerHTML = `
-      <div class="pagination">
-        <div class="pagination-info">Showing ${(kbPage-1)*KB_PER_PAGE+1}–${Math.min(kbPage*KB_PER_PAGE,total)} of ${total} articles</div>
-        <div class="pagination-btns">${btns}</div>
-      </div>`;
+  if (pages>1) {
+    let btns=`<button class="page-btn" onclick="kbPage--;renderKb()" ${kbPage===1?'disabled':''}>‹</button>`;
+    const start=Math.max(1,kbPage-2), end=Math.min(pages,kbPage+2);
+    if(start>1) btns+=`<button class="page-btn" onclick="kbPage=1;renderKb()">1</button>${start>2?'<span style="padding:0 4px;color:var(--text-muted)">…</span>':''}`;
+    for(let i=start;i<=end;i++) btns+=`<button class="page-btn ${i===kbPage?'active':''}" onclick="kbPage=${i};renderKb()">${i}</button>`;
+    if(end<pages) btns+=`${end<pages-1?'<span style="padding:0 4px;color:var(--text-muted)">…</span>':''}<button class="page-btn" onclick="kbPage=${pages};renderKb()">${pages}</button>`;
+    btns+=`<button class="page-btn" onclick="kbPage++;renderKb()" ${kbPage===pages?'disabled':''}>›</button>`;
+    document.getElementById('kb-pagination').innerHTML=`<div class="pagination"><div class="pagination-info">Showing ${(kbPage-1)*KB_PER_PAGE+1}–${Math.min(kbPage*KB_PER_PAGE,total)} of ${total} articles</div><div class="pagination-btns">${btns}</div></div>`;
   } else {
-    document.getElementById('kb-pagination').innerHTML = total > 0 ? `<div class="pagination"><div class="pagination-info">${total} article${total!==1?'s':''}</div></div>` : '';
+    document.getElementById('kb-pagination').innerHTML = total>0?`<div class="pagination"><div class="pagination-info">${total} article${total!==1?'s':''}</div></div>`:'';
   }
 }
 
 function openArticle(id) {
-  const a = getArticles().find(x => x.id === id);
+  const a = getArticles().find(x=>x.id===id);
   if (!a) return;
   const canEdit = ['admin','author','team_lead'].includes(currentUser.role);
-  const author = getUsers().find(u => u.id === a.author);
-  document.getElementById('kb-detail-content').innerHTML = `
+  const author  = getUsers().find(u=>u.id===a.author);
+  const vCount  = (a.history||[]).length;
+  document.getElementById('kb-detail-content').innerHTML=`
     <div class="article-detail">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
         <span class="tag teal">${a.category}</span>
-        ${canEdit ? `<div class="flex-gap"><button class="btn btn-secondary btn-sm" onclick="editArticle('${a.id}')">✏ Edit Article</button><button class="btn btn-danger btn-sm" onclick="deleteArticle('${a.id}')">🗑 Delete</button></div>` : ''}
+        <div class="flex-gap">
+          ${vCount>0?`<button class="btn btn-ghost btn-sm" onclick="openHistory('${a.id}')">🕓 ${vCount} version${vCount!==1?'s':''}</button>`:''}
+          ${canEdit?`<button class="btn btn-secondary btn-sm" onclick="editArticle('${a.id}')">✏ Edit</button><button class="btn btn-danger btn-sm" onclick="deleteArticle('${a.id}')">🗑 Delete</button>`:''}
+        </div>
       </div>
-      <h2>${a.title}</h2>
-      <div class="short-block">💡 Quick Answer: ${a.shortAnswer}</div>
+      <h2 style="margin-top:12px">${a.title}</h2>
+      <div class="short-block">💡 Quick Answer: ${a.shortAnswer||'—'}</div>
       <div class="meta-row">
         <span><strong>Category:</strong> ${a.category}</span>
         <span><strong>Author:</strong> ${author?author.first+' '+author.last:'Unknown'}</span>
         <span><strong>Created:</strong> ${a.created}</span>
         <span><strong>Updated:</strong> ${a.updated}</span>
-        <span><strong>Tags:</strong> ${a.tags.join(', ')}</span>
+        <span><strong>Tags:</strong> ${a.tags.join(', ')||'—'}</span>
       </div>
       <div class="body-content">${a.body}</div>
-      <div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap">${a.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      <div style="margin-top:24px;display:flex;gap:8px;flex-wrap:wrap">${a.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
     </div>`;
   showPage('kb-detail');
 }
 
 function editArticle(id) {
-  const a = getArticles().find(x => x.id === id);
+  const a = getArticles().find(x=>x.id===id);
   if (!a) return;
-  editingArticleId = id;
-  document.getElementById('kb-form-title').textContent = 'Edit Article';
-  document.getElementById('edit-article-id').value = id;
-  document.getElementById('art-title').value = a.title;
-  document.getElementById('art-category').value = a.category;
-  document.getElementById('art-tags').value = a.tags.join(', ');
-  document.getElementById('art-short').value = a.shortAnswer;
-  document.getElementById('short-count').textContent = a.shortAnswer.length + '/120';
-  document.getElementById('art-body').value = a.body;
+  editingArticleId=id;
+  document.getElementById('kb-form-title').textContent='Edit Article';
+  document.getElementById('edit-article-id').value=id;
+  document.getElementById('art-title').value=a.title;
+  document.getElementById('art-category').value=a.category;
+  document.getElementById('art-tags').value=a.tags.join(', ');
+  document.getElementById('art-short').value=a.shortAnswer||'';
+  document.getElementById('short-count').textContent=(a.shortAnswer||'').length+'/120';
+  document.getElementById('art-body').value=a.body;
+  document.getElementById('art-change-note').value='';
   showPage('kb-new');
 }
 
 function clearArticleForm() {
-  editingArticleId = null;
-  document.getElementById('kb-form-title').textContent = 'New Article';
-  ['edit-article-id','art-title','art-tags','art-short','art-body'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('short-count').textContent = '0/120';
-  document.getElementById('art-category').value = 'Policy';
+  editingArticleId=null;
+  document.getElementById('kb-form-title').textContent='New Article';
+  ['edit-article-id','art-title','art-tags','art-short','art-body','art-change-note'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('short-count').textContent='0/120';
+  document.getElementById('art-category').value='Policy';
 }
 
 function saveArticle() {
   const title = document.getElementById('art-title').value.trim();
-  const body = document.getElementById('art-body').value.trim();
-  if (!title || !body) { showToast('Title and content are required','error'); return; }
-  const now = new Date().toISOString().slice(0,10);
+  const body  = document.getElementById('art-body').value.trim();
+  if (!title||!body) { showToast('Title and content are required','error'); return; }
+  const now  = today();
   const arts = getArticles();
-  const eid = document.getElementById('edit-article-id').value;
-  const article = {
+  const eid  = document.getElementById('edit-article-id').value;
+  const data = {
     title, body,
-    category: document.getElementById('art-category').value,
-    tags: document.getElementById('art-tags').value.split(',').map(t=>t.trim()).filter(Boolean),
+    category:    document.getElementById('art-category').value,
+    tags:        document.getElementById('art-tags').value.split(',').map(t=>t.trim()).filter(Boolean),
     shortAnswer: document.getElementById('art-short').value.trim(),
-    author: currentUser.id, updated: now
+    author:      currentUser.id,
+    updated:     now
   };
   if (eid) {
-    const idx = arts.findIndex(a => a.id === eid);
-    if (idx > -1) { arts[idx] = {...arts[idx], ...article}; saveArticles(arts); }
+    const idx = arts.findIndex(a=>a.id===eid);
+    if (idx>-1) {
+      // Save current version to history before overwriting
+      const prev = arts[idx];
+      const history = prev.history||[];
+      const changeNote = document.getElementById('art-change-note').value.trim();
+      history.unshift({
+        version:   history.length+1,
+        title:     prev.title,
+        body:      prev.body,
+        shortAnswer: prev.shortAnswer,
+        category:  prev.category,
+        tags:      prev.tags,
+        savedBy:   `${currentUser.first} ${currentUser.last}`,
+        savedAt:   new Date().toISOString(),
+        note:      changeNote||'No change note provided'
+      });
+      arts[idx] = {...prev, ...data, history: history.slice(0,20)};
+    }
+    saveArticles(arts);
     addAudit('Article Updated', `"${title}"`, 'edit');
-    showToast('Article updated successfully','success');
+    showToast('Article updated','success');
   } else {
-    arts.unshift({id:'a'+Date.now(), ...article, created: now});
+    arts.unshift({id:'a'+Date.now(), ...data, created:now, history:[]});
     saveArticles(arts);
     addAudit('Article Created', `"${title}"`, 'create');
-    showToast('Article published successfully','success');
+    showToast('Article published','success');
   }
-  editingArticleId = null;
+  editingArticleId=null;
   updateStorageIndicator();
   showPage('kb');
 }
 
 function deleteArticle(id) {
   const arts = getArticles();
-  const a = arts.find(x => x.id === id);
+  const a = arts.find(x=>x.id===id);
   if (!confirm(`Delete "${a?.title}"? This cannot be undone.`)) return;
-  saveArticles(arts.filter(x => x.id !== id));
+  saveArticles(arts.filter(x=>x.id!==id));
   addAudit('Article Deleted', `"${a?.title}"`, 'delete');
   showToast('Article deleted','success');
   updateStorageIndicator();
   showPage('kb');
 }
 
-// ═══════════════════════════════════════════════════════════════
-// AI SEARCH — sends only titles + short answers (10x more efficient)
-// Supports 500+ articles without context issues
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// VERSION HISTORY
+// ═══════════════════════════════════════════
+function openHistory(id) {
+  historyArticleId = id;
+  const a = getArticles().find(x=>x.id===id);
+  if (!a) return;
+  const history = a.history||[];
+  if (!history.length) { showToast('No previous versions saved yet','error'); return; }
+  // Build version list
+  const listHtml = history.map((v,i)=>`
+    <div class="version-item ${i===0?'current':''}" onclick="showVersion(${i},'${id}')">
+      <div class="version-num">v${history.length-i} ${i===0?'<span style="color:var(--teal)">(latest saved)</span>':''}</div>
+      <div class="version-meta">${v.savedBy}<br>${new Date(v.savedAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
+      ${v.note&&v.note!=='No change note provided'?`<div style="font-size:11px;color:var(--text-muted);margin-top:4px;font-style:italic">"${v.note}"</div>`:''}
+    </div>`).join('');
+  document.getElementById('history-list').innerHTML = listHtml;
+  document.getElementById('history-detail').innerHTML = '<div style="color:var(--text-muted);font-size:13px;padding-top:8px">← Select a version to preview it.</div>';
+  showModal('modal-history');
+}
+
+function showVersion(idx, artId) {
+  const a = getArticles().find(x=>x.id===artId);
+  const v = (a?.history||[])[idx];
+  if (!v) return;
+  document.querySelectorAll('.version-item').forEach((el,i)=>el.classList.toggle('current',i===idx));
+  const canEdit = ['admin','author','team_lead'].includes(currentUser.role);
+  document.getElementById('history-detail').innerHTML=`
+    <div style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:3px">${v.title}</div>
+        <div style="font-size:12px;color:var(--text-muted)">Saved by ${v.savedBy} · ${new Date(v.savedAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</div>
+        ${v.note?`<div style="font-size:12px;color:var(--teal-dark);margin-top:3px;font-style:italic">"${v.note}"</div>`:''}
+      </div>
+      ${canEdit?`<button class="btn btn-secondary btn-sm" onclick="restoreVersion(${idx},'${artId}')">↩ Restore this version</button>`:''}
+    </div>
+    <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Short Answer</div>
+    <div style="background:rgba(0,201,167,0.08);border-left:3px solid var(--teal);border-radius:0 6px 6px 0;padding:10px 12px;font-size:13px;color:var(--teal-dark);margin-bottom:14px">${v.shortAnswer||'—'}</div>
+    <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Content</div>
+    <div class="diff-view">${v.body}</div>`;
+}
+
+function restoreVersion(idx, artId) {
+  if (!confirm('Restore this version? The current version will be saved to history first.')) return;
+  const arts = getArticles();
+  const aIdx = arts.findIndex(x=>x.id===artId);
+  if (aIdx===-1) return;
+  const a = arts[aIdx];
+  const v = (a.history||[])[idx];
+  if (!v) return;
+  // Save current to history
+  const history = a.history||[];
+  history.unshift({
+    version:  history.length+1,
+    title:    a.title, body: a.body, shortAnswer: a.shortAnswer,
+    category: a.category, tags: a.tags,
+    savedBy:  `${currentUser.first} ${currentUser.last}`,
+    savedAt:  new Date().toISOString(),
+    note:     'Auto-saved before version restore'
+  });
+  arts[aIdx] = {...a, title:v.title, body:v.body, shortAnswer:v.shortAnswer, category:v.category, tags:v.tags, updated:today(), history:history.slice(0,20)};
+  saveArticles(arts);
+  addAudit('Version Restored', `"${a.title}" restored to earlier version`, 'edit');
+  hideModal('modal-history');
+  showToast('Version restored successfully','success');
+  showPage('kb');
+}
+
+// ═══════════════════════════════════════════
+// AI SEARCH
+// ═══════════════════════════════════════════
 async function runAiSearch() {
   const q = document.getElementById('kb-search').value.trim();
   if (!q) return;
   const area = document.getElementById('ai-result-area');
-  area.innerHTML = `<div class="ai-result-banner"><div class="ai-icon">✦</div><div class="ai-text"><strong>AI is thinking…</strong><div class="thinking-dots"><span></span><span></span><span></span></div></div></div>`;
-  // Build compact index — titles + short answers only (not full bodies)
-  // This allows 500+ articles without exceeding context limits
+  area.innerHTML=`<div class="ai-result-banner"><div class="ai-icon">✦</div><div class="ai-text"><strong>AI is thinking…</strong><div class="thinking-dots"><span></span><span></span><span></span></div></div></div>`;
   const articles = getArticles();
-  const index = articles.map((a,i) =>
-    `[${i+1}] ID:${a.id} | ${a.category} | "${a.title}" | Short answer: ${a.shortAnswer} | Tags: ${a.tags.join(', ')}`
-  ).join('\n');
+  if (!articles.length) { area.innerHTML=`<div class="ai-result-banner"><div class="ai-icon">📖</div><div class="ai-text"><strong>No articles yet</strong>Add your first article to enable AI search.</div></div>`; return; }
+  const index = articles.map((a,i)=>`[${i+1}] "${a.title}" (${a.category}) — ${a.shortAnswer} | Tags: ${a.tags.join(', ')}`).join('\n');
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        system:`You are a customer service knowledge assistant. You have an index of ${articles.length} articles:\n\n${index}\n\nWhen an agent asks a question:\n1. Identify the most relevant article(s) from the index\n2. Provide the short answer immediately — agents are on live calls and need quick answers\n3. If more detail is needed, summarise the key points clearly\n4. Reference article titles so the agent knows where to find full details\n\nBe direct, practical and brief. Use bullet points for steps.`,
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:800,
+        system:`You are a customer service knowledge assistant. Article index (${articles.length} articles):\n\n${index}\n\nAnswer the agent's question directly and briefly. Agents are on live calls. Cite the article title. Use bullet points for steps if needed.`,
         messages:[{role:'user',content:q}]
       })
     });
     const data = await res.json();
-    const text = data.content?.[0]?.text || 'No answer found.';
-    area.innerHTML = `<div class="ai-result-banner"><div class="ai-icon">✦</div><div class="ai-text"><strong>AI Answer</strong>${text.replace(/\n/g,'<br>')}</div></div>`;
-  } catch(e) {
-    area.innerHTML = `<div class="ai-result-banner"><div class="ai-icon">⚠</div><div class="ai-text"><strong>AI search unavailable</strong>Showing keyword results instead.</div></div>`;
+    const text = data.content?.[0]?.text||'No answer found.';
+    area.innerHTML=`<div class="ai-result-banner"><div class="ai-icon">✦</div><div class="ai-text"><strong>AI Answer</strong>${text.replace(/\n/g,'<br>')}</div></div>`;
+  } catch {
+    area.innerHTML=`<div class="ai-result-banner"><div class="ai-icon">⚠</div><div class="ai-text"><strong>AI search unavailable</strong>Showing keyword results instead.</div></div>`;
     renderKb();
   }
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 // ANNOUNCEMENTS / LMS
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 function updateLmsBadge() {
   if (!currentUser) return;
-  const pending = getAnnouncements().filter(a => !getCompletions()[`${currentUser.id}_${a.id}`]?.passed).length;
+  const pending = getAnnouncements().filter(a=>!getCompletions()[`${currentUser.id}_${a.id}`]?.passed).length;
   const badge = document.getElementById('lms-badge');
-  badge.textContent = pending;
-  badge.classList.toggle('hidden', pending === 0);
+  badge.textContent=pending;
+  badge.classList.toggle('hidden',pending===0);
 }
 
 function renderLms() {
-  const uid = currentUser.id;
-  const completions = getCompletions();
-  const canManage = ['admin','team_lead'].includes(currentUser.role);
+  const uid  = currentUser.id;
+  const comp = getCompletions();
   const anns = getAnnouncements();
-  document.getElementById('lms-list').innerHTML = anns.length ? anns.map(a => {
-    const c = completions[`${uid}_${a.id}`];
-    const isPassed = c?.passed;
-    const isRead = c?.read;
-    const cardClass = isPassed ? 'read-done' : (!isRead ? 'unread' : '');
-    const chip = isPassed ? '<span class="status-chip done">✓ Certified</span>' : (isRead ? '<span class="status-chip failed">✗ Quiz Failed</span>' : '<span class="status-chip pending">● Action Required</span>');
-    return `<div class="announcement-card ${cardClass}" onclick="openAnnouncement('${a.id}')">
+  const canManage = ['admin','team_lead'].includes(currentUser.role);
+  document.getElementById('lms-list').innerHTML = anns.length ? anns.map(a=>{
+    const c=comp[`${uid}_${a.id}`];
+    const isPassed=c?.passed; const isRead=c?.read;
+    const cls=isPassed?'read-done':(!isRead?'unread':'');
+    const chip=isPassed?'<span class="status-chip done">✓ Certified</span>':isRead?'<span class="status-chip failed">✗ Quiz Failed</span>':'<span class="status-chip pending">● Action Required</span>';
+    return `<div class="announcement-card ${cls}" onclick="openAnnouncement('${a.id}')">
       <div class="ann-header"><h3>${a.title}</h3>${chip}</div>
       <div class="ann-excerpt">${a.body.slice(0,160)}…</div>
       <div class="ann-footer">
         <div>${a.week} · For: ${{all:'All Staff',agent:'Agents',lead:'Team Leads & Above'}[a.mandatory]||a.mandatory}</div>
-        ${canManage ? `<div class="flex-gap"><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();editAnn('${a.id}')">✏ Edit</button><button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="event.stopPropagation();deleteAnn('${a.id}')">🗑</button></div>` : ''}
+        ${canManage?`<div class="flex-gap"><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();editAnn('${a.id}')">✏ Edit</button><button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="event.stopPropagation();deleteAnn('${a.id}')">🗑</button></div>`:''}
       </div>
     </div>`;
-  }).join('') : `<div class="empty-state"><div class="es-icon">📢</div><h3>No announcements yet</h3><p>Check back soon for weekly updates.</p></div>`;
+  }).join('') :
+  `<div class="empty-state"><div class="es-icon">📢</div><h3>No announcements yet</h3><p>Published announcements will appear here for all staff to read and certify.</p></div>`;
 }
 
 function openAnnouncement(id) {
-  const a = getAnnouncements().find(x => x.id === id);
+  const a = getAnnouncements().find(x=>x.id===id);
   if (!a) return;
-  const uid = currentUser.id;
-  const completions = getCompletions();
-  quizAnswers = {}; quizSubmitted = false; quizQCount = a.questions.length;
-  // Mark as read
-  if (!completions[`${uid}_${a.id}`]) completions[`${uid}_${a.id}`] = {read:false,passed:false,score:0,date:null};
-  completions[`${uid}_${a.id}`].read = true;
-  saveCompletions(completions);
+  const uid=currentUser.id;
+  const comp=getCompletions();
+  quizAnswers={}; quizSubmitted=false; quizQCount=a.questions.length;
+  if (!comp[`${uid}_${a.id}`]) comp[`${uid}_${a.id}`]={read:false,passed:false,score:0,date:null};
+  comp[`${uid}_${a.id}`].read=true;
+  saveCompletions(comp);
   updateLmsBadge();
-  const c = completions[`${uid}_${a.id}`];
-  const author = getUsers().find(u => u.id === a.author);
-  const questionsHtml = a.questions.map((q,i) => `
+  const c=comp[`${uid}_${a.id}`];
+  const author=getUsers().find(u=>u.id===a.author);
+  const questionsHtml=a.questions.map((q,i)=>`
     <div class="question-block" id="qblock-${i}">
       <p>Q${i+1}: ${q.q}</p>
       <div class="option-list">${q.options.map((opt,j)=>`<button class="option-btn" id="opt-${i}-${j}" onclick="selectOption(${i},${j})">${String.fromCharCode(65+j)}. ${opt}</button>`).join('')}</div>
     </div>`).join('');
-  document.getElementById('lms-detail-content').innerHTML = `
+  document.getElementById('lms-detail-content').innerHTML=`
     <div class="article-detail">
       <h2>${a.title}</h2>
       <div class="meta-row">
@@ -1284,8 +1155,8 @@ function openAnnouncement(id) {
       </div>
       <div class="body-content">${a.body}</div>
     </div>
-    ${c?.passed ? `<div class="quiz-result pass"><div class="qr-icon">🏆</div><h3 style="color:var(--green)">Already Certified!</h3><p>You scored ${c.score}% on ${c.date}. No action needed.</p></div>` : `
-    <div class="quiz-wrap" id="quiz-section">
+    ${c?.passed?`<div class="quiz-result pass"><div class="qr-icon">🏆</div><h3 style="color:var(--green)">Already Certified!</h3><p>You scored ${c.score}% on ${c.date}. No further action needed.</p></div>`:`
+    <div class="quiz-wrap">
       <h3>Certification Quiz</h3>
       <p class="sub">Answer all questions correctly to certify your understanding. You must score 100% to pass.</p>
       ${questionsHtml}
@@ -1295,425 +1166,471 @@ function openAnnouncement(id) {
   showPage('lms-detail');
 }
 
-function selectOption(qi, oi) {
+function selectOption(qi,oi) {
   if (quizSubmitted) return;
-  quizAnswers[qi] = oi;
-  const block = document.getElementById(`qblock-${qi}`);
-  block.querySelectorAll('.option-btn').forEach((b,j) => b.classList.toggle('selected', j===oi));
+  quizAnswers[qi]=oi;
+  document.getElementById(`qblock-${qi}`).querySelectorAll('.option-btn').forEach((b,j)=>b.classList.toggle('selected',j===oi));
 }
 
 function submitQuiz(annId) {
-  if (Object.keys(quizAnswers).length < quizQCount) { showToast('Please answer all questions','error'); return; }
-  quizSubmitted = true;
-  const a = getAnnouncements().find(x => x.id === annId);
-  let correct = 0;
-  a.questions.forEach((q,i) => {
-    const sel = quizAnswers[i];
-    const ok = sel === q.correct;
-    if (ok) correct++;
-    const block = document.getElementById(`qblock-${i}`);
-    block.querySelectorAll('.option-btn').forEach((b,j) => {
-      b.disabled = true;
-      if (j===q.correct) b.classList.add('correct');
-      else if (j===sel && !ok) b.classList.add('wrong');
+  if (Object.keys(quizAnswers).length<quizQCount) { showToast('Please answer all questions','error'); return; }
+  quizSubmitted=true;
+  const a=getAnnouncements().find(x=>x.id===annId);
+  let correct=0;
+  a.questions.forEach((q,i)=>{
+    const sel=quizAnswers[i]; const ok=sel===q.correct; if(ok)correct++;
+    document.getElementById(`qblock-${i}`).querySelectorAll('.option-btn').forEach((b,j)=>{
+      b.disabled=true;
+      if(j===q.correct)b.classList.add('correct');
+      else if(j===sel&&!ok)b.classList.add('wrong');
     });
   });
-  const score = Math.round((correct/quizQCount)*100);
-  const passed = score === 100;
-  const uid = currentUser.id;
-  const completions = getCompletions();
-  completions[`${uid}_${annId}`] = {read:true, passed, score, date: new Date().toISOString().slice(0,10)};
-  saveCompletions(completions);
-  addAudit('Quiz ' + (passed?'Passed':'Failed'), `${currentUser.first} scored ${score}% on "${a.title}"`, 'quiz');
+  const score=Math.round((correct/quizQCount)*100);
+  const passed=score===100;
+  const comp=getCompletions();
+  comp[`${currentUser.id}_${annId}`]={read:true,passed,score,date:today()};
+  saveCompletions(comp);
+  addAudit('Quiz '+(passed?'Passed':'Failed'),`${currentUser.first} scored ${score}% on "${a.title}"`,'quiz');
   updateLmsBadge();
   updateStorageIndicator();
-  document.getElementById('quiz-feedback').innerHTML = `
+  document.getElementById('quiz-feedback').innerHTML=`
     <div class="quiz-result ${passed?'pass':'fail'}" style="margin-top:20px">
       <div class="qr-icon">${passed?'🏆':'📚'}</div>
       <h3 style="color:${passed?'var(--green)':'var(--red)'}">${passed?'Certified!':'Not Quite There'}</h3>
-      <p>You scored <strong>${score}%</strong> (${correct}/${quizQCount} correct).${passed?' Your certification has been recorded.':' Please re-read the announcement and try again.'}</p>
+      <p>You scored <strong>${score}%</strong> (${correct}/${quizQCount} correct). ${passed?'Your certification has been recorded.':'Please re-read the announcement and try again.'}</p>
       ${!passed?`<button class="btn btn-primary" style="margin-top:16px" onclick="openAnnouncement('${annId}')">Try Again</button>`:''}
     </div>`;
 }
 
-// LMS Form
 function clearAnnForm() {
-  editingAnnId = null;
-  document.getElementById('lms-form-title').textContent = 'New Announcement';
-  document.getElementById('edit-ann-id').value = '';
-  document.getElementById('ann-title').value = '';
-  document.getElementById('ann-week').value = '';
-  document.getElementById('ann-body').value = '';
-  document.getElementById('quiz-builder').innerHTML = '';
-  qIdx = 0;
-  addQuestion(); addQuestion();
+  editingAnnId=null;
+  document.getElementById('lms-form-title').textContent='New Announcement';
+  document.getElementById('edit-ann-id').value='';
+  document.getElementById('ann-title').value='';
+  document.getElementById('ann-week').value='';
+  document.getElementById('ann-body').value='';
+  document.getElementById('quiz-builder').innerHTML='';
+  qIdx=0; addQuestion(); addQuestion();
 }
 
 function addQuestion() {
-  const qb = document.getElementById('quiz-builder');
-  const id = qIdx++;
-  const div = document.createElement('div');
-  div.className = 'question-block';
-  div.id = `qb-${id}`;
-  div.style.marginBottom = '16px';
-  div.innerHTML = `
+  const id=qIdx++;
+  const div=document.createElement('div');
+  div.className='question-block'; div.id=`qb-${id}`; div.style.marginBottom='16px';
+  div.innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
       <p style="margin:0;font-size:14px;font-weight:600">Question ${id+1}</p>
       <button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="document.getElementById('qb-${id}').remove()">✕ Remove</button>
     </div>
-    <div class="form-row" style="margin-bottom:12px"><input type="text" placeholder="Enter question text…" class="qb-q" style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--bg)"></div>
+    <div class="form-row" style="margin-bottom:12px"><input type="text" placeholder="Enter question text…" class="qb-q" style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--bg);font-family:var(--font)"></div>
     <div style="display:grid;gap:8px">
       ${[0,1,2,3].map(j=>`<div style="display:flex;align-items:center;gap:8px">
         <input type="radio" name="correct-${id}" value="${j}" style="flex-shrink:0;accent-color:var(--teal)">
         <input type="text" class="qb-opt" placeholder="Option ${String.fromCharCode(65+j)}" style="flex:1;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--bg);font-family:var(--font)">
       </div>`).join('')}
     </div>
-    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">🔘 Select the radio button next to the correct answer.</p>`;
-  qb.appendChild(div);
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px">🔘 Select the radio next to the correct answer.</p>`;
+  document.getElementById('quiz-builder').appendChild(div);
 }
 
 function saveAnnouncement() {
-  const title = document.getElementById('ann-title').value.trim();
-  const body = document.getElementById('ann-body').value.trim();
-  if (!title || !body) { showToast('Title and content are required','error'); return; }
-  const blocks = document.querySelectorAll('#quiz-builder .question-block');
-  const questions = [];
-  let valid = true;
-  blocks.forEach(block => {
-    const q = block.querySelector('.qb-q').value.trim();
-    const opts = [...block.querySelectorAll('.qb-opt')].map(o => o.value.trim());
-    const cr = block.querySelector('input[type=radio]:checked');
-    if (!q || opts.some(o=>!o) || !cr) { valid=false; return; }
-    questions.push({q, options:opts, correct:parseInt(cr.value)});
+  const title=document.getElementById('ann-title').value.trim();
+  const body=document.getElementById('ann-body').value.trim();
+  if(!title||!body){showToast('Title and content are required','error');return;}
+  const blocks=document.querySelectorAll('#quiz-builder .question-block');
+  const questions=[]; let valid=true;
+  blocks.forEach(block=>{
+    const q=block.querySelector('.qb-q').value.trim();
+    const opts=[...block.querySelectorAll('.qb-opt')].map(o=>o.value.trim());
+    const cr=block.querySelector('input[type=radio]:checked');
+    if(!q||opts.some(o=>!o)||!cr){valid=false;return;}
+    questions.push({q,options:opts,correct:parseInt(cr.value)});
   });
-  if (!valid || questions.length===0) { showToast('Please complete all quiz questions and mark correct answers','error'); return; }
-  const now = new Date().toISOString().slice(0,10);
-  const anns = getAnnouncements();
-  const eid = document.getElementById('edit-ann-id').value;
-  const ann = {title, body, questions, week:document.getElementById('ann-week').value, mandatory:document.getElementById('ann-mandatory').value, created:now, author:currentUser.id};
-  if (eid) {
-    const idx = anns.findIndex(a => a.id===eid);
-    if (idx > -1) { anns[idx] = {...anns[idx],...ann}; }
+  if(!valid||questions.length===0){showToast('Please complete all quiz questions and mark correct answers','error');return;}
+  const anns=getAnnouncements();
+  const eid=document.getElementById('edit-ann-id').value;
+  const ann={title,body,questions,week:document.getElementById('ann-week').value,mandatory:document.getElementById('ann-mandatory').value,created:today(),author:currentUser.id};
+  if(eid){
+    const idx=anns.findIndex(a=>a.id===eid);
+    if(idx>-1) anns[idx]={...anns[idx],...ann};
     saveAnnouncements(anns);
-    addAudit('Announcement Updated', `"${title}"`, 'edit');
+    addAudit('Announcement Updated',`"${title}"`,'edit');
     showToast('Announcement updated','success');
   } else {
-    anns.unshift({id:'n'+Date.now(), ...ann});
+    anns.unshift({id:'n'+Date.now(),...ann});
     saveAnnouncements(anns);
-    addAudit('Announcement Published', `"${title}"`, 'create');
+    addAudit('Announcement Published',`"${title}"`,'create');
     showToast('Announcement published','success');
   }
-  editingAnnId = null;
-  updateLmsBadge();
-  updateStorageIndicator();
-  showPage('lms');
+  editingAnnId=null; updateLmsBadge(); updateStorageIndicator(); showPage('lms');
 }
 
 function editAnn(id) {
-  const a = getAnnouncements().find(x => x.id===id);
-  if (!a) return;
-  editingAnnId = id;
-  document.getElementById('lms-form-title').textContent = 'Edit Announcement';
-  document.getElementById('edit-ann-id').value = id;
-  document.getElementById('ann-title').value = a.title;
-  document.getElementById('ann-week').value = a.week;
-  document.getElementById('ann-body').value = a.body;
-  document.getElementById('ann-mandatory').value = a.mandatory;
-  document.getElementById('quiz-builder').innerHTML = '';
-  qIdx = 0;
-  a.questions.forEach(q => {
+  const a=getAnnouncements().find(x=>x.id===id); if(!a) return;
+  editingAnnId=id;
+  document.getElementById('lms-form-title').textContent='Edit Announcement';
+  document.getElementById('edit-ann-id').value=id;
+  document.getElementById('ann-title').value=a.title;
+  document.getElementById('ann-week').value=a.week;
+  document.getElementById('ann-body').value=a.body;
+  document.getElementById('ann-mandatory').value=a.mandatory;
+  document.getElementById('quiz-builder').innerHTML=''; qIdx=0;
+  a.questions.forEach(q=>{
     addQuestion();
-    const lb = document.getElementById(`qb-${qIdx-1}`);
-    lb.querySelector('.qb-q').value = q.q;
-    lb.querySelectorAll('.qb-opt').forEach((o,j) => o.value = q.options[j]||'');
-    const radios = lb.querySelectorAll('input[type=radio]');
-    if (radios[q.correct]) radios[q.correct].checked = true;
+    const lb=document.getElementById(`qb-${qIdx-1}`);
+    lb.querySelector('.qb-q').value=q.q;
+    lb.querySelectorAll('.qb-opt').forEach((o,j)=>o.value=q.options[j]||'');
+    const radios=lb.querySelectorAll('input[type=radio]');
+    if(radios[q.correct]) radios[q.correct].checked=true;
   });
   showPage('lms-new');
 }
 
 function deleteAnn(id) {
-  const a = getAnnouncements().find(x=>x.id===id);
-  if (!confirm(`Delete "${a?.title}"?`)) return;
+  const a=getAnnouncements().find(x=>x.id===id);
+  if(!confirm(`Delete "${a?.title}"?`)) return;
   saveAnnouncements(getAnnouncements().filter(x=>x.id!==id));
-  addAudit('Announcement Deleted', `"${a?.title}"`, 'delete');
+  addAudit('Announcement Deleted',`"${a?.title}"`,'delete');
   showToast('Announcement deleted','success');
-  updateLmsBadge();
-  updateStorageIndicator();
-  showPage('lms');
+  updateLmsBadge(); updateStorageIndicator(); showPage('lms');
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 // REPORTS
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 function renderReports() {
-  const users = getUsers().filter(u=>u.active);
-  const anns = getAnnouncements();
-  const completions = getCompletions();
-  let totalCompliant = 0;
-  users.forEach(u => { if (anns.every(a => completions[`${u.id}_${a.id}`]?.passed)) totalCompliant++; });
-  const rate = users.length > 0 ? Math.round((totalCompliant/users.length)*100) : 0;
-  const totalPassed = Object.values(completions).filter(c=>c.passed).length;
-  document.getElementById('report-stats').innerHTML = `
+  const users=getUsers().filter(u=>u.active);
+  const anns=getAnnouncements();
+  const comp=getCompletions();
+  let totalCompliant=0;
+  users.forEach(u=>{if(anns.every(a=>comp[`${u.id}_${a.id}`]?.passed))totalCompliant++;});
+  const rate=users.length>0?Math.round((totalCompliant/users.length)*100):0;
+  const totalPassed=Object.values(comp).filter(c=>c.passed).length;
+  document.getElementById('report-stats').innerHTML=`
     <div class="stat-card teal"><div class="stat-num">${anns.length}</div><div class="stat-label">Total Announcements</div><div class="stat-icon">📢</div></div>
     <div class="stat-card green"><div class="stat-num">${totalCompliant}</div><div class="stat-label">Fully Compliant Users</div><div class="stat-icon">✅</div></div>
     <div class="stat-card ${rate<80?'red':'amber'}"><div class="stat-num">${rate}%</div><div class="stat-label">Overall Compliance Rate</div><div class="stat-icon">📊</div></div>
-    <div class="stat-card teal"><div class="stat-num">${totalPassed}</div><div class="stat-label">Total Certifications</div><div class="stat-icon">🏆</div></div>
-  `;
-  const rows = users.map(u => {
-    const done = anns.filter(a => completions[`${u.id}_${a.id}`]?.passed).length;
-    const pct = anns.length > 0 ? Math.round((done/anns.length)*100) : 0;
-    const cells = anns.map(a => {
-      const c = completions[`${u.id}_${a.id}`];
-      if (c?.passed) return `<td><span class="status-chip done">✓ ${c.score}%</span></td>`;
-      if (c?.read) return `<td><span class="status-chip failed">✗ Fail</span></td>`;
+    <div class="stat-card teal"><div class="stat-num">${totalPassed}</div><div class="stat-label">Total Certifications</div><div class="stat-icon">🏆</div></div>`;
+  if (!anns.length||!users.length) {
+    document.getElementById('report-table-area').innerHTML='<div class="empty-state" style="padding:40px"><div class="es-icon">📊</div><h3>No data yet</h3><p>Add users and publish announcements to see compliance data here.</p></div>';
+    return;
+  }
+  const rows=users.map(u=>{
+    const done=anns.filter(a=>comp[`${u.id}_${a.id}`]?.passed).length;
+    const pct=anns.length>0?Math.round((done/anns.length)*100):0;
+    const cells=anns.map(a=>{
+      const c=comp[`${u.id}_${a.id}`];
+      if(c?.passed) return `<td><span class="status-chip done">✓ ${c.score}%</span></td>`;
+      if(c?.read) return `<td><span class="status-chip failed">✗ Fail</span></td>`;
       return `<td><span class="status-chip pending">Pending</span></td>`;
     }).join('');
-    return `<tr>
-      <td><strong>${u.first} ${u.last}</strong><br><span style="font-size:11px;color:var(--text-muted)">${u.email}</span></td>
-      <td><span class="role-badge ${u.role}">${roleLabel(u.role)}</span></td>
-      <td><div style="display:flex;align-items:center;gap:10px"><div class="progress-bar-wrap"><div class="progress-bar" style="width:${pct}%"></div></div><span class="completion-rate">${pct}%</span></div></td>
-      ${cells}
-    </tr>`;
+    return `<tr><td><strong>${u.first} ${u.last}</strong><br><span style="font-size:11px;color:var(--text-muted)">${u.email}</span></td><td><span class="role-badge ${u.role}">${roleLabel(u.role)}</span></td><td><div style="display:flex;align-items:center;gap:10px"><div class="progress-bar-wrap"><div class="progress-bar" style="width:${pct}%"></div></div><strong>${pct}%</strong></div></td>${cells}</tr>`;
   }).join('');
-  const annHeaders = anns.map(a=>`<th title="${a.title}">${a.week.split('—')[0].trim()}</th>`).join('');
-  document.getElementById('report-table-area').innerHTML = `
-    <div class="report-table-wrap" style="overflow-x:auto">
-      <table class="report-table">
-        <thead><tr><th>User</th><th>Role</th><th>Completion</th>${annHeaders}</tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>`;
+  const annHeaders=anns.map(a=>`<th title="${a.title}">${a.week.split('—')[0].trim()}</th>`).join('');
+  document.getElementById('report-table-area').innerHTML=`<div class="report-table-wrap" style="overflow-x:auto"><table class="report-table"><thead><tr><th>User</th><th>Role</th><th>Completion</th>${annHeaders}</tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
 function exportCSV() {
-  const users = getUsers().filter(u=>u.active);
-  const anns = getAnnouncements();
-  const completions = getCompletions();
-  const headers = ['Name','Email','Role','Department','Completion%',...anns.map(a=>a.week.replace(/,/g,''))];
-  const rows = users.map(u => {
-    const done = anns.filter(a=>completions[`${u.id}_${a.id}`]?.passed).length;
-    const pct = anns.length > 0 ? Math.round((done/anns.length)*100) : 0;
-    const statuses = anns.map(a => { const c=completions[`${u.id}_${a.id}`]; return c?.passed?'Passed':c?.read?'Failed':'Pending'; });
-    return [u.first+' '+u.last, u.email, u.role, u.dept, pct+'%', ...statuses].join(',');
+  const users=getUsers().filter(u=>u.active);
+  const anns=getAnnouncements();
+  const comp=getCompletions();
+  const headers=['Name','Email','Role','Department','Completion%',...anns.map(a=>a.week.replace(/,/g,''))];
+  const rows=users.map(u=>{
+    const done=anns.filter(a=>comp[`${u.id}_${a.id}`]?.passed).length;
+    const pct=anns.length>0?Math.round((done/anns.length)*100):0;
+    const s=anns.map(a=>{const c=comp[`${u.id}_${a.id}`];return c?.passed?'Passed':c?.read?'Failed':'Pending';});
+    return [u.first+' '+u.last,u.email,u.role,u.dept,pct+'%',...s].join(',');
   });
-  const csv = [headers.join(','),...rows].join('\n');
-  const blob = new Blob([csv],{type:'text/csv'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href=url; a.download='cshub-compliance-report.csv'; a.click();
+  const blob=new Blob([[headers.join(','),...rows].join('\n')],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`cshub-compliance-${today()}.csv`;a.click();
   addAudit('Report Exported','Compliance CSV downloaded','edit');
-  showToast('Report exported as CSV','success');
+  showToast('Report exported','success');
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 // AUDIT LOG
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 function renderAudit() {
-  const log = getAudit();
-  if (!log.length) {
-    document.getElementById('audit-log-content').innerHTML = '<div class="empty-state"><div class="es-icon">🔍</div><h3>No audit entries yet</h3><p>All future actions will be recorded here.</p></div>';
-    return;
-  }
-  document.getElementById('audit-log-content').innerHTML = log.map(e => {
-    const d = new Date(e.time);
-    const timeStr = d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) + ' ' + d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-    return `<div class="audit-row">
-      <div class="audit-dot ${e.type}"></div>
-      <div class="audit-text"><strong>${e.action}</strong> — ${e.detail}<br><span style="font-size:12px;color:var(--text-muted)">by ${e.user}</span></div>
-      <div class="audit-time">${timeStr}</div>
-    </div>`;
+  const log=getAudit();
+  if(!log.length){document.getElementById('audit-log-content').innerHTML='<div class="empty-state"><div class="es-icon">🔍</div><h3>No audit entries yet</h3><p>All future actions will be recorded here.</p></div>';return;}
+  document.getElementById('audit-log-content').innerHTML=log.map(e=>{
+    const d=new Date(e.time);
+    const ts=d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    return `<div class="audit-row"><div class="audit-dot ${e.type}"></div><div class="audit-text"><strong>${e.action}</strong> — ${e.detail}<br><span style="font-size:12px;color:var(--text-muted)">by ${e.user}</span></div><div class="audit-time">${ts}</div></div>`;
   }).join('');
 }
 
 function clearAudit() {
-  if (!confirm('Clear all audit log entries? This cannot be undone.')) return;
-  DB.set('audit', []);
+  if(!confirm('Clear all audit log entries?')) return;
+  DB.set('audit',[]);
   renderAudit();
   showToast('Audit log cleared','success');
 }
 
-// ═══════════════════════════════════════════════════════════════
-// USERS
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// USER MANAGEMENT
+// ═══════════════════════════════════════════
+let _userSort={key:'name',asc:true};
+
+function sortUsers(key) {
+  if (_userSort.key===key) _userSort.asc=!_userSort.asc;
+  else { _userSort.key=key; _userSort.asc=true; }
+  renderUsers();
+}
+
 function renderUsers() {
-  document.getElementById('users-tbody').innerHTML = getUsers().map(u => `
+  const search=(document.getElementById('user-search')?.value||'').toLowerCase();
+  const roleF=document.getElementById('user-role-filter')?.value||'';
+  const statusF=document.getElementById('user-status-filter')?.value||'';
+  let users=getUsers();
+  if(search) users=users.filter(u=>(u.first+' '+u.last).toLowerCase().includes(search)||u.email.includes(search));
+  if(roleF) users=users.filter(u=>u.role===roleF);
+  if(statusF==='active') users=users.filter(u=>u.active);
+  if(statusF==='inactive') users=users.filter(u=>!u.active);
+  // Sort
+  users.sort((a,b)=>{
+    let av,bv;
+    if(_userSort.key==='name'){av=a.first+a.last;bv=b.first+b.last;}
+    else if(_userSort.key==='role'){av=a.role;bv=b.role;}
+    else if(_userSort.key==='status'){av=a.active?0:1;bv=b.active?0:1;}
+    else{av=a[_userSort.key];bv=b[_userSort.key];}
+    return _userSort.asc?(av>bv?1:-1):(av<bv?1:-1);
+  });
+  document.getElementById('user-count').textContent=`${users.length} user${users.length!==1?'s':''}`;
+  document.getElementById('users-tbody').innerHTML=users.length?users.map(u=>`
     <tr>
       <td><strong>${u.first} ${u.last}</strong></td>
-      <td>${u.email}</td>
+      <td style="color:var(--text-muted)">${u.email}</td>
       <td><span class="role-badge ${u.role}">${roleLabel(u.role)}</span></td>
       <td>${u.dept}</td>
       <td><span class="status-chip ${u.active?'done':'failed'}">${u.active?'Active':'Inactive'}</span></td>
       <td><div class="flex-gap">
-        <button class="btn btn-ghost btn-sm" onclick="toggleUser('${u.id}')">${u.active?'⏸ Deactivate':'▶ Activate'}</button>
-        ${u.id!==currentUser.id?`<button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="deleteUser('${u.id}')">🗑</button>`:'<span style="font-size:12px;color:var(--text-muted)">(you)</span>'}
+        <button class="btn btn-ghost btn-sm" onclick="openEditUser('${u.id}')">✏ Edit</button>
+        <button class="btn btn-ghost btn-sm" onclick="toggleUser('${u.id}')">${u.active?'⏸':'▶'}</button>
+        ${u.id!==currentUser.id?`<button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="deleteUser('${u.id}')">🗑</button>`:'<span style="font-size:11px;color:var(--text-muted)">(you)</span>'}
       </div></td>
-    </tr>`).join('');
+    </tr>`).join('') :
+    `<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--text-muted)">No users match the current filters.</td></tr>`;
 }
 
 function renderStorageStats() {
-  const kb = DB.sizeKB();
-  const maxKB = 5120;
-  const pct = Math.min(Math.round((kb/maxKB)*100),100);
-  const color = pct > 80 ? 'var(--red)' : pct > 60 ? 'var(--amber)' : 'var(--teal)';
-  const arts = getArticles().length;
-  const anns = getAnnouncements().length;
-  const users = getUsers().length;
-  document.getElementById('storage-stats').innerHTML = `
-    <div style="display:flex;gap:24px;font-size:13px;color:var(--text-muted);margin-bottom:8px">
-      <span>📖 ${arts} articles</span><span>📢 ${anns} announcements</span><span>👥 ${users} users</span>
-    </div>`;
-  document.getElementById('storage-bar-detail').innerHTML = `
-    <div class="storage-bar"><div class="storage-fill" style="width:${pct}%;background:${color}"></div></div>
+  const kb=DB.sizeKB(); const max=5120;
+  const pct=Math.min(Math.round((kb/max)*100),100);
+  const col=pct>80?'var(--red)':pct>60?'var(--amber)':'var(--teal)';
+  document.getElementById('storage-stats').innerHTML=`<div style="display:flex;gap:24px;font-size:13px;color:var(--text-muted)">
+    <span>📖 ${getArticles().length} articles</span><span>📢 ${getAnnouncements().length} announcements</span><span>👥 ${getUsers().length} users</span></div>`;
+  const arts=getArticles();
+  const avgSize=arts.length>0?Math.round(kb/arts.length):2;
+  const remaining=Math.max(0,Math.floor((max-kb)/Math.max(avgSize,1)));
+  document.getElementById('storage-bar-detail').innerHTML=`
+    <div class="storage-bar"><div class="storage-fill" style="width:${pct}%;background:${col}"></div></div>
     <div class="storage-label">${kb} KB used of ~5,120 KB (${pct}%)</div>
-    <div style="font-size:12px;color:var(--text-muted);margin-top:8px">
-      Estimated capacity: ~${Math.floor((maxKB-kb)/((arts>0?kb/arts:2)))} more articles at current average size
-    </div>`;
+    <div style="font-size:12px;color:var(--text-muted);margin-top:6px">~${remaining} more articles at current average size</div>`;
 }
 
-function addUser() {
-  const first = document.getElementById('nu-first').value.trim();
-  const last = document.getElementById('nu-last').value.trim();
-  const email = document.getElementById('nu-email').value.trim().toLowerCase();
-  const role = document.getElementById('nu-role').value;
-  const dept = document.getElementById('nu-dept').value.trim();
-  const pass = document.getElementById('nu-pass').value;
-  if (!first||!last||!email||!pass) { showToast('All fields required','error'); return; }
-  const users = getUsers();
-  if (users.find(u=>u.email===email)) { showToast('Email already exists','error'); return; }
-  users.push({id:'u'+Date.now(),first,last,email,password:pass,role,dept:dept||'Customer Service',active:true,created:new Date().toISOString().slice(0,10)});
-  saveUsers(users);
-  addAudit('User Created',`${first} ${last} (${role})`, 'create');
-  hideModal('modal-add-user');
-  showToast('User created successfully','success');
-  renderUsers();
-  updateStorageIndicator();
+function openAddUser() {
+  editingUserId=null;
+  document.getElementById('user-modal-title').textContent='Add New User';
+  document.getElementById('user-modal-btn').textContent='Create User';
+  document.getElementById('edit-user-id').value='';
+  document.getElementById('nu-pass-row').style.display='block';
+  ['nu-first','nu-last','nu-email','nu-dept','nu-pass'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('nu-role').value='agent';
+  showModal('modal-add-user');
+}
+
+function openEditUser(id) {
+  const u=getUsers().find(x=>x.id===id); if(!u) return;
+  editingUserId=id;
+  document.getElementById('user-modal-title').textContent='Edit User';
+  document.getElementById('user-modal-btn').textContent='Save Changes';
+  document.getElementById('edit-user-id').value=id;
+  document.getElementById('nu-first').value=u.first;
+  document.getElementById('nu-last').value=u.last;
+  document.getElementById('nu-email').value=u.email;
+  document.getElementById('nu-role').value=u.role;
+  document.getElementById('nu-dept').value=u.dept;
+  document.getElementById('nu-pass-row').style.display='none';
+  showModal('modal-add-user');
+}
+
+function saveUser() {
+  const first=document.getElementById('nu-first').value.trim();
+  const last =document.getElementById('nu-last').value.trim();
+  const email=document.getElementById('nu-email').value.trim().toLowerCase();
+  const role =document.getElementById('nu-role').value;
+  const dept =document.getElementById('nu-dept').value.trim();
+  if(!first||!last||!email){showToast('Name and email are required','error');return;}
+  const users=getUsers();
+  const eid=document.getElementById('edit-user-id').value;
+  if(eid) {
+    const idx=users.findIndex(u=>u.id===eid);
+    if(idx>-1){
+      if(email!==users[idx].email && users.find(u=>u.email===email)){showToast('Email already in use','error');return;}
+      users[idx]={...users[idx],first,last,email,role,dept:dept||users[idx].dept};
+      saveUsers(users);
+      addAudit('User Updated',`${first} ${last}`,'edit');
+      showToast('User updated','success');
+      if(eid===currentUser.id){currentUser=users[idx];document.getElementById('sb-name').textContent=`${first} ${last}`;}
+    }
+  } else {
+    const pass=document.getElementById('nu-pass').value;
+    if(!pass){showToast('Password is required','error');return;}
+    if(users.find(u=>u.email===email)){showToast('Email already exists','error');return;}
+    users.push({id:'u'+Date.now(),first,last,email,password:pass,role,dept:dept||'Customer Service',active:true,created:today()});
+    saveUsers(users);
+    addAudit('User Created',`${first} ${last} (${role})`,'create');
+    showToast('User created successfully','success');
+  }
+  hideModal('modal-add-user'); renderUsers(); updateStorageIndicator();
 }
 
 function toggleUser(id) {
-  const users = getUsers();
-  const u = users.find(x=>x.id===id);
-  if (u) {
-    u.active = !u.active;
-    saveUsers(users);
-    addAudit(u.active?'User Activated':'User Deactivated',`${u.first} ${u.last}`,u.active?'create':'delete');
-    renderUsers();
-    showToast(`User ${u.active?'activated':'deactivated'}`, 'success');
-  }
+  const users=getUsers(); const u=users.find(x=>x.id===id); if(!u) return;
+  u.active=!u.active; saveUsers(users);
+  addAudit(u.active?'User Activated':'User Deactivated',`${u.first} ${u.last}`,u.active?'create':'delete');
+  renderUsers(); showToast(`User ${u.active?'activated':'deactivated'}`,'success');
 }
 
 function deleteUser(id) {
-  const users = getUsers();
-  const u = users.find(x=>x.id===id);
-  if (!confirm(`Delete ${u?.first} ${u?.last}? This cannot be undone.`)) return;
+  const users=getUsers(); const u=users.find(x=>x.id===id);
+  if(!confirm(`Delete ${u?.first} ${u?.last}? This cannot be undone.`)) return;
   saveUsers(users.filter(x=>x.id!==id));
   addAudit('User Deleted',`${u?.first} ${u?.last}`,'delete');
-  renderUsers();
-  showToast('User deleted','success');
-  updateStorageIndicator();
+  renderUsers(); showToast('User deleted','success'); updateStorageIndicator();
 }
 
 function importCSV() {
-  const raw = document.getElementById('csv-data').value.trim();
-  if (!raw) return;
-  const users = getUsers();
-  let added = 0;
-  raw.split('\n').forEach(line => {
-    const p = line.split(',').map(x=>x.trim());
-    if (p.length >= 6) {
-      const [first,last,email,role,dept,pass] = p;
-      if (!users.find(u=>u.email===email.toLowerCase())) {
-        users.push({id:'u'+Date.now()+Math.random(),first,last,email:email.toLowerCase(),password:pass,role:role||'agent',dept:dept||'CS',active:true,created:new Date().toISOString().slice(0,10)});
+  const raw=document.getElementById('csv-data').value.trim(); if(!raw) return;
+  const users=getUsers(); let added=0;
+  raw.split('\n').forEach(line=>{
+    const p=line.split(',').map(x=>x.trim());
+    if(p.length>=6){
+      const [first,last,email,role,dept,pass]=p;
+      if(!users.find(u=>u.email===email.toLowerCase())){
+        users.push({id:'u'+Date.now()+Math.random(),first,last,email:email.toLowerCase(),password:pass,role:role||'agent',dept:dept||'CS',active:true,created:today()});
         added++;
       }
     }
   });
   saveUsers(users);
   addAudit('Bulk Import',`${added} user(s) imported via CSV`,'create');
-  hideModal('modal-csv');
-  showToast(`${added} user(s) imported successfully`,'success');
-  renderUsers();
-  updateStorageIndicator();
+  hideModal('modal-csv'); showToast(`${added} user(s) imported`,'success'); renderUsers(); updateStorageIndicator();
 }
 
-// ═══════════════════════════════════════════════════════════════
-// DATA BACKUP / RESTORE / RESET
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// PROFILE & PASSWORD CHANGE
+// ═══════════════════════════════════════════
+function loadProfile() {
+  const u=currentUser;
+  document.getElementById('prof-first').value=u.first;
+  document.getElementById('prof-last').value=u.last;
+  document.getElementById('prof-email').value=u.email;
+  document.getElementById('prof-dept').value=u.dept;
+  document.getElementById('prof-role').value=roleLabel(u.role);
+  ['pw-current','pw-new','pw-confirm'].forEach(id=>document.getElementById(id).value='');
+}
+
+function saveProfile() {
+  const first=document.getElementById('prof-first').value.trim();
+  const last =document.getElementById('prof-last').value.trim();
+  const email=document.getElementById('prof-email').value.trim().toLowerCase();
+  const dept =document.getElementById('prof-dept').value.trim();
+  if(!first||!last||!email){showToast('Name and email are required','error');return;}
+  const users=getUsers();
+  const idx=users.findIndex(u=>u.id===currentUser.id);
+  if(idx===-1) return;
+  if(email!==currentUser.email && users.find(u=>u.email===email)){showToast('That email is already in use by another account','error');return;}
+  users[idx]={...users[idx],first,last,email,dept:dept||users[idx].dept};
+  saveUsers(users);
+  currentUser=users[idx];
+  document.getElementById('sb-avatar').textContent=first[0]+last[0];
+  document.getElementById('sb-name').textContent=`${first} ${last}`;
+  localStorage.setItem('cshub_session',currentUser.id);
+  addAudit('Profile Updated',`${first} ${last} updated their profile`,'edit');
+  showToast('Profile saved successfully','success');
+}
+
+function changePassword() {
+  const cur =document.getElementById('pw-current').value;
+  const nw  =document.getElementById('pw-new').value;
+  const conf=document.getElementById('pw-confirm').value;
+  if(!cur||!nw||!conf){showToast('All password fields are required','error');return;}
+  if(currentUser.password!==cur){showToast('Current password is incorrect','error');return;}
+  if(nw.length<6){showToast('New password must be at least 6 characters','error');return;}
+  if(nw!==conf){showToast('New passwords do not match','error');return;}
+  const users=getUsers();
+  const idx=users.findIndex(u=>u.id===currentUser.id);
+  if(idx===-1) return;
+  users[idx].password=nw;
+  saveUsers(users);
+  currentUser=users[idx];
+  ['pw-current','pw-new','pw-confirm'].forEach(id=>document.getElementById(id).value='');
+  addAudit('Password Changed',`${currentUser.first} ${currentUser.last} changed their password`,'edit');
+  showToast('Password updated successfully','success');
+}
+
+// ═══════════════════════════════════════════
+// DATA BACKUP / RESTORE / WIPE
+// ═══════════════════════════════════════════
 function backupData() {
-  const backup = {
-    version: '2.0',
-    exported: new Date().toISOString(),
-    users: getUsers(),
-    articles: getArticles(),
-    announcements: getAnnouncements(),
-    completions: getCompletions(),
-    audit: getAudit()
-  };
-  const blob = new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  const date = new Date().toISOString().slice(0,10);
-  a.href=url; a.download=`cshub-backup-${date}.json`; a.click();
-  addAudit('Data Backup','Full data backup downloaded','edit');
-  showToast('Backup downloaded successfully','success');
+  const backup={version:'3.0',exported:new Date().toISOString(),users:getUsers(),articles:getArticles(),announcements:getAnnouncements(),completions:getCompletions(),audit:getAudit()};
+  const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download=`cshub-backup-${today()}.json`; a.click();
+  addAudit('Data Backup','Full backup downloaded','edit');
+  showToast('Backup downloaded','success');
 }
 
 function restoreData(input) {
-  const file = input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
     try {
-      const data = JSON.parse(e.target.result);
-      if (!data.users || !data.articles || !data.announcements) throw new Error('Invalid backup file');
-      if (!confirm(`This will replace ALL current data with the backup from ${data.exported?.slice(0,10)||'unknown date'}. Continue?`)) return;
-      DB.set('users', data.users);
-      DB.set('articles', data.articles);
-      DB.set('announcements', data.announcements);
-      DB.set('completions', data.completions||{});
-      DB.set('audit', data.audit||[]);
-      addAudit('Data Restored',`Backup from ${data.exported?.slice(0,10)} restored`,'create');
-      showToast('Data restored successfully — reloading…','success');
-      setTimeout(() => location.reload(), 1500);
-    } catch(err) {
-      showToast('Invalid backup file. Please check the file and try again.','error');
-    }
+      const data=JSON.parse(e.target.result);
+      if(!data.users||!data.articles||!data.announcements) throw new Error('Invalid file');
+      if(!confirm(`Replace ALL data with backup from ${(data.exported||'').slice(0,10)}? This cannot be undone.`)) return;
+      DB.set('users',data.users); DB.set('articles',data.articles);
+      DB.set('announcements',data.announcements); DB.set('completions',data.completions||{});
+      DB.set('audit',data.audit||[]);
+      addAudit('Data Restored',`Backup from ${(data.exported||'').slice(0,10)} restored`,'create');
+      showToast('Data restored — reloading…','success');
+      setTimeout(()=>location.reload(),1500);
+    } catch { showToast('Invalid backup file','error'); }
   };
-  reader.readAsText(file);
-  input.value = '';
+  reader.readAsText(file); input.value='';
 }
 
-function resetToDefaults() {
-  if (!confirm('⚠️ This will permanently delete ALL your data and restore the original demo data. Are you absolutely sure?')) return;
-  if (!confirm('Second confirmation: all real articles, users and completion records will be lost. Continue?')) return;
-  DB.remove('initialized');
-  initStorage();
-  addAudit('System Reset','Data reset to demo defaults','delete');
-  showToast('Reset complete — reloading…','success');
-  setTimeout(() => location.reload(), 1500);
+function wipeData() {
+  if(!confirm('⚠️ This will permanently delete all articles, announcements and completion records. Users will be kept. This cannot be undone.')) return;
+  if(!confirm('Second confirmation: all content will be permanently deleted. Continue?')) return;
+  DB.set('articles',[]); DB.set('announcements',[]); DB.set('completions',{});
+  addAudit('Content Wiped','All articles, announcements and completions deleted','delete');
+  showToast('Content data wiped','success');
+  showPage('dashboard');
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 // MODAL & TOAST
-// ═══════════════════════════════════════════════════════════════
-function showModal(id) { document.getElementById(id).classList.remove('hidden'); }
-function hideModal(id) { document.getElementById(id).classList.add('hidden'); }
-document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', function(e){ if(e.target===this) hideModal(this.id); }));
+// ═══════════════════════════════════════════
+function showModal(id){document.getElementById(id).classList.remove('hidden');}
+function hideModal(id){document.getElementById(id).classList.add('hidden');}
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',function(e){if(e.target===this)hideModal(this.id);}));
 
-let toastTimer;
-function showToast(msg, type='success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = `toast ${type} show`;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+let _toastTimer;
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className=`toast ${type} show`;
+  clearTimeout(_toastTimer); _toastTimer=setTimeout(()=>t.classList.remove('show'),3500);
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 // BOOT
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
 initStorage();
-if (!tryRestoreSession()) {
-  document.getElementById('login-screen').style.display = 'flex';
+if(!tryRestoreSession()){
+  document.getElementById('login-screen').style.display='flex';
 }
 </script>
 </body>
