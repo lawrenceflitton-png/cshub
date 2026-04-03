@@ -7,452 +7,265 @@
 <title>CS Hub — Knowledge & Learning Centre</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
-
   :root {
-    --bg: #f5f4f0;
-    --surface: #ffffff;
-    --surface2: #f0efe9;
-    --border: #e2e0d8;
-    --text: #1a1916;
-    --text2: #6b6860;
-    --text3: #9b9890;
-    --accent: #2d6a4f;
-    --accent-light: #d8f3dc;
-    --accent-hover: #1b4332;
-    --danger: #c0392b;
-    --danger-light: #fdecea;
-    --warning: #d4820a;
-    --warning-light: #fef3cd;
-    --info: #1a6fa8;
-    --info-light: #dbeafe;
-    --sidebar-w: 220px;
-    --radius: 10px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --bg:#f5f4f0;--surface:#fff;--surface2:#f0efe9;--border:#e2e0d8;
+    --text:#1a1916;--text2:#6b6860;--text3:#9b9890;
+    --accent:#2d6a4f;--accent-light:#d8f3dc;--accent-hover:#1b4332;
+    --danger:#c0392b;--danger-light:#fdecea;
+    --warning:#d4820a;--warning-light:#fef3cd;
+    --info:#1a6fa8;--info-light:#dbeafe;
+    --sidebar-w:224px;--radius:10px;
+    --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
+    --shadow-md:0 4px 12px rgba(0,0,0,.08);
   }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  /* AUTH */
+  #auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1b4332,#2d6a4f,#40916c)}
+  .auth-card{background:var(--surface);border-radius:16px;padding:48px 40px;width:380px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+  .auth-logo{text-align:center;margin-bottom:32px}
+  .auth-logo .logo-icon{font-size:36px;margin-bottom:8px}
+  .auth-logo h1{font-size:22px;font-weight:700;letter-spacing:-.5px}
+  .auth-logo p{color:var(--text2);font-size:13px;margin-top:4px}
+  .auth-error{background:var(--danger-light);color:var(--danger);padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:16px;display:none}
+  .form-group{margin-bottom:16px}
+  .form-group label{display:block;font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+  .form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;background:var(--surface);color:var(--text);transition:border-color .15s;outline:none}
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent)}
+  .form-group textarea{resize:vertical;min-height:100px}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:8px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .15s;text-decoration:none}
+  .btn-primary{background:var(--accent);color:#fff;width:100%;justify-content:center}
+  .btn-primary:hover{background:var(--accent-hover)}
+  .btn-secondary{background:var(--surface2);color:var(--text);border:1.5px solid var(--border)}
+  .btn-secondary:hover{background:var(--border)}
+  .btn-danger{background:var(--danger);color:#fff}
+  .btn-danger:hover{background:#a93226}
+  .btn-sm{padding:6px 12px;font-size:12px}
+  .btn-xs{padding:4px 8px;font-size:11px}
+  .auth-links{text-align:center;margin-top:16px}
+  .auth-links a{color:var(--accent);font-size:12px;text-decoration:none;cursor:pointer}
+  .auth-links a:hover{text-decoration:underline}
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.5;
-  }
+  /* APP */
+  #app{display:none;height:100vh;overflow:hidden}
+  .app-layout{display:flex;height:100vh}
 
-  /* ── AUTH ── */
-  #auth-screen {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #40916c 100%);
-  }
-  .auth-card {
-    background: var(--surface);
-    border-radius: 16px;
-    padding: 48px 40px;
-    width: 380px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-  }
-  .auth-logo { text-align: center; margin-bottom: 32px; }
-  .auth-logo .logo-icon { font-size: 36px; margin-bottom: 8px; }
-  .auth-logo h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
-  .auth-logo p { color: var(--text2); font-size: 13px; margin-top: 4px; }
-  .auth-error {
-    background: var(--danger-light);
-    color: var(--danger);
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    margin-bottom: 16px;
-    display: none;
-  }
-  .form-group { margin-bottom: 16px; }
-  .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-  .form-group input, .form-group select, .form-group textarea {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 14px;
-    background: var(--surface);
-    color: var(--text);
-    transition: border-color 0.15s;
-    outline: none;
-  }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-    border-color: var(--accent);
-  }
-  .form-group textarea { resize: vertical; min-height: 100px; }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    transition: all 0.15s;
-    text-decoration: none;
-  }
-  .btn-primary { background: var(--accent); color: white; width: 100%; justify-content: center; }
-  .btn-primary:hover { background: var(--accent-hover); }
-  .btn-secondary { background: var(--surface2); color: var(--text); border: 1.5px solid var(--border); }
-  .btn-secondary:hover { background: var(--border); }
-  .btn-danger { background: var(--danger); color: white; }
-  .btn-danger:hover { background: #a93226; }
-  .btn-sm { padding: 6px 12px; font-size: 12px; }
-  .auth-links { text-align: center; margin-top: 16px; }
-  .auth-links a { color: var(--accent); font-size: 12px; text-decoration: none; cursor: pointer; }
-  .auth-links a:hover { text-decoration: underline; }
+  /* SIDEBAR */
+  .sidebar{width:var(--sidebar-w);background:var(--text);color:#fff;display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+  .sidebar-header{padding:20px 16px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .sidebar-logo{font-size:18px;font-weight:700;letter-spacing:-.5px;display:flex;align-items:center;gap:8px}
+  .sidebar-user{margin-top:10px;font-size:11px;color:rgba(255,255,255,.5)}
+  .sidebar-user span{color:rgba(255,255,255,.8);font-weight:500}
+  .sidebar-section{padding:16px 8px 4px}
+  .sidebar-section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.3);padding:0 8px;margin-bottom:4px}
+  .nav-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;color:rgba(255,255,255,.65);cursor:pointer;font-size:13px;font-weight:500;transition:all .15s;margin-bottom:1px;position:relative}
+  .nav-item:hover{background:rgba(255,255,255,.08);color:#fff}
+  .nav-item.active{background:var(--accent);color:#fff}
+  .nav-badge{background:var(--danger);color:#fff;font-size:10px;font-weight:700;padding:1px 5px;border-radius:10px;margin-left:auto}
+  .sidebar-footer{margin-top:auto;padding:12px 8px;border-top:1px solid rgba(255,255,255,.08)}
 
-  /* ── APP SHELL ── */
-  #app { display: none; height: 100vh; overflow: hidden; }
-  .app-layout { display: flex; height: 100vh; }
+  /* MAIN */
+  .main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+  .page{display:none;flex-direction:column;flex:1;padding:32px;max-width:1100px;width:100%;margin:0 auto}
+  .page.active{display:flex}
+  .page-header{margin-bottom:24px}
+  .page-title{font-size:22px;font-weight:700;letter-spacing:-.5px}
+  .page-subtitle{color:var(--text2);font-size:13px;margin-top:3px}
 
-  /* ── SIDEBAR ── */
-  .sidebar {
-    width: var(--sidebar-w);
-    background: var(--text);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    overflow-y: auto;
-  }
-  .sidebar-header {
-    padding: 20px 16px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-  .sidebar-logo { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; }
-  .sidebar-user {
-    margin-top: 10px;
-    font-size: 11px;
-    color: rgba(255,255,255,0.5);
-  }
-  .sidebar-user span { color: rgba(255,255,255,0.8); font-weight: 500; }
-  .sidebar-section { padding: 16px 8px 4px; }
-  .sidebar-section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.3); padding: 0 8px; margin-bottom: 4px; }
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 10px;
-    border-radius: 8px;
-    color: rgba(255,255,255,0.65);
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    transition: all 0.15s;
-    margin-bottom: 1px;
-    position: relative;
-  }
-  .nav-item:hover { background: rgba(255,255,255,0.08); color: white; }
-  .nav-item.active { background: var(--accent); color: white; }
-  .nav-badge {
-    background: var(--danger);
-    color: white;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 1px 5px;
-    border-radius: 10px;
-    margin-left: auto;
-  }
-  .sidebar-footer {
-    margin-top: auto;
-    padding: 12px 8px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-  }
+  /* CARDS */
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+  .card-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-bottom:14px}
 
-  /* ── MAIN ── */
-  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
-  .page { display: none; flex-direction: column; flex: 1; padding: 32px; max-width: 1100px; width: 100%; margin: 0 auto; }
-  .page.active { display: flex; }
-  .page-header { margin-bottom: 24px; }
-  .page-title { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
-  .page-subtitle { color: var(--text2); font-size: 13px; margin-top: 3px; }
+  /* DASHBOARD */
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow)}
+  .stat-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text2)}
+  .stat-value{font-size:28px;font-weight:700;margin:6px 0 2px;letter-spacing:-1px}
+  .stat-sub{font-size:11px;color:var(--text3)}
+  .dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .recent-item{padding:12px 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px}
+  .recent-item:last-child{border-bottom:none}
+  .recent-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:6px;flex-shrink:0}
+  .recent-title{font-size:13px;font-weight:500}
+  .recent-meta{font-size:11px;color:var(--text3);margin-top:2px}
+  .ai-badge{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px;margin-left:8px}
 
-  /* ── CARDS ── */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    box-shadow: var(--shadow);
-  }
-  .card-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text2); margin-bottom: 14px; }
+  /* ARTICLES */
+  .toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+  .search-box{flex:1;min-width:200px;display:flex;align-items:center;background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:0 12px;gap:8px}
+  .search-box input{border:none;outline:none;background:transparent;font-family:inherit;font-size:13px;padding:9px 0;flex:1}
+  .search-box .icon{color:var(--text3);font-size:14px}
+  .filter-tabs{display:flex;gap:4px}
+  .filter-tab{padding:7px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);transition:all .15s}
+  .filter-tab.active{background:var(--text);color:#fff;border-color:var(--text)}
+  .articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .article-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow)}
+  .article-card:hover{border-color:var(--accent);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+  .article-cat{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:2px 8px;border-radius:4px;margin-bottom:8px}
+  .cat-Policy{background:#dbeafe;color:#1e40af}
+  .cat-Process{background:#dcfce7;color:#166534}
+  .cat-Product{background:#fef3c7;color:#92400e}
+  .cat-FAQ{background:#f3e8ff;color:#6b21a8}
+  .article-title{font-size:14px;font-weight:600;margin-bottom:6px}
+  .article-short{font-size:12px;color:var(--text2);line-height:1.4}
+  .article-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+  .article-tags{display:flex;gap:4px;flex-wrap:wrap}
+  .tag{background:var(--surface2);color:var(--text2);font-size:10px;padding:2px 6px;border-radius:4px}
+  .article-meta{font-size:11px;color:var(--text3)}
 
-  /* ── DASHBOARD ── */
-  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-  .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-    box-shadow: var(--shadow);
-  }
-  .stat-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text2); }
-  .stat-value { font-size: 28px; font-weight: 700; margin: 6px 0 2px; letter-spacing: -1px; }
-  .stat-sub { font-size: 11px; color: var(--text3); }
-  .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .recent-item {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  .recent-item:last-child { border-bottom: none; }
-  .recent-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: 6px; flex-shrink: 0; }
-  .recent-title { font-size: 13px; font-weight: 500; }
-  .recent-meta { font-size: 11px; color: var(--text3); margin-top: 2px; }
-  .ai-badge { display: inline-flex; align-items: center; gap: 4px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px; margin-left: 8px; }
+  /* ARTICLE DETAIL */
+  .article-detail{display:none}
+  .article-detail.active{display:block}
+  .back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--text2);font-size:13px;cursor:pointer;margin-bottom:20px;padding:6px 0}
+  .back-btn:hover{color:var(--accent)}
+  .article-body{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow)}
+  .article-body-content{white-space:pre-wrap;line-height:1.7;font-size:14px;color:var(--text);margin-top:20px}
 
-  /* ── ARTICLES ── */
-  .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-  .search-box {
-    flex: 1;
-    min-width: 200px;
-    display: flex;
-    align-items: center;
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    padding: 0 12px;
-    gap: 8px;
-  }
-  .search-box input { border: none; outline: none; background: transparent; font-family: inherit; font-size: 13px; padding: 9px 0; flex: 1; }
-  .search-box .icon { color: var(--text3); font-size: 14px; }
-  .filter-tabs { display: flex; gap: 4px; }
-  .filter-tab {
-    padding: 7px 14px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1.5px solid var(--border);
-    background: var(--surface);
-    color: var(--text2);
-    transition: all 0.15s;
-  }
-  .filter-tab.active { background: var(--text); color: white; border-color: var(--text); }
-  .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
-  .article-card {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px;
-    cursor: pointer;
-    transition: all 0.15s;
-    box-shadow: var(--shadow);
-  }
-  .article-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-1px); }
-  .article-cat {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 2px 8px;
-    border-radius: 4px;
-    margin-bottom: 8px;
-  }
-  .cat-Policy { background: #dbeafe; color: #1e40af; }
-  .cat-Process { background: #dcfce7; color: #166534; }
-  .cat-Product { background: #fef3c7; color: #92400e; }
-  .cat-FAQ { background: #f3e8ff; color: #6b21a8; }
-  .article-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-  .article-short { font-size: 12px; color: var(--text2); line-height: 1.4; }
-  .article-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
-  .article-tags { display: flex; gap: 4px; flex-wrap: wrap; }
-  .tag { background: var(--surface2); color: var(--text2); font-size: 10px; padding: 2px 6px; border-radius: 4px; }
-  .article-meta { font-size: 11px; color: var(--text3); }
+  /* RATING */
+  .rating-section{margin-top:28px;padding-top:24px;border-top:2px solid var(--border)}
+  .rating-title{font-size:14px;font-weight:700;margin-bottom:12px}
+  .star-row{display:flex;gap:6px;margin-bottom:12px}
+  .star{font-size:28px;cursor:pointer;transition:transform .1s;line-height:1;filter:grayscale(1);opacity:.4}
+  .star.active,.star:hover{filter:none;opacity:1;transform:scale(1.1)}
+  .rating-comment{display:none;margin-top:10px}
+  .rating-submitted{background:var(--accent-light);color:var(--accent);padding:12px 16px;border-radius:8px;font-size:13px;font-weight:600}
 
-  /* ── ARTICLE DETAIL ── */
-  .article-detail { display: none; }
-  .article-detail.active { display: block; }
-  .back-btn { display: inline-flex; align-items: center; gap: 6px; color: var(--text2); font-size: 13px; cursor: pointer; margin-bottom: 20px; padding: 6px 0; }
-  .back-btn:hover { color: var(--accent); }
-  .article-body {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 32px;
-    box-shadow: var(--shadow);
-  }
-  .article-body-content { white-space: pre-wrap; line-height: 1.7; font-size: 14px; color: var(--text); margin-top: 20px; }
-  .article-actions { display: flex; gap: 8px; margin-top: 20px; }
+  /* FORM */
+  .form-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);max-width:720px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .char-count{font-size:11px;color:var(--text3);text-align:right;margin-top:4px}
+  .form-actions{display:flex;gap:10px;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
 
-  /* ── FORM PAGE ── */
-  .form-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 28px;
-    box-shadow: var(--shadow);
-    max-width: 720px;
-  }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .char-count { font-size: 11px; color: var(--text3); text-align: right; margin-top: 4px; }
-  .form-actions { display: flex; gap: 10px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
+  /* ANNOUNCEMENTS */
+  .ann-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+  .announcement-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:12px;box-shadow:var(--shadow);cursor:pointer;transition:all .15s;position:relative}
+  .announcement-card:hover{border-color:var(--accent);box-shadow:var(--shadow-md)}
+  .announcement-card.unread{border-left:4px solid var(--danger)}
+  .announcement-header{display:flex;justify-content:space-between;align-items:flex-start}
+  .announcement-title{font-size:15px;font-weight:600}
+  .announcement-period{font-size:11px;color:var(--text3);margin-top:3px}
+  .mandatory-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.3px}
+  .mandatory-all{background:var(--danger-light);color:var(--danger)}
+  .mandatory-agents{background:var(--warning-light);color:var(--warning)}
+  .mandatory-leads{background:var(--info-light);color:var(--info)}
+  .certified-badge{background:var(--accent-light);color:var(--accent);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+  .unread-dot{width:8px;height:8px;border-radius:50%;background:var(--danger);display:inline-block;margin-right:6px;flex-shrink:0}
 
-  /* ── ANNOUNCEMENTS ── */
-  .announcement-card {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 12px;
-    box-shadow: var(--shadow);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .announcement-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); }
-  .announcement-header { display: flex; justify-content: space-between; align-items: flex-start; }
-  .announcement-title { font-size: 15px; font-weight: 600; }
-  .announcement-period { font-size: 11px; color: var(--text3); margin-top: 3px; }
-  .mandatory-badge {
-    font-size: 10px;
-    font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-  }
-  .mandatory-all { background: var(--danger-light); color: var(--danger); }
-  .mandatory-agents { background: var(--warning-light); color: var(--warning); }
-  .mandatory-leads { background: var(--info-light); color: var(--info); }
-  .certified-badge { background: var(--accent-light); color: var(--accent); font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  /* QUIZ */
+  .quiz-section{margin-top:24px;padding-top:20px;border-top:2px solid var(--border)}
+  .quiz-title{font-size:15px;font-weight:700;margin-bottom:16px}
+  .quiz-question{background:var(--surface2);border-radius:8px;padding:16px;margin-bottom:12px}
+  .quiz-q-text{font-size:13px;font-weight:600;margin-bottom:10px}
+  .quiz-option{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;cursor:pointer;font-size:13px;transition:background .1s}
+  .quiz-option:hover{background:var(--border)}
+  .quiz-option input[type="radio"]{accent-color:var(--accent)}
+  .quiz-result{padding:12px 16px;border-radius:8px;font-size:13px;font-weight:600;margin-top:12px}
+  .quiz-pass{background:var(--accent-light);color:var(--accent)}
+  .quiz-fail{background:var(--danger-light);color:var(--danger)}
 
-  /* ── QUIZ ── */
-  .quiz-section { margin-top: 24px; padding-top: 20px; border-top: 2px solid var(--border); }
-  .quiz-title { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
-  .quiz-question { background: var(--surface2); border-radius: 8px; padding: 16px; margin-bottom: 12px; }
-  .quiz-q-text { font-size: 13px; font-weight: 600; margin-bottom: 10px; }
-  .quiz-option { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 6px; cursor: pointer; font-size: 13px; transition: background 0.1s; }
-  .quiz-option:hover { background: var(--border); }
-  .quiz-option input[type="radio"] { accent-color: var(--accent); }
-  .quiz-result { padding: 12px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-top: 12px; }
-  .quiz-pass { background: var(--accent-light); color: var(--accent); }
-  .quiz-fail { background: var(--danger-light); color: var(--danger); }
+  /* QUIZ BUILDER */
+  .quiz-builder-q{background:var(--surface2);border-radius:8px;padding:14px;margin-bottom:10px}
+  .quiz-builder-q .form-group{margin-bottom:10px}
+  .quiz-option-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .quiz-option-row input[type="text"]{flex:1;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;font-family:inherit;font-size:13px}
+  .quiz-option-row input[type="radio"]{accent-color:var(--accent)}
+  .quiz-option-row label{font-size:12px;color:var(--text2)}
 
-  /* ── QUIZ BUILDER ── */
-  .quiz-builder-q { background: var(--surface2); border-radius: 8px; padding: 14px; margin-bottom: 10px; }
-  .quiz-builder-q .form-group { margin-bottom: 10px; }
-  .quiz-option-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .quiz-option-row input[type="text"] { flex: 1; padding: 7px 10px; border: 1.5px solid var(--border); border-radius: 6px; font-family: inherit; font-size: 13px; }
-  .quiz-option-row input[type="radio"] { accent-color: var(--accent); }
-  .quiz-option-row label { font-size: 12px; color: var(--text2); }
+  /* TABLE */
+  .table-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;padding:10px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);border-bottom:2px solid var(--border);white-space:nowrap}
+  td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:var(--bg)}
+  .role-badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px}
+  .role-Admin{background:#fef3c7;color:#92400e}
+  .role-TeamLead,.role-Team\ Lead{background:#dbeafe;color:#1e40af}
+  .role-Author{background:#f3e8ff;color:#6b21a8}
+  .role-Agent{background:#dcfce7;color:#166534}
+  .status-active{color:var(--accent);font-weight:600;font-size:12px}
+  .status-inactive{color:var(--text3);font-size:12px}
 
-  /* ── TABLE ── */
-  .table-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text2); border-bottom: 2px solid var(--border); white-space: nowrap; }
-  td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: var(--bg); }
-  .role-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
-  .role-Admin { background: #fef3c7; color: #92400e; }
-  .role-TeamLead, .role-Team\ Lead { background: #dbeafe; color: #1e40af; }
-  .role-Author { background: #f3e8ff; color: #6b21a8; }
-  .role-Agent { background: #dcfce7; color: #166534; }
-  .status-active { color: var(--accent); font-weight: 600; font-size: 12px; }
-  .status-inactive { color: var(--text3); font-size: 12px; }
+  /* STATUS BADGES */
+  .status-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;text-transform:uppercase}
+  .status-Pending{background:var(--warning-light);color:var(--warning)}
+  .status-In\ Progress{background:var(--info-light);color:var(--info)}
+  .status-Completed{background:var(--accent-light);color:var(--accent)}
+  .status-Declined{background:var(--danger-light);color:var(--danger)}
 
-  /* ── AUDIT LOG ── */
-  .log-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
-  .log-item:last-child { border-bottom: none; }
-  .log-time { font-size: 11px; color: var(--text3); white-space: nowrap; font-family: 'DM Mono', monospace; margin-top: 1px; }
-  .log-action { font-size: 13px; font-weight: 500; }
-  .log-detail { font-size: 12px; color: var(--text2); margin-top: 1px; }
+  /* AUDIT LOG */
+  .log-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+  .log-item:last-child{border-bottom:none}
+  .log-time{font-size:11px;color:var(--text3);white-space:nowrap;font-family:'DM Mono',monospace;margin-top:1px}
+  .log-action{font-size:13px;font-weight:500}
+  .log-detail{font-size:12px;color:var(--text2);margin-top:1px}
 
-  /* ── REPORTS ── */
-  .report-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
-  .report-row:last-child { border-bottom: none; }
-  .report-name { font-size: 13px; font-weight: 500; flex: 1; }
-  .progress-bar { flex: 2; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.5s; }
-  .report-pct { font-size: 12px; font-weight: 600; color: var(--accent); width: 36px; text-align: right; }
+  /* REPORTS TABS */
+  .report-tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:2px solid var(--border);padding-bottom:0}
+  .report-tab{padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s}
+  .report-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+  .report-panel{display:none}
+  .report-panel.active{display:block}
+  .report-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+  .report-row:last-child{border-bottom:none}
+  .report-name{font-size:13px;font-weight:500;flex:1}
+  .progress-bar{flex:2;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+  .progress-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .5s}
+  .report-pct{font-size:12px;font-weight:600;color:var(--accent);width:36px;text-align:right}
 
-  /* ── MODAL ── */
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.4);
-    display: none; align-items: center; justify-content: center;
-    z-index: 1000; padding: 20px;
-  }
-  .modal-overlay.active { display: flex; }
-  .modal {
-    background: var(--surface);
-    border-radius: 14px;
-    padding: 28px;
-    width: 100%;
-    max-width: 520px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  .modal-title { font-size: 17px; font-weight: 700; margin-bottom: 20px; }
-  .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+  /* MODAL */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+  .modal-overlay.active{display:flex}
+  .modal{background:var(--surface);border-radius:14px;padding:28px;width:100%;max-width:520px;box-shadow:0 20px 60px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto}
+  .modal-title{font-size:17px;font-weight:700;margin-bottom:20px}
+  .modal-actions{display:flex;gap:10px;margin-top:20px;justify-content:flex-end}
 
-  /* ── TOAST ── */
-  #toast {
-    position: fixed; bottom: 24px; right: 24px;
-    background: var(--text); color: white;
-    padding: 12px 18px; border-radius: 10px;
-    font-size: 13px; font-weight: 500;
-    box-shadow: var(--shadow-md);
-    transform: translateY(80px); opacity: 0;
-    transition: all 0.25s;
-    z-index: 9999;
-    max-width: 320px;
-  }
-  #toast.show { transform: translateY(0); opacity: 1; }
-  #toast.success { background: var(--accent); }
-  #toast.error { background: var(--danger); }
+  /* TOAST */
+  #toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:#fff;padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;box-shadow:var(--shadow-md);transform:translateY(80px);opacity:0;transition:all .25s;z-index:9999;max-width:320px}
+  #toast.show{transform:translateY(0);opacity:1}
+  #toast.success{background:var(--accent)}
+  #toast.error{background:var(--danger)}
 
-  /* ── LOADING ── */
-  .loading { display: flex; align-items: center; justify-content: center; padding: 48px; color: var(--text3); gap: 10px; }
-  .spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.6s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .empty-state { text-align: center; padding: 48px 20px; color: var(--text3); }
-  .empty-state .icon { font-size: 32px; margin-bottom: 10px; }
-  .empty-state p { font-size: 14px; }
+  /* MISC */
+  .loading{display:flex;align-items:center;justify-content:center;padding:48px;color:var(--text3);gap:10px}
+  .spinner{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .empty-state{text-align:center;padding:48px 20px;color:var(--text3)}
+  .empty-state .icon{font-size:32px;margin-bottom:10px}
+  .empty-state p{font-size:14px}
+  .data-section{padding:20px;border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px}
+  .data-section h3{font-size:14px;font-weight:700;margin-bottom:6px}
+  .data-section p{font-size:13px;color:var(--text2);margin-bottom:14px}
+  .profile-section{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+  .profile-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+  .profile-section-title{font-size:14px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:6px}
+  .ai-search-result{background:linear-gradient(135deg,#f3e8ff,#dbeafe);border:1.5px solid #c4b5fd;border-radius:var(--radius);padding:16px;margin-top:12px}
+  .ai-search-result .ai-label{font-size:11px;font-weight:700;color:#6b21a8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+  .ai-search-result p{font-size:13px;line-height:1.6}
+  .alert-info{background:var(--info-light);color:var(--info);padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:16px}
 
-  /* ── DATA MGMT ── */
-  .data-section { padding: 20px; border: 1.5px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; }
-  .data-section h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
-  .data-section p { font-size: 13px; color: var(--text2); margin-bottom: 14px; }
+  /* MY STATS */
+  .my-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+  .my-stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);text-align:center}
+  .my-stat-value{font-size:32px;font-weight:700;letter-spacing:-1px;margin:8px 0 4px}
+  .my-stat-label{font-size:12px;color:var(--text2);font-weight:500}
+  .my-stat-sub{font-size:11px;color:var(--text3);margin-top:2px}
 
-  /* ── PROFILE ── */
-  .profile-section { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
-  .profile-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-  .profile-section-title { font-size: 14px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 6px; }
-
-  /* ── AI SEARCH ── */
-  .ai-search-result { background: linear-gradient(135deg, #f3e8ff, #dbeafe); border: 1.5px solid #c4b5fd; border-radius: var(--radius); padding: 16px; margin-top: 12px; }
-  .ai-search-result .ai-label { font-size: 11px; font-weight: 700; color: #6b21a8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-  .ai-search-result p { font-size: 13px; line-height: 1.6; }
-
-  /* Responsive tweaks */
-  @media (max-width: 768px) {
-    .stats-grid { grid-template-columns: repeat(2,1fr); }
-    .dash-grid { grid-template-columns: 1fr; }
-    .form-row { grid-template-columns: 1fr; }
-    .sidebar { width: 180px; }
+  @media(max-width:768px){
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+    .dash-grid{grid-template-columns:1fr}
+    .form-row{grid-template-columns:1fr}
+    .sidebar{width:180px}
+    .my-stats-grid{grid-template-columns:1fr 1fr}
   }
 </style>
 </head>
 <body>
 
-<!-- AUTH SCREEN -->
+<!-- AUTH -->
 <div id="auth-screen">
-  <div class="auth-card" id="login-card">
+  <div class="auth-card">
     <div class="auth-logo">
       <div class="logo-icon">📚</div>
       <h1>CS Hub</h1>
@@ -461,22 +274,21 @@
     <div class="auth-error" id="login-error">Incorrect username or password.</div>
     <div class="form-group">
       <label>Username</label>
-      <input type="text" id="login-username" placeholder="your.name" autocomplete="username" />
+      <input type="text" id="login-username" placeholder="your.name" autocomplete="username"/>
     </div>
     <div class="form-group">
       <label>Password</label>
-      <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
+      <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password"/>
     </div>
     <button class="btn btn-primary" onclick="doLogin()">Sign In →</button>
     <div class="auth-links">
-      <a onclick="showResetModal()">Forgot your password?</a>
-      &nbsp;·&nbsp;
-      <a onclick="showFirstSetup()">🔑 First time setup</a>
+      <a onclick="showResetModal()">Forgot your password?</a> &nbsp;·&nbsp;
+      <a onclick="showResetModal()">🔑 First time setup</a>
     </div>
   </div>
 </div>
 
-<!-- MAIN APP -->
+<!-- APP -->
 <div id="app">
   <div class="app-layout">
 
@@ -485,44 +297,46 @@
       <div class="sidebar-header">
         <div class="sidebar-logo">📚 CS Hub</div>
         <div class="sidebar-user">Signed in as <span id="sidebar-username">—</span></div>
-        <div class="sidebar-user" id="sidebar-role-display" style="margin-top:2px;font-size:10px;"></div>
+        <div class="sidebar-user" id="sidebar-role-display" style="margin-top:2px;font-size:10px"></div>
       </div>
-
       <div class="sidebar-section">
         <div class="sidebar-section-label">Overview</div>
         <div class="nav-item active" data-page="dashboard" onclick="navigate('dashboard')">⊞ Dashboard</div>
       </div>
-
       <div class="sidebar-section">
         <div class="sidebar-section-label">Knowledge Base</div>
         <div class="nav-item" data-page="articles" onclick="navigate('articles')">📖 Articles</div>
         <div class="nav-item author-only" data-page="new-article" onclick="navigate('new-article')">＋ New Article</div>
       </div>
-
       <div class="sidebar-section">
         <div class="sidebar-section-label">Learning</div>
         <div class="nav-item" data-page="announcements" onclick="navigate('announcements')">📢 Announcements <span class="nav-badge" id="unread-badge" style="display:none">0</span></div>
         <div class="nav-item author-only" data-page="new-announcement" onclick="navigate('new-announcement')">＋ New Announcement</div>
       </div>
-
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Support</div>
+        <div class="nav-item" data-page="article-requests" onclick="navigate('article-requests')">💡 Article Requests <span class="nav-badge" id="requests-badge" style="display:none">0</span></div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">My Progress</div>
+        <div class="nav-item" data-page="my-stats" onclick="navigate('my-stats')">📈 My Stats</div>
+      </div>
       <div class="sidebar-section admin-only">
         <div class="sidebar-section-label">Management</div>
         <div class="nav-item" data-page="reports" onclick="navigate('reports')">📊 Reports</div>
         <div class="nav-item" data-page="audit" onclick="navigate('audit')">🔍 Audit Log</div>
         <div class="nav-item" data-page="users" onclick="navigate('users')">👥 Users</div>
       </div>
-
       <div class="sidebar-section">
         <div class="sidebar-section-label">Account</div>
         <div class="nav-item" data-page="profile" onclick="navigate('profile')">👤 My Profile</div>
       </div>
-
       <div class="sidebar-footer">
         <div class="nav-item" onclick="doLogout()">↤ Sign Out</div>
       </div>
     </nav>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN -->
     <main class="main">
 
       <!-- DASHBOARD -->
@@ -554,21 +368,17 @@
         </div>
       </div>
 
-      <!-- ARTICLES LIST -->
+      <!-- ARTICLES -->
       <div class="page" id="page-articles">
         <div class="page-header">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start">
-            <div>
-              <div class="page-title">Knowledge Base</div>
-              <div class="page-subtitle">Search and browse all CS articles · AI-powered search available</div>
-            </div>
-          </div>
+          <div class="page-title">Knowledge Base</div>
+          <div class="page-subtitle">Search and browse all CS articles · AI-powered search available</div>
         </div>
-        <div class="toolbar">
+        <div class="toolbar" id="articles-toolbar">
           <div class="search-box">
             <span class="icon">🔍</span>
-            <input type="text" id="article-search" placeholder="Search articles..." oninput="filterArticles()" />
-            <button class="btn btn-sm" id="ai-search-btn" onclick="doAISearch()" style="background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer">✦ Ask AI</button>
+            <input type="text" id="article-search" placeholder="Search articles..." oninput="filterArticles()"/>
+            <button onclick="doAISearch()" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer">✦ Ask AI</button>
           </div>
           <div class="filter-tabs">
             <div class="filter-tab active" onclick="setFilter('All',this)">All</div>
@@ -580,63 +390,64 @@
         </div>
         <div id="ai-search-result"></div>
         <div id="articles-grid" class="articles-grid"></div>
-
-        <!-- Article detail view -->
+        <!-- Article Detail -->
         <div class="article-detail" id="article-detail">
           <div class="back-btn" onclick="closeArticle()">← Back to Articles</div>
           <div class="article-body">
             <div style="display:flex;justify-content:space-between;align-items:flex-start">
               <div>
                 <div id="detail-cat" class="article-cat"></div>
-                <h2 id="detail-title" style="font-size:20px;font-weight:700;letter-spacing:-0.5px;margin-bottom:6px"></h2>
+                <h2 id="detail-title" style="font-size:20px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px"></h2>
                 <div id="detail-meta" style="font-size:12px;color:var(--text3)"></div>
               </div>
-              <div class="article-actions author-only" id="detail-actions"></div>
+              <div class="author-only" id="detail-actions" style="display:flex;gap:8px"></div>
             </div>
             <div id="detail-short" style="background:var(--surface2);border-radius:8px;padding:12px 16px;margin:16px 0;font-size:13px;color:var(--text2);display:none"></div>
             <div class="article-body-content" id="detail-content"></div>
             <div id="detail-tags" style="margin-top:16px;display:flex;gap:6px;flex-wrap:wrap"></div>
+            <!-- Rating -->
+            <div class="rating-section" id="rating-section">
+              <div class="rating-title">⭐ Rate this article</div>
+              <div class="star-row" id="star-row">
+                <span class="star" onclick="setRating(1)" onmouseover="hoverRating(1)" onmouseout="unhoverRating()">⭐</span>
+                <span class="star" onclick="setRating(2)" onmouseover="hoverRating(2)" onmouseout="unhoverRating()">⭐</span>
+                <span class="star" onclick="setRating(3)" onmouseover="hoverRating(3)" onmouseout="unhoverRating()">⭐</span>
+                <span class="star" onclick="setRating(4)" onmouseover="hoverRating(4)" onmouseout="unhoverRating()">⭐</span>
+                <span class="star" onclick="setRating(5)" onmouseover="hoverRating(5)" onmouseout="unhoverRating()">⭐</span>
+              </div>
+              <div class="rating-comment" id="rating-comment">
+                <div class="form-group">
+                  <label>How can this article be improved?</label>
+                  <textarea id="rating-text" rows="3" placeholder="Your feedback helps us improve..."></textarea>
+                </div>
+                <button class="btn btn-primary" style="width:auto" onclick="submitRating()">Submit Feedback</button>
+              </div>
+              <div id="rating-done" style="display:none"></div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- NEW / EDIT ARTICLE -->
+      <!-- NEW/EDIT ARTICLE -->
       <div class="page" id="page-new-article">
         <div class="page-header">
           <div class="page-title" id="article-form-title">New Article</div>
           <div class="page-subtitle">Create a new knowledge base article</div>
         </div>
         <div class="form-card">
-          <input type="hidden" id="edit-article-id" />
-          <div class="form-group">
-            <label>Article Title *</label>
-            <input type="text" id="art-title" placeholder="e.g. How to process a refund" />
-          </div>
+          <input type="hidden" id="edit-article-id"/>
+          <div class="form-group"><label>Article Title *</label><input type="text" id="art-title" placeholder="e.g. How to process a refund"/></div>
           <div class="form-row">
-            <div class="form-group">
-              <label>Category</label>
-              <select id="art-category">
-                <option>Policy</option><option>Process</option><option>Product</option><option>FAQ</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Tags (comma separated)</label>
-              <input type="text" id="art-tags" placeholder="refund, billing, orders" />
-            </div>
+            <div class="form-group"><label>Category</label><select id="art-category"><option>Policy</option><option>Process</option><option>Product</option><option>FAQ</option></select></div>
+            <div class="form-group"><label>Tags (comma separated)</label><input type="text" id="art-tags" placeholder="refund, billing, orders"/></div>
           </div>
           <div class="form-group">
-            <label>Short Answer (max 120 chars — shown in search results)</label>
-            <input type="text" id="art-short" placeholder="Brief summary..." maxlength="120" oninput="document.getElementById('short-count').textContent=this.value.length+'/120'" />
+            <label>Short Answer (max 120 chars)</label>
+            <input type="text" id="art-short" placeholder="Brief summary..." maxlength="120" oninput="document.getElementById('short-count').textContent=this.value.length+'/120'"/>
             <div class="char-count"><span id="short-count">0</span>/120</div>
           </div>
-          <div class="form-group">
-            <label>Full Article Content *</label>
-            <textarea id="art-content" rows="12" placeholder="Write the full article here..."></textarea>
-          </div>
-          <div class="form-group">
-            <label>Change Note (optional)</label>
-            <input type="text" id="art-change-note" placeholder="What changed in this version?" />
-          </div>
+          <div class="form-group"><label>Full Article Content *</label><textarea id="art-content" rows="12" placeholder="Write the full article here..."></textarea></div>
+          <div class="form-group"><label>Change Note (optional)</label><input type="text" id="art-change-note" placeholder="What changed in this version?"/></div>
           <div class="form-actions">
             <button class="btn btn-secondary" onclick="navigate('articles')">Cancel</button>
             <button class="btn btn-primary" onclick="saveArticle()">💾 Save Article</button>
@@ -648,20 +459,33 @@
       <div class="page" id="page-announcements">
         <div class="page-header">
           <div class="page-title">Announcements</div>
-          <div class="page-subtitle">Weekly updates — read, acknowledge and pass the quiz to certify</div>
+          <div class="page-subtitle">Weekly updates — read and pass the quiz to certify</div>
+        </div>
+        <div class="ann-toolbar" id="ann-toolbar">
+          <div class="search-box" style="flex:1">
+            <span class="icon">🔍</span>
+            <input type="text" id="ann-search" placeholder="Search announcements..." oninput="filterAnnouncements()"/>
+          </div>
+          <div class="filter-tabs">
+            <div class="filter-tab active" onclick="setAnnFilter('all',this)">All</div>
+            <div class="filter-tab" onclick="setAnnFilter('pending',this)">⚠ Pending</div>
+            <div class="filter-tab" onclick="setAnnFilter('certified',this)">✓ Certified</div>
+          </div>
         </div>
         <div id="announcements-list"></div>
-
-        <!-- Announcement detail -->
+        <!-- Announcement Detail -->
         <div class="article-detail" id="announcement-detail">
           <div class="back-btn" onclick="closeAnnouncement()">← Back to Announcements</div>
           <div class="article-body">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
               <div>
-                <h2 id="ann-detail-title" style="font-size:20px;font-weight:700;letter-spacing:-0.5px"></h2>
+                <h2 id="ann-detail-title" style="font-size:20px;font-weight:700;letter-spacing:-.5px"></h2>
                 <div id="ann-detail-meta" style="font-size:12px;color:var(--text3);margin-top:4px"></div>
               </div>
-              <div id="ann-cert-status"></div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+                <div id="ann-cert-status"></div>
+                <div class="author-only" id="ann-edit-actions" style="display:flex;gap:6px"></div>
+              </div>
             </div>
             <div class="article-body-content" id="ann-detail-content"></div>
             <div class="quiz-section" id="ann-quiz-section"></div>
@@ -672,30 +496,17 @@
       <!-- NEW ANNOUNCEMENT -->
       <div class="page" id="page-new-announcement">
         <div class="page-header">
-          <div class="page-title">New Announcement</div>
+          <div class="page-title" id="ann-form-title">New Announcement</div>
           <div class="page-subtitle">Create a weekly announcement with a certification quiz</div>
         </div>
         <div class="form-card" style="max-width:800px">
-          <div class="form-group">
-            <label>Announcement Title *</label>
-            <input type="text" id="ann-title" placeholder="e.g. Week 12 — Product Updates" />
-          </div>
+          <input type="hidden" id="edit-ann-id"/>
+          <div class="form-group"><label>Announcement Title *</label><input type="text" id="ann-title" placeholder="e.g. Week 12 — Product Updates"/></div>
           <div class="form-row">
-            <div class="form-group">
-              <label>Week / Period</label>
-              <input type="text" id="ann-period" placeholder="e.g. Week 12, April 2025" />
-            </div>
-            <div class="form-group">
-              <label>Mandatory For</label>
-              <select id="ann-mandatory">
-                <option>All Staff</option><option>Agents Only</option><option>Team Leads & Above</option>
-              </select>
-            </div>
+            <div class="form-group"><label>Week / Period</label><input type="text" id="ann-period" placeholder="e.g. Week 12, April 2025"/></div>
+            <div class="form-group"><label>Mandatory For</label><select id="ann-mandatory"><option>All Staff</option><option>Agents Only</option><option>Team Leads & Above</option></select></div>
           </div>
-          <div class="form-group">
-            <label>Announcement Content *</label>
-            <textarea id="ann-content" rows="10" placeholder="Write the full announcement here..."></textarea>
-          </div>
+          <div class="form-group"><label>Announcement Content *</label><textarea id="ann-content" rows="10" placeholder="Write the full announcement here..."></textarea></div>
           <div style="margin-top:20px;padding-top:20px;border-top:2px solid var(--border)">
             <div style="font-size:15px;font-weight:700;margin-bottom:14px">📝 Certification Quiz</div>
             <div style="font-size:12px;color:var(--text2);margin-bottom:12px">Add 1–5 questions. Staff must score 100% to certify.</div>
@@ -709,44 +520,93 @@
         </div>
       </div>
 
+      <!-- ARTICLE REQUESTS -->
+      <div class="page" id="page-article-requests">
+        <div class="page-header">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div>
+              <div class="page-title">Article Requests</div>
+              <div class="page-subtitle" id="req-subtitle">Submit a request for a new knowledge base article</div>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="showNewRequest()" style="width:auto">+ New Request</button>
+          </div>
+        </div>
+        <!-- New request form (hidden by default) -->
+        <div id="new-request-form" style="display:none;margin-bottom:24px">
+          <div class="form-card">
+            <div style="font-size:15px;font-weight:700;margin-bottom:16px">💡 Submit Article Request</div>
+            <div class="form-group"><label>Article Title / Topic *</label><input type="text" id="req-title" placeholder="e.g. How to handle escalated complaints"/></div>
+            <div class="form-group"><label>Description — why is this needed? *</label><textarea id="req-desc" rows="4" placeholder="Explain what information you need and how it would help..."></textarea></div>
+            <div class="form-actions" style="padding-top:12px;margin-top:12px">
+              <button class="btn btn-secondary" onclick="hideNewRequest()">Cancel</button>
+              <button class="btn btn-primary" onclick="submitRequest()">💡 Submit Request</button>
+            </div>
+          </div>
+        </div>
+        <!-- Requests list -->
+        <div id="requests-list"></div>
+      </div>
+
+      <!-- MY STATS -->
+      <div class="page" id="page-my-stats">
+        <div class="page-header">
+          <div class="page-title">My Stats</div>
+          <div class="page-subtitle">Your personal learning and engagement overview</div>
+        </div>
+        <div class="my-stats-grid" id="my-stats-grid">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" id="my-stats-detail">
+          <div class="card">
+            <div class="card-title">📢 Pending Announcements</div>
+            <div id="my-pending-anns"><div class="loading"><div class="spinner"></div></div></div>
+          </div>
+          <div class="card">
+            <div class="card-title">📖 Recently Viewed Articles</div>
+            <div id="my-viewed-articles"><div class="loading"><div class="spinner"></div></div></div>
+          </div>
+        </div>
+      </div>
+
       <!-- REPORTS -->
       <div class="page" id="page-reports">
         <div class="page-header">
           <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
-              <div class="page-title">Compliance Reports</div>
-              <div class="page-subtitle">Track announcement read rates and quiz certification per user</div>
+              <div class="page-title">Reports</div>
+              <div class="page-subtitle">Compliance, engagement and article request analytics</div>
             </div>
             <button class="btn btn-secondary btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
           </div>
         </div>
-        <div id="reports-content"><div class="loading"><div class="spinner"></div></div></div>
+        <div class="report-tabs">
+          <div class="report-tab active" onclick="switchReportTab('announcements',this)">📢 Announcements</div>
+          <div class="report-tab" onclick="switchReportTab('articles',this)">📖 Article Ratings</div>
+          <div class="report-tab" onclick="switchReportTab('requests',this)">💡 Article Requests</div>
+          <div class="report-tab" onclick="switchReportTab('users',this)">👥 User Activity</div>
+        </div>
+        <div class="report-panel active" id="rp-announcements"><div class="loading"><div class="spinner"></div></div></div>
+        <div class="report-panel" id="rp-articles"></div>
+        <div class="report-panel" id="rp-requests"></div>
+        <div class="report-panel" id="rp-users"></div>
       </div>
 
       <!-- AUDIT LOG -->
       <div class="page" id="page-audit">
         <div class="page-header">
           <div style="display:flex;justify-content:space-between;align-items:center">
-            <div>
-              <div class="page-title">Audit Log</div>
-              <div class="page-subtitle">Complete record of all actions</div>
-            </div>
+            <div><div class="page-title">Audit Log</div><div class="page-subtitle">Complete record of all actions</div></div>
             <button class="btn btn-danger btn-sm" onclick="clearAuditLog()">🗑 Clear Log</button>
           </div>
         </div>
-        <div class="card">
-          <div id="audit-list"><div class="loading"><div class="spinner"></div></div></div>
-        </div>
+        <div class="card"><div id="audit-list"><div class="loading"><div class="spinner"></div></div></div></div>
       </div>
 
       <!-- USERS -->
       <div class="page" id="page-users">
         <div class="page-header">
           <div style="display:flex;justify-content:space-between;align-items:center">
-            <div>
-              <div class="page-title">User Management</div>
-              <div class="page-subtitle">Manage staff access and roles</div>
-            </div>
+            <div><div class="page-title">User Management</div><div class="page-subtitle">Manage staff access and roles</div></div>
             <div style="display:flex;gap:8px">
               <button class="btn btn-secondary btn-sm" onclick="showBulkUpload()">⬆ Bulk Upload CSV</button>
               <button class="btn btn-primary btn-sm" onclick="showAddUser()">+ Add User</button>
@@ -754,78 +614,53 @@
           </div>
         </div>
         <div style="display:flex;gap:10px;margin-bottom:16px">
-          <select id="user-role-filter" class="form-group" style="margin:0" onchange="filterUsers()">
-            <option value="">All Roles</option>
-            <option>Admin</option><option>Team Lead</option><option>Author</option><option>Agent</option>
+          <select id="user-role-filter" onchange="filterUsers()" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px">
+            <option value="">All Roles</option><option>Admin</option><option>Team Lead</option><option>Author</option><option>Agent</option>
           </select>
-          <select id="user-status-filter" class="form-group" style="margin:0" onchange="filterUsers()">
-            <option value="">All Status</option>
-            <option>Active</option><option>Inactive</option>
+          <select id="user-status-filter" onchange="filterUsers()" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px">
+            <option value="">All Status</option><option>Active</option><option>Inactive</option>
           </select>
         </div>
         <div class="card">
           <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th><th>Username</th><th>Role</th><th>Department</th><th>Status</th><th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="users-tbody"></tbody>
-            </table>
+            <table><thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Department</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="users-tbody"></tbody></table>
           </div>
         </div>
-        <!-- Data Management -->
         <div style="margin-top:24px">
           <div class="page-title" style="font-size:16px;margin-bottom:14px">💾 Data Management</div>
-          <div class="data-section">
-            <h3>⬇ Backup All Data</h3>
-            <p>Export all articles, announcements, users and completion records as a JSON file.</p>
-            <button class="btn btn-secondary btn-sm" onclick="backupData()">Download Backup</button>
-          </div>
-          <div class="data-section">
-            <h3>⬆ Restore from Backup</h3>
-            <p>Upload a previously exported backup file to restore all data.</p>
-            <input type="file" id="restore-file" accept=".json" onchange="restoreData(this)" style="display:none"/>
-            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('restore-file').click()">Upload Backup File</button>
-          </div>
-          <div class="data-section" style="border-color:var(--danger)">
-            <h3>⚠ Wipe Content Data</h3>
-            <p>Permanently delete all articles, announcements and completion records. Users are kept.</p>
-            <button class="btn btn-danger btn-sm" onclick="wipeData()">Wipe Content Data</button>
-          </div>
+          <div class="data-section"><h3>⬇ Backup All Data</h3><p>Export all articles, announcements, users and completion records as a JSON file.</p><button class="btn btn-secondary btn-sm" onclick="backupData()">Download Backup</button></div>
+          <div class="data-section"><h3>⬆ Restore from Backup</h3><p>Upload a previously exported backup file to restore all data.</p><input type="file" id="restore-file" accept=".json" onchange="restoreData(this)" style="display:none"/><button class="btn btn-secondary btn-sm" onclick="document.getElementById('restore-file').click()">Upload Backup File</button></div>
+          <div class="data-section" style="border-color:var(--danger)"><h3>⚠ Wipe Content Data</h3><p>Permanently delete all articles, announcements and completion records. Users are kept.</p><button class="btn btn-danger btn-sm" onclick="wipeData()">Wipe Content Data</button></div>
         </div>
       </div>
 
       <!-- PROFILE -->
       <div class="page" id="page-profile">
-        <div class="page-header">
-          <div class="page-title">My Profile</div>
-          <div class="page-subtitle">Update your details and change your password</div>
-        </div>
+        <div class="page-header"><div class="page-title">My Profile</div><div class="page-subtitle">Update your details and change your password</div></div>
         <div class="form-card">
           <div class="profile-section">
             <div class="profile-section-title">👤 Personal Details</div>
             <div class="form-row">
-              <div class="form-group"><label>First Name</label><input type="text" id="prof-first" /></div>
-              <div class="form-group"><label>Last Name</label><input type="text" id="prof-last" /></div>
+              <div class="form-group"><label>First Name</label><input type="text" id="prof-first"/></div>
+              <div class="form-group"><label>Last Name</label><input type="text" id="prof-last"/></div>
             </div>
             <div class="form-row">
-              <div class="form-group"><label>Username</label><input type="text" id="prof-username" disabled style="opacity:0.6" /></div>
-              <div class="form-group"><label>Email (optional)</label><input type="text" id="prof-email" /></div>
+              <div class="form-group"><label>Username</label><input type="text" id="prof-username" disabled style="opacity:.6"/></div>
+              <div class="form-group"><label>Email (optional)</label><input type="text" id="prof-email"/></div>
             </div>
             <div class="form-row">
-              <div class="form-group"><label>Department</label><input type="text" id="prof-dept" /></div>
-              <div class="form-group"><label>Role</label><input type="text" id="prof-role" disabled style="opacity:0.6" /></div>
+              <div class="form-group"><label>Department</label><input type="text" id="prof-dept"/></div>
+              <div class="form-group"><label>Role</label><input type="text" id="prof-role" disabled style="opacity:.6"/></div>
             </div>
             <button class="btn btn-primary" style="width:auto;margin-top:4px" onclick="saveProfile()">Save Details</button>
           </div>
           <div class="profile-section">
             <div class="profile-section-title">🔒 Change Password</div>
-            <div class="form-group"><label>Current Password</label><input type="password" id="prof-curr-pw" /></div>
+            <div class="form-group"><label>Current Password</label><input type="password" id="prof-curr-pw"/></div>
             <div class="form-row">
-              <div class="form-group"><label>New Password</label><input type="password" id="prof-new-pw" /></div>
-              <div class="form-group"><label>Confirm New Password</label><input type="password" id="prof-confirm-pw" /></div>
+              <div class="form-group"><label>New Password</label><input type="password" id="prof-new-pw"/></div>
+              <div class="form-group"><label>Confirm New Password</label><input type="password" id="prof-confirm-pw"/></div>
             </div>
             <button class="btn btn-primary" style="width:auto;margin-top:4px" onclick="changePassword()">Update Password</button>
           </div>
@@ -837,23 +672,20 @@
 </div>
 
 <!-- MODALS -->
-<!-- Add User -->
 <div class="modal-overlay" id="modal-add-user">
   <div class="modal">
     <div class="modal-title">Add New User</div>
     <div class="form-row">
-      <div class="form-group"><label>First Name *</label><input type="text" id="new-first" /></div>
-      <div class="form-group"><label>Last Name *</label><input type="text" id="new-last" /></div>
+      <div class="form-group"><label>First Name *</label><input type="text" id="new-first"/></div>
+      <div class="form-group"><label>Last Name *</label><input type="text" id="new-last"/></div>
     </div>
-    <div class="form-group"><label>Username * (used to log in)</label><input type="text" id="new-username" /></div>
-    <div class="form-group"><label>Email (optional)</label><input type="text" id="new-email" /></div>
+    <div class="form-group"><label>Username *</label><input type="text" id="new-username"/></div>
+    <div class="form-group"><label>Email (optional)</label><input type="text" id="new-email"/></div>
     <div class="form-row">
-      <div class="form-group"><label>Role</label>
-        <select id="new-role"><option>Agent</option><option>Author</option><option>Team Lead</option><option>Admin</option></select>
-      </div>
-      <div class="form-group"><label>Department</label><input type="text" id="new-dept" /></div>
+      <div class="form-group"><label>Role</label><select id="new-role"><option>Agent</option><option>Author</option><option>Team Lead</option><option>Admin</option></select></div>
+      <div class="form-group"><label>Department</label><input type="text" id="new-dept"/></div>
     </div>
-    <div class="form-group"><label>Password *</label><input type="password" id="new-password" /></div>
+    <div class="form-group"><label>Password *</label><input type="password" id="new-password"/></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal('modal-add-user')">Cancel</button>
       <button class="btn btn-primary" onclick="createUser()">Create User</button>
@@ -861,7 +693,6 @@
   </div>
 </div>
 
-<!-- Bulk Upload -->
 <div class="modal-overlay" id="modal-bulk-upload">
   <div class="modal">
     <div class="modal-title">Bulk Upload Users via CSV</div>
@@ -874,23 +705,22 @@
   </div>
 </div>
 
-<!-- Reset Password -->
 <div class="modal-overlay" id="modal-reset">
   <div class="modal">
     <div class="modal-title">Reset Your Password</div>
     <div id="reset-step-1">
-      <div style="font-size:13px;color:var(--text2);margin-bottom:14px">Enter your username to begin the reset process.</div>
-      <div class="form-group"><label>Username</label><input type="text" id="reset-username" /></div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:14px">Enter your username to begin.</div>
+      <div class="form-group"><label>Username</label><input type="text" id="reset-username"/></div>
       <div class="modal-actions">
         <button class="btn btn-secondary" onclick="closeModal('modal-reset')">Cancel</button>
         <button class="btn btn-primary" onclick="resetStep1()">Continue →</button>
       </div>
     </div>
     <div id="reset-step-2" style="display:none">
-      <div style="font-size:13px;color:var(--text2);margin-bottom:14px">Account found. Please verify your identity.</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:14px">Please verify your identity.</div>
       <div class="form-row">
-        <div class="form-group"><label>Your First Name</label><input type="text" id="reset-first" /></div>
-        <div class="form-group"><label>Your Last Name</label><input type="text" id="reset-last" /></div>
+        <div class="form-group"><label>First Name</label><input type="text" id="reset-first"/></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="reset-last"/></div>
       </div>
       <div class="modal-actions">
         <button class="btn btn-secondary" onclick="showResetStep(1)">← Back</button>
@@ -899,8 +729,8 @@
     </div>
     <div id="reset-step-3" style="display:none">
       <div style="font-size:13px;color:var(--text2);margin-bottom:14px">✓ Identity verified. Set your new password.</div>
-      <div class="form-group"><label>New Password</label><input type="password" id="reset-new-pw" /></div>
-      <div class="form-group"><label>Confirm New Password</label><input type="password" id="reset-confirm-pw" /></div>
+      <div class="form-group"><label>New Password</label><input type="password" id="reset-new-pw"/></div>
+      <div class="form-group"><label>Confirm New Password</label><input type="password" id="reset-confirm-pw"/></div>
       <div class="modal-actions">
         <button class="btn btn-secondary" onclick="showResetStep(2)">← Back</button>
         <button class="btn btn-primary" onclick="resetStep3()">Set New Password ✓</button>
@@ -909,37 +739,29 @@
   </div>
 </div>
 
-<!-- Version History -->
 <div class="modal-overlay" id="modal-versions">
   <div class="modal" style="max-width:600px">
     <div class="modal-title">Article Version History</div>
     <div id="versions-list"></div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal('modal-versions')">Close</button>
-    </div>
+    <div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal('modal-versions')">Close</button></div>
   </div>
 </div>
 
-<!-- Edit User -->
 <div class="modal-overlay" id="modal-edit-user">
   <div class="modal">
     <div class="modal-title">Edit User</div>
-    <input type="hidden" id="edit-user-id" />
+    <input type="hidden" id="edit-user-id"/>
     <div class="form-row">
-      <div class="form-group"><label>First Name</label><input type="text" id="edit-first" /></div>
-      <div class="form-group"><label>Last Name</label><input type="text" id="edit-last" /></div>
+      <div class="form-group"><label>First Name</label><input type="text" id="edit-first"/></div>
+      <div class="form-group"><label>Last Name</label><input type="text" id="edit-last"/></div>
     </div>
-    <div class="form-group"><label>Email</label><input type="text" id="edit-email" /></div>
+    <div class="form-group"><label>Email</label><input type="text" id="edit-email"/></div>
     <div class="form-row">
-      <div class="form-group"><label>Role</label>
-        <select id="edit-role"><option>Agent</option><option>Author</option><option>Team Lead</option><option>Admin</option></select>
-      </div>
-      <div class="form-group"><label>Department</label><input type="text" id="edit-dept-user" /></div>
+      <div class="form-group"><label>Role</label><select id="edit-role"><option>Agent</option><option>Author</option><option>Team Lead</option><option>Admin</option></select></div>
+      <div class="form-group"><label>Department</label><input type="text" id="edit-dept-user"/></div>
     </div>
-    <div class="form-group"><label>Status</label>
-      <select id="edit-active"><option value="true">Active</option><option value="false">Inactive</option></select>
-    </div>
-    <div class="form-group"><label>Reset Password (leave blank to keep)</label><input type="password" id="edit-password" /></div>
+    <div class="form-group"><label>Status</label><select id="edit-active"><option value="true">Active</option><option value="false">Inactive</option></select></div>
+    <div class="form-group"><label>Reset Password (leave blank to keep)</label><input type="password" id="edit-password"/></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal('modal-edit-user')">Cancel</button>
       <button class="btn btn-primary" onclick="updateUser()">Save Changes</button>
@@ -947,200 +769,185 @@
   </div>
 </div>
 
+<!-- Request Response Modal -->
+<div class="modal-overlay" id="modal-respond-request">
+  <div class="modal">
+    <div class="modal-title">Respond to Article Request</div>
+    <input type="hidden" id="respond-req-id"/>
+    <div id="respond-req-summary" style="background:var(--surface2);border-radius:8px;padding:12px;margin-bottom:16px;font-size:13px"></div>
+    <div class="form-group"><label>Status</label>
+      <select id="respond-status"><option>Pending</option><option>In Progress</option><option>Completed</option><option>Declined</option></select>
+    </div>
+    <div class="form-group"><label>Response to User</label>
+      <textarea id="respond-text" rows="4" placeholder="e.g. Thank you for your request. A new article on this topic has been created..."></textarea>
+    </div>
+    <div class="form-group" id="link-article-group">
+      <label>Link to Created Article (optional)</label>
+      <select id="respond-article-link"><option value="">— Select article —</option></select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-respond-request')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitResponse()">Send Response</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
-// ─── CONFIG ───────────────────────────────────────────────────
 const SUPABASE_URL = 'https://nxzlchtblhkrynmjeckl.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_yKzGmJYMOOccTK2fofijyA_8ksrik6B';
+const API = p => `${SUPABASE_URL}/rest/v1/${p}`;
+const H = { 'Content-Type':'application/json', apikey:SUPABASE_KEY, Authorization:`Bearer ${SUPABASE_KEY}`, Prefer:'return=representation' };
 
-const API = (path) => `${SUPABASE_URL}/rest/v1/${path}`;
-const headers = {
-  'Content-Type': 'application/json',
-  'apikey': SUPABASE_KEY,
-  'Authorization': `Bearer ${SUPABASE_KEY}`,
-  'Prefer': 'return=representation'
-};
+async function sbGet(t,q=''){const r=await fetch(API(t)+(q?'?'+q:''),{headers:H});if(!r.ok)throw new Error(await r.text());return r.json()}
+async function sbPost(t,b){const r=await fetch(API(t),{method:'POST',headers:H,body:JSON.stringify(b)});if(!r.ok)throw new Error(await r.text());return r.json()}
+async function sbPatch(t,q,b){const r=await fetch(API(t)+'?'+q,{method:'PATCH',headers:H,body:JSON.stringify(b)});if(!r.ok)throw new Error(await r.text());return r.json()}
+async function sbDelete(t,q){const r=await fetch(API(t)+'?'+q,{method:'DELETE',headers:H});if(!r.ok)throw new Error(await r.text())}
+async function sbUpsert(t,b,onConflict){const h={...H,Prefer:'resolution=merge-duplicates,return=representation'};const r=await fetch(API(t)+'?on_conflict='+onConflict,{method:'POST',headers:h,body:JSON.stringify(b)});if(!r.ok)throw new Error(await r.text());return r.json()}
 
-// ─── SUPABASE HELPERS ─────────────────────────────────────────
-async function sbGet(table, query = '') {
-  const r = await fetch(API(table) + (query ? '?' + query : ''), { headers });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-async function sbPost(table, body) {
-  const r = await fetch(API(table), { method: 'POST', headers, body: JSON.stringify(body) });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-async function sbPatch(table, query, body) {
-  const r = await fetch(API(table) + '?' + query, { method: 'PATCH', headers, body: JSON.stringify(body) });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-async function sbDelete(table, query) {
-  const r = await fetch(API(table) + '?' + query, { method: 'DELETE', headers });
-  if (!r.ok) throw new Error(await r.text());
-}
+// STATE
+let currentUser=null,allArticles=[],allAnnouncements=[],allUsers=[],allCompletions=[],allRequests=[];
+let currentFilter='All',currentAnnFilter='all',currentArticleId=null,currentAnnouncementId=null;
+let resetUserId=null,pendingRating=0;
 
-// ─── STATE ────────────────────────────────────────────────────
-let currentUser = null;
-let allArticles = [];
-let allAnnouncements = [];
-let allUsers = [];
-let allCompletions = [];
-let currentFilter = 'All';
-let currentArticleId = null;
-let currentAnnouncementId = null;
-let resetUserId = null;
-let quizCount = 0;
+// TOAST
+function toast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.className='show '+type;clearTimeout(t._t);t._t=setTimeout(()=>t.className='',3200)}
 
-// ─── TOAST ────────────────────────────────────────────────────
-function toast(msg, type = 'success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'show ' + type;
-  clearTimeout(t._t);
-  t._t = setTimeout(() => t.className = '', 3000);
-}
-
-// ─── AUTH ─────────────────────────────────────────────────────
-async function doLogin() {
-  const username = document.getElementById('login-username').value.trim();
-  const password = document.getElementById('login-password').value;
-  if (!username || !password) return;
-  try {
-    const users = await sbGet('users', `username=eq.${encodeURIComponent(username)}&active=eq.true`);
-    if (!users.length || users[0].password !== password) {
-      document.getElementById('login-error').style.display = 'block';
-      return;
-    }
-    currentUser = users[0];
-    document.getElementById('login-error').style.display = 'none';
+// AUTH
+async function doLogin(){
+  const username=document.getElementById('login-username').value.trim();
+  const password=document.getElementById('login-password').value;
+  if(!username||!password)return;
+  try{
+    const users=await sbGet('users',`username=eq.${encodeURIComponent(username)}&active=eq.true`);
+    if(!users.length||users[0].password!==password){document.getElementById('login-error').style.display='block';return}
+    currentUser=users[0];
+    document.getElementById('login-error').style.display='none';
     startApp();
-    await logAction('Login', `${currentUser.first_name} ${currentUser.last_name} signed in`);
-  } catch(e) {
-    toast('Connection error: ' + e.message, 'error');
-  }
+    await logAction('Login',`${currentUser.first_name} ${currentUser.last_name} signed in`);
+  }catch(e){toast('Connection error: '+e.message,'error')}
 }
 
-function doLogout() {
-  currentUser = null;
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('auth-screen').style.display = 'flex';
-  document.getElementById('login-password').value = '';
+function doLogout(){
+  currentUser=null;
+  document.getElementById('app').style.display='none';
+  document.getElementById('auth-screen').style.display='flex';
+  document.getElementById('login-password').value='';
 }
 
-function startApp() {
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  document.getElementById('sidebar-username').textContent = currentUser.username;
-  document.getElementById('sidebar-role-display').innerHTML = `<span style="color:rgba(255,255,255,0.5)">${currentUser.role} · ${currentUser.department || 'Unicity'}</span>`;
-  document.getElementById('dash-name').textContent = currentUser.first_name;
-
-  // Show/hide role-based nav
-  const isAdminOrLead = ['Admin','Team Lead'].includes(currentUser.role);
-  const isAuthor = ['Admin','Team Lead','Author'].includes(currentUser.role);
-  document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdminOrLead ? '' : 'none');
-  document.querySelectorAll('.author-only').forEach(el => el.style.display = isAuthor ? '' : 'none');
-
+function startApp(){
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('sidebar-username').textContent=currentUser.username;
+  document.getElementById('sidebar-role-display').innerHTML=`<span style="color:rgba(255,255,255,.5)">${currentUser.role} · ${currentUser.department||'Unicity'}</span>`;
+  document.getElementById('dash-name').textContent=currentUser.first_name;
+  const isAdmin=['Admin','Team Lead'].includes(currentUser.role);
+  const isAuthor=['Admin','Team Lead','Author'].includes(currentUser.role);
+  document.querySelectorAll('.admin-only').forEach(el=>el.style.display=isAdmin?'':'none');
+  document.querySelectorAll('.author-only').forEach(el=>el.style.display=isAuthor?'':'none');
   navigate('dashboard');
 }
 
-// ─── NAVIGATION ───────────────────────────────────────────────
-function navigate(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('page-' + page)?.classList.add('active');
+// NAVIGATE
+function navigate(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+page)?.classList.add('active');
   document.querySelector(`[data-page="${page}"]`)?.classList.add('active');
+  // Close detail views
+  ['article-detail','announcement-detail'].forEach(id=>{document.getElementById(id).classList.remove('active')});
+  const ag=document.getElementById('articles-grid');if(ag)ag.style.display='';
+  const at=document.getElementById('articles-toolbar');if(at)at.style.display='';
+  const al=document.getElementById('announcements-list');if(al)al.style.display='';
+  const annT=document.getElementById('ann-toolbar');if(annT)annT.style.display='';
+  const air=document.getElementById('ai-search-result');if(air){air.style.display='';air.innerHTML=''}
 
-  // Close detail views when navigating away
-  document.getElementById('article-detail').classList.remove('active');
-  document.getElementById('articles-grid').style.display = '';
-  document.getElementById('announcement-detail').classList.remove('active');
-  document.getElementById('announcements-list').style.display = '';
-
-  if (page === 'dashboard') loadDashboard();
-  if (page === 'articles') loadArticles();
-  if (page === 'announcements') loadAnnouncements();
-  if (page === 'reports') loadReports();
-  if (page === 'audit') loadAudit();
-  if (page === 'users') loadUsers();
-  if (page === 'profile') loadProfile();
-  if (page === 'new-article') {
-    document.getElementById('article-form-title').textContent = 'New Article';
-    document.getElementById('edit-article-id').value = '';
-    ['art-title','art-tags','art-short','art-content','art-change-note'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('art-category').value = 'Policy';
-    document.getElementById('short-count').textContent = '0';
+  if(page==='dashboard')loadDashboard();
+  if(page==='articles')loadArticles();
+  if(page==='announcements')loadAnnouncements();
+  if(page==='reports')loadReports();
+  if(page==='audit')loadAudit();
+  if(page==='users')loadUsers();
+  if(page==='profile')loadProfile();
+  if(page==='article-requests')loadRequests();
+  if(page==='my-stats')loadMyStats();
+  if(page==='new-article'){
+    document.getElementById('article-form-title').textContent='New Article';
+    document.getElementById('edit-article-id').value='';
+    ['art-title','art-tags','art-short','art-content','art-change-note'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('art-category').value='Policy';
+    document.getElementById('short-count').textContent='0';
   }
-  if (page === 'new-announcement') {
-    quizCount = 0;
-    document.getElementById('quiz-builder').innerHTML = '';
-    ['ann-title','ann-period','ann-content'].forEach(id => document.getElementById(id).value = '');
+  if(page==='new-announcement'){
+    document.getElementById('ann-form-title').textContent='New Announcement';
+    document.getElementById('edit-ann-id').value='';
+    document.getElementById('quiz-builder').innerHTML='';
+    ['ann-title','ann-period','ann-content'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('ann-mandatory').value='All Staff';
   }
 }
 
-// ─── DASHBOARD ────────────────────────────────────────────────
-async function loadDashboard() {
-  try {
-    const [articles, announcements, users, completions] = await Promise.all([
-      sbGet('articles', 'select=id'),
-      sbGet('announcements', 'select=id'),
-      sbGet('users', 'active=eq.true&select=id'),
-      sbGet('completions', `user_id=eq.${currentUser.id}&select=id`)
+// DASHBOARD
+async function loadDashboard(){
+  try{
+    const[articles,announcements,users,completions]=await Promise.all([
+      sbGet('articles','select=id'),sbGet('announcements','select=id'),
+      sbGet('users','active=eq.true&select=id'),
+      sbGet('completions',`user_id=eq.${currentUser.id}&select=id`)
     ]);
-    document.getElementById('stat-articles').textContent = articles.length;
-    document.getElementById('stat-announcements').textContent = announcements.length;
-    document.getElementById('stat-users').textContent = users.length;
-    document.getElementById('stat-certs').textContent = completions.length;
-
-    const recentAnn = await sbGet('announcements', 'select=id,title,period,created_at&order=created_at.desc&limit=5');
-    const recentArt = await sbGet('articles', 'select=id,title,category,created_at&order=created_at.desc&limit=5');
-
-    document.getElementById('dash-announcements').innerHTML = recentAnn.length
-      ? recentAnn.map(a => `<div class="recent-item"><div class="recent-dot"></div><div><div class="recent-title">${a.title}</div><div class="recent-meta">${a.period || ''} · ${timeAgo(a.created_at)}</div></div></div>`).join('')
-      : '<div class="empty-state"><p>No announcements yet</p></div>';
-
-    document.getElementById('dash-articles').innerHTML = recentArt.length
-      ? recentArt.map(a => `<div class="recent-item"><div class="recent-dot"></div><div><div class="recent-title">${a.title}</div><div class="recent-meta">${a.category} · ${timeAgo(a.created_at)}</div></div></div>`).join('')
-      : '<div class="empty-state"><p>No articles yet</p></div>';
-
-    // Unread badge
-    const userCompIds = (await sbGet('completions', `user_id=eq.${currentUser.id}&select=announcement_id`)).map(c => c.announcement_id);
-    const unread = announcements.filter(a => !userCompIds.includes(a.id)).length;
-    const badge = document.getElementById('unread-badge');
-    badge.textContent = unread;
-    badge.style.display = unread > 0 ? 'inline-block' : 'none';
-  } catch(e) { toast('Error loading dashboard', 'error'); }
+    document.getElementById('stat-articles').textContent=articles.length;
+    document.getElementById('stat-announcements').textContent=announcements.length;
+    document.getElementById('stat-users').textContent=users.length;
+    document.getElementById('stat-certs').textContent=completions.length;
+    const[recentAnn,recentArt]=await Promise.all([
+      sbGet('announcements','select=id,title,period,created_at&order=created_at.desc&limit=5'),
+      sbGet('articles','select=id,title,category,created_at&order=created_at.desc&limit=5')
+    ]);
+    document.getElementById('dash-announcements').innerHTML=recentAnn.length
+      ?recentAnn.map(a=>`<div class="recent-item"><div class="recent-dot"></div><div><div class="recent-title">${a.title}</div><div class="recent-meta">${a.period||''} · ${timeAgo(a.created_at)}</div></div></div>`).join('')
+      :'<div class="empty-state"><p>No announcements yet</p></div>';
+    document.getElementById('dash-articles').innerHTML=recentArt.length
+      ?recentArt.map(a=>`<div class="recent-item"><div class="recent-dot"></div><div><div class="recent-title">${a.title}</div><div class="recent-meta">${a.category} · ${timeAgo(a.created_at)}</div></div></div>`).join('')
+      :'<div class="empty-state"><p>No articles yet</p></div>';
+    await updateUnreadBadge();
+  }catch(e){toast('Error loading dashboard','error')}
 }
 
-// ─── ARTICLES ─────────────────────────────────────────────────
-async function loadArticles() {
-  document.getElementById('articles-grid').innerHTML = '<div class="loading"><div class="spinner"></div> Loading articles...</div>';
-  try {
-    allArticles = await sbGet('articles', 'order=created_at.desc');
-    renderArticles();
-  } catch(e) { toast('Error loading articles', 'error'); }
+async function updateUnreadBadge(){
+  try{
+    const[anns,comps]=await Promise.all([
+      sbGet('announcements','select=id'),
+      sbGet('completions',`user_id=eq.${currentUser.id}&select=announcement_id`)
+    ]);
+    const certIds=comps.map(c=>c.announcement_id);
+    const unread=anns.filter(a=>!certIds.includes(a.id)).length;
+    const badge=document.getElementById('unread-badge');
+    badge.textContent=unread;badge.style.display=unread>0?'inline-block':'none';
+  }catch(e){}
 }
 
-function renderArticles() {
-  const q = document.getElementById('article-search').value.toLowerCase();
-  let filtered = allArticles.filter(a => {
-    const matchCat = currentFilter === 'All' || a.category === currentFilter;
-    const matchQ = !q || a.title.toLowerCase().includes(q) || (a.content||'').toLowerCase().includes(q) || (a.tags||'').toLowerCase().includes(q) || (a.short_answer||'').toLowerCase().includes(q);
-    return matchCat && matchQ;
+// ARTICLES
+async function loadArticles(){
+  document.getElementById('articles-grid').innerHTML='<div class="loading"><div class="spinner"></div> Loading articles...</div>';
+  try{allArticles=await sbGet('articles','order=created_at.desc');renderArticles()}
+  catch(e){toast('Error loading articles','error')}
+}
+
+function renderArticles(){
+  const q=document.getElementById('article-search').value.toLowerCase();
+  let filtered=allArticles.filter(a=>{
+    const mc=currentFilter==='All'||a.category===currentFilter;
+    const mq=!q||a.title.toLowerCase().includes(q)||(a.content||'').toLowerCase().includes(q)||(a.tags||'').toLowerCase().includes(q)||(a.short_answer||'').toLowerCase().includes(q);
+    return mc&&mq;
   });
-  const grid = document.getElementById('articles-grid');
-  if (!filtered.length) {
-    grid.innerHTML = '<div class="empty-state"><div class="icon">📖</div><p>No articles found</p></div>';
-    return;
-  }
-  grid.innerHTML = filtered.map(a => `
+  const grid=document.getElementById('articles-grid');
+  if(!filtered.length){grid.innerHTML='<div class="empty-state"><div class="icon">📖</div><p>No articles found</p></div>';return}
+  grid.innerHTML=filtered.map(a=>`
     <div class="article-card" onclick="openArticle('${a.id}')">
       <span class="article-cat cat-${a.category}">${a.category}</span>
       <div class="article-title">${a.title}</div>
-      ${a.short_answer ? `<div class="article-short">${a.short_answer}</div>` : ''}
+      ${a.short_answer?`<div class="article-short">${a.short_answer}</div>`:''}
       <div class="article-footer">
         <div class="article-tags">${(a.tags||'').split(',').filter(Boolean).slice(0,3).map(t=>`<span class="tag">${t.trim()}</span>`).join('')}</div>
         <div class="article-meta">${timeAgo(a.updated_at||a.created_at)}</div>
@@ -1148,625 +955,799 @@ function renderArticles() {
     </div>`).join('');
 }
 
-function setFilter(cat, el) {
-  currentFilter = cat;
-  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  renderArticles();
-}
+function setFilter(cat,el){currentFilter=cat;document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderArticles()}
+function filterArticles(){renderArticles()}
 
-function filterArticles() { renderArticles(); }
-
-async function openArticle(id) {
-  const a = allArticles.find(x => x.id === id);
-  if (!a) return;
-  currentArticleId = id;
-  document.getElementById('articles-grid').style.display = 'none';
-  document.querySelector('.toolbar').style.display = 'none';
-  document.getElementById('ai-search-result').style.display = 'none';
-
-  document.getElementById('detail-cat').className = `article-cat cat-${a.category}`;
-  document.getElementById('detail-cat').textContent = a.category;
-  document.getElementById('detail-title').textContent = a.title;
-  document.getElementById('detail-meta').textContent = `v${a.version||1} · Updated ${timeAgo(a.updated_at||a.created_at)} · by ${a.author||'—'}`;
-  document.getElementById('detail-content').textContent = a.content;
-
-  const shortEl = document.getElementById('detail-short');
-  if (a.short_answer) { shortEl.textContent = a.short_answer; shortEl.style.display = 'block'; }
-  else shortEl.style.display = 'none';
-
-  document.getElementById('detail-tags').innerHTML = (a.tags||'').split(',').filter(Boolean).map(t=>`<span class="tag">${t.trim()}</span>`).join('');
-
-  const isAuthor = ['Admin','Team Lead','Author'].includes(currentUser.role);
-  document.getElementById('detail-actions').innerHTML = isAuthor ? `
+async function openArticle(id){
+  const a=allArticles.find(x=>x.id===id);if(!a)return;
+  currentArticleId=id;
+  document.getElementById('articles-grid').style.display='none';
+  document.getElementById('articles-toolbar').style.display='none';
+  document.getElementById('ai-search-result').style.display='none';
+  document.getElementById('detail-cat').className=`article-cat cat-${a.category}`;
+  document.getElementById('detail-cat').textContent=a.category;
+  document.getElementById('detail-title').textContent=a.title;
+  document.getElementById('detail-meta').textContent=`v${a.version||1} · Updated ${timeAgo(a.updated_at||a.created_at)} · by ${a.author||'—'}`;
+  document.getElementById('detail-content').textContent=a.content;
+  const se=document.getElementById('detail-short');
+  if(a.short_answer){se.textContent=a.short_answer;se.style.display='block'}else se.style.display='none';
+  document.getElementById('detail-tags').innerHTML=(a.tags||'').split(',').filter(Boolean).map(t=>`<span class="tag">${t.trim()}</span>`).join('');
+  const isAuthor=['Admin','Team Lead','Author'].includes(currentUser.role);
+  document.getElementById('detail-actions').innerHTML=isAuthor?`
     <button class="btn btn-secondary btn-sm" onclick="editArticle('${a.id}')">✏️ Edit</button>
     <button class="btn btn-secondary btn-sm" onclick="showVersions('${a.id}')">📋 History</button>
-    <button class="btn btn-danger btn-sm" onclick="deleteArticle('${a.id}')">🗑</button>` : '';
-
+    <button class="btn btn-danger btn-sm" onclick="deleteArticle('${a.id}')">🗑</button>`:'';
+  // Rating
+  await loadRatingSection(id);
   document.getElementById('article-detail').classList.add('active');
-  await logAction('Article Viewed', a.title);
+  // Track view
+  try{await sbPost('article_views',{article_id:id,user_id:currentUser.id})}catch(e){}
+  await logAction('Article Viewed',a.title);
 }
 
-function closeArticle() {
+async function loadRatingSection(articleId){
+  pendingRating=0;
+  document.getElementById('rating-done').style.display='none';
+  document.getElementById('rating-comment').style.display='none';
+  document.getElementById('star-row').style.display='flex';
+  updateStars(0);
+  try{
+    const existing=await sbGet('article_ratings',`article_id=eq.${articleId}&user_id=eq.${currentUser.id}`);
+    if(existing.length){
+      const r=existing[0];
+      document.getElementById('rating-section').innerHTML=`
+        <div class="rating-section">
+          <div class="rating-title">⭐ Your Rating</div>
+          <div class="rating-submitted">You rated this article ${'⭐'.repeat(r.rating)} (${r.rating}/5)${r.comment?`<br><span style="font-weight:400;font-size:12px;margin-top:4px;display:block">"${r.comment}"</span>`:''}</div>
+          <button class="btn btn-secondary btn-sm" style="margin-top:10px" onclick="resetRating('${articleId}')">Change Rating</button>
+        </div>`;
+    }
+  }catch(e){}
+}
+
+function hoverRating(n){updateStars(n)}
+function unhoverRating(){updateStars(pendingRating)}
+function updateStars(n){document.querySelectorAll('.star').forEach((s,i)=>{s.classList.toggle('active',i<n)})}
+
+function setRating(n){
+  pendingRating=n;updateStars(n);
+  const commentEl=document.getElementById('rating-comment');
+  if(n<5){commentEl.style.display='block'}else{commentEl.style.display='none';document.getElementById('rating-text').value=''}
+}
+
+async function submitRating(){
+  if(!pendingRating){toast('Please select a rating','error');return}
+  const comment=document.getElementById('rating-text').value.trim();
+  try{
+    await sbUpsert('article_ratings',{article_id:currentArticleId,user_id:currentUser.id,rating:pendingRating,comment},'article_id,user_id');
+    toast('Thank you for your feedback! ⭐');
+    await logAction('Article Rated',`${allArticles.find(a=>a.id===currentArticleId)?.title} — ${pendingRating}/5`);
+    await loadRatingSection(currentArticleId);
+  }catch(e){toast('Error submitting rating','error')}
+}
+
+async function resetRating(articleId){
+  try{await sbDelete('article_ratings',`article_id=eq.${articleId}&user_id=eq.${currentUser.id}`)}catch(e){}
+  await loadRatingSection(articleId);
+}
+
+function closeArticle(){
   document.getElementById('article-detail').classList.remove('active');
-  document.getElementById('articles-grid').style.display = '';
-  document.querySelector('.toolbar').style.display = '';
-  document.getElementById('ai-search-result').style.display = '';
+  document.getElementById('articles-grid').style.display='';
+  document.getElementById('articles-toolbar').style.display='';
 }
 
-function editArticle(id) {
-  const a = allArticles.find(x => x.id === id);
-  if (!a) return;
-  document.getElementById('edit-article-id').value = a.id;
-  document.getElementById('art-title').value = a.title;
-  document.getElementById('art-category').value = a.category;
-  document.getElementById('art-tags').value = a.tags || '';
-  document.getElementById('art-short').value = a.short_answer || '';
-  document.getElementById('short-count').textContent = (a.short_answer||'').length + '/120';
-  document.getElementById('art-content').value = a.content;
-  document.getElementById('art-change-note').value = '';
-  document.getElementById('article-form-title').textContent = 'Edit Article';
+function editArticle(id){
+  const a=allArticles.find(x=>x.id===id);if(!a)return;
+  document.getElementById('edit-article-id').value=a.id;
+  document.getElementById('art-title').value=a.title;
+  document.getElementById('art-category').value=a.category;
+  document.getElementById('art-tags').value=a.tags||'';
+  document.getElementById('art-short').value=a.short_answer||'';
+  document.getElementById('short-count').textContent=(a.short_answer||'').length+'/120';
+  document.getElementById('art-content').value=a.content;
+  document.getElementById('art-change-note').value='';
+  document.getElementById('article-form-title').textContent='Edit Article';
   navigate('new-article');
 }
 
-async function saveArticle() {
-  const title = document.getElementById('art-title').value.trim();
-  const content = document.getElementById('art-content').value.trim();
-  if (!title || !content) { toast('Title and content are required', 'error'); return; }
-  const editId = document.getElementById('edit-article-id').value;
-  const data = {
-    title,
-    category: document.getElementById('art-category').value,
-    tags: document.getElementById('art-tags').value.trim(),
-    short_answer: document.getElementById('art-short').value.trim(),
-    content,
-    author: `${currentUser.first_name} ${currentUser.last_name}`,
-    change_note: document.getElementById('art-change-note').value.trim(),
-    updated_at: new Date().toISOString()
-  };
-  try {
-    if (editId) {
-      const old = allArticles.find(x => x.id === editId);
-      if (old) {
-        await sbPost('article_versions', { article_id: editId, title: old.title, content: old.content, change_note: old.change_note, version: old.version||1, saved_by: data.author });
-      }
-      data.version = (old?.version||1) + 1;
-      await sbPatch('articles', `id=eq.${editId}`, data);
-      toast('Article updated!');
-      await logAction('Article Updated', title);
-    } else {
-      data.version = 1;
-      await sbPost('articles', data);
-      toast('Article created!');
-      await logAction('Article Created', title);
+async function saveArticle(){
+  const title=document.getElementById('art-title').value.trim();
+  const content=document.getElementById('art-content').value.trim();
+  if(!title||!content){toast('Title and content are required','error');return}
+  const editId=document.getElementById('edit-article-id').value;
+  const data={title,category:document.getElementById('art-category').value,tags:document.getElementById('art-tags').value.trim(),short_answer:document.getElementById('art-short').value.trim(),content,author:`${currentUser.first_name} ${currentUser.last_name}`,change_note:document.getElementById('art-change-note').value.trim(),updated_at:new Date().toISOString()};
+  try{
+    if(editId){
+      const old=allArticles.find(x=>x.id===editId);
+      if(old)await sbPost('article_versions',{article_id:editId,title:old.title,content:old.content,change_note:old.change_note,version:old.version||1,saved_by:data.author});
+      data.version=(old?.version||1)+1;
+      await sbPatch('articles',`id=eq.${editId}`,data);
+      toast('Article updated!');await logAction('Article Updated',title);
+    }else{
+      data.version=1;await sbPost('articles',data);
+      toast('Article created!');await logAction('Article Created',title);
     }
     navigate('articles');
-  } catch(e) { toast('Error saving article', 'error'); }
+  }catch(e){toast('Error saving article','error')}
 }
 
-async function deleteArticle(id) {
-  if (!confirm('Delete this article?')) return;
-  const a = allArticles.find(x => x.id === id);
-  try {
-    await sbDelete('articles', `id=eq.${id}`);
-    toast('Article deleted');
-    await logAction('Article Deleted', a?.title);
-    navigate('articles');
-  } catch(e) { toast('Error deleting article', 'error'); }
+async function deleteArticle(id){
+  if(!confirm('Delete this article?'))return;
+  const a=allArticles.find(x=>x.id===id);
+  try{await sbDelete('articles',`id=eq.${id}`);toast('Article deleted');await logAction('Article Deleted',a?.title);navigate('articles')}
+  catch(e){toast('Error deleting article','error')}
 }
 
-async function showVersions(id) {
-  const versions = await sbGet('article_versions', `article_id=eq.${id}&order=saved_at.desc`);
-  document.getElementById('versions-list').innerHTML = versions.length
-    ? versions.map(v => `<div style="border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px">
+async function showVersions(id){
+  const versions=await sbGet('article_versions',`article_id=eq.${id}&order=saved_at.desc`);
+  document.getElementById('versions-list').innerHTML=versions.length
+    ?versions.map(v=>`<div style="border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px">
         <div style="font-size:12px;font-weight:700;color:var(--text2)">Version ${v.version} · ${timeAgo(v.saved_at)} · by ${v.saved_by||'—'}</div>
-        ${v.change_note ? `<div style="font-size:12px;color:var(--text3);margin-top:4px">${v.change_note}</div>` : ''}
+        ${v.change_note?`<div style="font-size:12px;color:var(--text3);margin-top:4px">${v.change_note}</div>`:''}
         <div style="font-size:13px;margin-top:8px;white-space:pre-wrap;max-height:120px;overflow-y:auto">${(v.content||'').substring(0,300)}...</div>
       </div>`).join('')
-    : '<div class="empty-state"><p>No version history yet</p></div>';
+    :'<div class="empty-state"><p>No version history yet</p></div>';
   openModal('modal-versions');
 }
 
-// ─── AI SEARCH ────────────────────────────────────────────────
-async function doAISearch() {
-  const q = document.getElementById('article-search').value.trim();
-  if (!q) { toast('Type a question first', 'error'); return; }
-  const resultEl = document.getElementById('ai-search-result');
-  resultEl.innerHTML = '<div class="ai-search-result"><div class="ai-label">✦ AI is thinking...</div></div>';
-  resultEl.style.display = 'block';
-
-  try {
-    const context = allArticles.map(a => `TITLE: ${a.title}\nCATEGORY: ${a.category}\nSUMMARY: ${a.short_answer||''}\nCONTENT: ${(a.content||'').substring(0,500)}`).join('\n\n---\n\n');
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 400,
-        system: `You are a helpful customer service knowledge assistant for Unicity. Answer questions based ONLY on the provided knowledge base articles. Be concise and direct. If the answer isn't in the articles, say so clearly.`,
-        messages: [{ role: 'user', content: `Knowledge base:\n\n${context}\n\nQuestion: ${q}` }]
-      })
-    });
-    const data = await resp.json();
-    const answer = data.content?.[0]?.text || 'No answer found.';
-    resultEl.innerHTML = `<div class="ai-search-result"><div class="ai-label">✦ AI Answer</div><p>${answer}</p></div>`;
-  } catch(e) {
-    resultEl.innerHTML = '<div class="ai-search-result"><div class="ai-label">✦ AI</div><p>AI search unavailable right now.</p></div>';
-  }
+// AI SEARCH
+async function doAISearch(){
+  const q=document.getElementById('article-search').value.trim();
+  if(!q){toast('Type a question first','error');return}
+  const resultEl=document.getElementById('ai-search-result');
+  resultEl.innerHTML='<div class="ai-search-result"><div class="ai-label">✦ AI is thinking...</div></div>';
+  resultEl.style.display='block';
+  try{
+    const context=allArticles.map(a=>`TITLE: ${a.title}\nCATEGORY: ${a.category}\nSUMMARY: ${a.short_answer||''}\nCONTENT: ${(a.content||'').substring(0,500)}`).join('\n\n---\n\n');
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,system:'You are a helpful customer service knowledge assistant for Unicity. Answer questions based ONLY on the provided knowledge base articles. Be concise and direct. If the answer is not in the articles, say so.',messages:[{role:'user',content:`Knowledge base:\n\n${context}\n\nQuestion: ${q}`}]})});
+    const data=await resp.json();
+    resultEl.innerHTML=`<div class="ai-search-result"><div class="ai-label">✦ AI Answer</div><p>${data.content?.[0]?.text||'No answer found.'}</p></div>`;
+  }catch(e){resultEl.innerHTML='<div class="ai-search-result"><div class="ai-label">✦ AI</div><p>AI search unavailable right now.</p></div>'}
 }
 
-// ─── ANNOUNCEMENTS ────────────────────────────────────────────
-async function loadAnnouncements() {
-  document.getElementById('announcements-list').innerHTML = '<div class="loading"><div class="spinner"></div> Loading...</div>';
-  try {
-    allAnnouncements = await sbGet('announcements', 'order=created_at.desc');
-    allCompletions = await sbGet('completions', `user_id=eq.${currentUser.id}`);
+// ANNOUNCEMENTS
+async function loadAnnouncements(){
+  document.getElementById('announcements-list').innerHTML='<div class="loading"><div class="spinner"></div> Loading...</div>';
+  try{
+    allAnnouncements=await sbGet('announcements','order=created_at.desc');
+    allCompletions=await sbGet('completions',`user_id=eq.${currentUser.id}`);
     renderAnnouncements();
-  } catch(e) { toast('Error loading announcements', 'error'); }
+    await updateUnreadBadge();
+  }catch(e){toast('Error loading announcements','error')}
 }
 
-function renderAnnouncements() {
-  const list = document.getElementById('announcements-list');
-  if (!allAnnouncements.length) {
-    list.innerHTML = '<div class="empty-state"><div class="icon">📢</div><p>No announcements yet</p></div>';
-    return;
-  }
-  const certIds = allCompletions.map(c => c.announcement_id);
-  list.innerHTML = allAnnouncements.map(a => {
-    const certified = certIds.includes(a.id);
-    const mandClass = a.mandatory_for === 'All Staff' ? 'mandatory-all' : a.mandatory_for === 'Agents Only' ? 'mandatory-agents' : 'mandatory-leads';
-    return `<div class="announcement-card" onclick="openAnnouncement('${a.id}')">
+function renderAnnouncements(){
+  const q=(document.getElementById('ann-search')?.value||'').toLowerCase();
+  const certIds=allCompletions.map(c=>c.announcement_id);
+  let filtered=allAnnouncements.filter(a=>{
+    const mq=!q||a.title.toLowerCase().includes(q)||(a.content||'').toLowerCase().includes(q)||(a.period||'').toLowerCase().includes(q);
+    const certified=certIds.includes(a.id);
+    const mf=currentAnnFilter==='all'||(currentAnnFilter==='certified'&&certified)||(currentAnnFilter==='pending'&&!certified);
+    return mq&&mf;
+  });
+  const list=document.getElementById('announcements-list');
+  if(!filtered.length){list.innerHTML='<div class="empty-state"><div class="icon">📢</div><p>No announcements found</p></div>';return}
+  list.innerHTML=filtered.map(a=>{
+    const certified=certIds.includes(a.id);
+    const mc=a.mandatory_for==='All Staff'?'mandatory-all':a.mandatory_for==='Agents Only'?'mandatory-agents':'mandatory-leads';
+    return `<div class="announcement-card ${certified?'':'unread'}" onclick="openAnnouncement('${a.id}')">
       <div class="announcement-header">
-        <div>
-          <div class="announcement-title">${a.title}</div>
-          <div class="announcement-period">${a.period||''} · ${timeAgo(a.created_at)}</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          ${certified?'':'<span class="unread-dot"></span>'}
+          <div>
+            <div class="announcement-title">${a.title}</div>
+            <div class="announcement-period">${a.period||''} · ${timeAgo(a.created_at)}</div>
+          </div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
-          <span class="mandatory-badge ${mandClass}">${a.mandatory_for}</span>
-          ${certified ? '<span class="certified-badge">✓ Certified</span>' : ''}
+          <span class="mandatory-badge ${mc}">${a.mandatory_for}</span>
+          ${certified?'<span class="certified-badge">✓ Certified</span>':'<span style="font-size:11px;color:var(--danger);font-weight:600">Quiz Required</span>'}
         </div>
       </div>
     </div>`;
   }).join('');
 }
 
-function openAnnouncement(id) {
-  const a = allAnnouncements.find(x => x.id === id);
-  if (!a) return;
-  currentAnnouncementId = id;
-  document.getElementById('announcements-list').style.display = 'none';
-  document.getElementById('ann-detail-title').textContent = a.title;
-  document.getElementById('ann-detail-meta').textContent = `${a.period||''} · ${a.mandatory_for} · Published ${timeAgo(a.created_at)}`;
-  document.getElementById('ann-detail-content').textContent = a.content;
+function setAnnFilter(f,el){currentAnnFilter=f;document.querySelectorAll('#ann-toolbar .filter-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderAnnouncements()}
+function filterAnnouncements(){renderAnnouncements()}
 
-  const certified = allCompletions.some(c => c.announcement_id === id);
-  document.getElementById('ann-cert-status').innerHTML = certified ? '<span class="certified-badge" style="font-size:13px;padding:6px 14px">✓ Certified</span>' : '';
+async function openAnnouncement(id){
+  const a=allAnnouncements.find(x=>x.id===id);if(!a)return;
+  currentAnnouncementId=id;
+  document.getElementById('announcements-list').style.display='none';
+  document.getElementById('ann-toolbar').style.display='none';
+  document.getElementById('ann-detail-title').textContent=a.title;
+  document.getElementById('ann-detail-meta').textContent=`${a.period||''} · ${a.mandatory_for} · Published ${timeAgo(a.created_at)}`;
+  document.getElementById('ann-detail-content').textContent=a.content;
 
-  const quizSection = document.getElementById('ann-quiz-section');
-  const quiz = a.quiz;
-  if (quiz && quiz.questions && quiz.questions.length && !certified) {
-    quizSection.innerHTML = `<div class="quiz-title">📝 Certification Quiz</div>` +
-      quiz.questions.map((q, qi) => `
+  const certified=allCompletions.some(c=>c.announcement_id===id);
+  document.getElementById('ann-cert-status').innerHTML=certified?'<span class="certified-badge" style="font-size:13px;padding:6px 14px">✓ Certified</span>':'';
+
+  const isAuthor=['Admin','Team Lead','Author'].includes(currentUser.role);
+  document.getElementById('ann-edit-actions').innerHTML=isAuthor?`
+    <button class="btn btn-secondary btn-sm" onclick="editAnnouncement('${a.id}')">✏️ Edit</button>
+    <button class="btn btn-danger btn-sm" onclick="deleteAnnouncement('${a.id}')">🗑</button>`:'';
+
+  // Quiz — always show if not certified
+  const quizSection=document.getElementById('ann-quiz-section');
+  const quiz=a.quiz;
+  if(quiz&&quiz.questions&&quiz.questions.length&&!certified){
+    quizSection.innerHTML=`<div class="quiz-title">📝 Certification Quiz — score 100% to certify</div>`+
+      quiz.questions.map((q,qi)=>`
         <div class="quiz-question">
           <div class="quiz-q-text">${qi+1}. ${q.question}</div>
-          ${q.options.map((opt, oi) => `
-            <label class="quiz-option">
-              <input type="radio" name="q${qi}" value="${oi}" /> ${opt}
-            </label>`).join('')}
-        </div>`).join('') +
-      `<button class="btn btn-primary" style="width:auto;margin-top:12px" onclick="submitQuiz('${id}')">Submit Quiz</button>
+          ${q.options.map((opt,oi)=>`<label class="quiz-option"><input type="radio" name="q${qi}" value="${oi}"/> ${opt}</label>`).join('')}
+        </div>`).join('')+
+      `<button class="btn btn-primary" style="width:auto;margin-top:12px" onclick="submitQuiz('${id}')">Submit Answers</button>
        <div id="quiz-result-${id}"></div>`;
-  } else if (certified) {
-    quizSection.innerHTML = '<div class="quiz-result quiz-pass">✓ You have already certified for this announcement.</div>';
-  } else {
-    quizSection.innerHTML = '';
+  }else if(certified){
+    quizSection.innerHTML='<div class="quiz-result quiz-pass" style="margin-top:16px">✓ You have certified for this announcement.</div>';
+  }else{
+    quizSection.innerHTML='<div style="margin-top:16px;font-size:13px;color:var(--text3)">No quiz attached to this announcement.</div>';
   }
 
   document.getElementById('announcement-detail').classList.add('active');
-  logAction('Announcement Viewed', a.title);
+
+  // Mark as opened (opened_at) — only if not already certified
+  if(!certified){
+    try{await sbPost('completions',{user_id:currentUser.id,announcement_id:id,score:null,opened_at:new Date().toISOString()})}
+    catch(e){/* already exists — upsert not needed for opened_at, just track */}
+  }
+
+  // Remove red dot immediately from sidebar
+  await updateUnreadBadge();
+  await logAction('Announcement Opened',a.title);
 }
 
-function closeAnnouncement() {
+function closeAnnouncement(){
   document.getElementById('announcement-detail').classList.remove('active');
-  document.getElementById('announcements-list').style.display = '';
+  document.getElementById('announcements-list').style.display='';
+  document.getElementById('ann-toolbar').style.display='';
+  renderAnnouncements();
 }
 
-async function submitQuiz(annId) {
-  const a = allAnnouncements.find(x => x.id === annId);
-  const quiz = a.quiz;
-  let correct = 0;
-  for (let i = 0; i < quiz.questions.length; i++) {
-    const sel = document.querySelector(`input[name="q${i}"]:checked`);
-    if (sel && parseInt(sel.value) === quiz.questions[i].correct) correct++;
+async function submitQuiz(annId){
+  const a=allAnnouncements.find(x=>x.id===annId);
+  const quiz=a.quiz;
+  let correct=0;
+  for(let i=0;i<quiz.questions.length;i++){
+    const sel=document.querySelector(`input[name="q${i}"]:checked`);
+    if(sel&&parseInt(sel.value)===quiz.questions[i].correct)correct++;
   }
-  const total = quiz.questions.length;
-  const passed = correct === total;
-  const resultEl = document.getElementById(`quiz-result-${annId}`);
-  if (passed) {
-    resultEl.innerHTML = `<div class="quiz-result quiz-pass">🎉 Perfect score! You're certified.</div>`;
-    try {
-      await sbPost('completions', { user_id: currentUser.id, announcement_id: annId, score: correct });
-      allCompletions.push({ announcement_id: annId, score: correct });
-      document.getElementById('ann-cert-status').innerHTML = '<span class="certified-badge" style="font-size:13px;padding:6px 14px">✓ Certified</span>';
+  const total=quiz.questions.length;
+  const passed=correct===total;
+  const resultEl=document.getElementById(`quiz-result-${annId}`);
+  if(passed){
+    resultEl.innerHTML=`<div class="quiz-result quiz-pass">🎉 Perfect score! You are now certified.</div>`;
+    try{
+      // Update existing completion record to set score and completed_at
+      const existing=await sbGet('completions',`user_id=eq.${currentUser.id}&announcement_id=eq.${annId}`);
+      if(existing.length){
+        await sbPatch('completions',`user_id=eq.${currentUser.id}&announcement_id=eq.${annId}`,{score:correct,completed_at:new Date().toISOString()});
+      }else{
+        await sbPost('completions',{user_id:currentUser.id,announcement_id:annId,score:correct,completed_at:new Date().toISOString()});
+      }
+      allCompletions.push({announcement_id:annId,score:correct});
+      document.getElementById('ann-cert-status').innerHTML='<span class="certified-badge" style="font-size:13px;padding:6px 14px">✓ Certified</span>';
       toast('Certification complete! 🎉');
-      await logAction('Quiz Passed', a.title);
-    } catch(e) {}
-  } else {
-    resultEl.innerHTML = `<div class="quiz-result quiz-fail">${correct}/${total} correct — try again. You need 100% to certify.</div>`;
-    await logAction('Quiz Failed', `${a.title} — ${correct}/${total}`);
+      await logAction('Quiz Passed',a.title);
+      await updateUnreadBadge();
+    }catch(e){}
+  }else{
+    resultEl.innerHTML=`<div class="quiz-result quiz-fail">${correct}/${total} correct — you need 100% to certify. Please try again.</div>`;
+    await logAction('Quiz Failed',`${a.title} — ${correct}/${total}`);
   }
 }
 
-async function saveAnnouncement() {
-  const title = document.getElementById('ann-title').value.trim();
-  const content = document.getElementById('ann-content').value.trim();
-  if (!title || !content) { toast('Title and content required', 'error'); return; }
-
-  const questions = [];
-  document.querySelectorAll('.quiz-q').forEach((qEl, qi) => {
-    const qText = qEl.querySelector('.q-text')?.value?.trim();
-    const opts = [...qEl.querySelectorAll('.q-opt')].map(o => o.value.trim()).filter(Boolean);
-    const correct = [...qEl.querySelectorAll('.q-correct')].findIndex(r => r.checked);
-    if (qText && opts.length >= 2 && correct >= 0) questions.push({ question: qText, options: opts, correct });
-  });
-
-  const data = {
-    title,
-    period: document.getElementById('ann-period').value.trim(),
-    mandatory_for: document.getElementById('ann-mandatory').value,
-    content,
-    quiz: questions.length ? { questions } : null
-  };
-  try {
-    await sbPost('announcements', data);
-    toast('Announcement published!');
-    await logAction('Announcement Created', title);
-    navigate('announcements');
-  } catch(e) { toast('Error saving announcement', 'error'); }
+function editAnnouncement(id){
+  const a=allAnnouncements.find(x=>x.id===id);if(!a)return;
+  document.getElementById('edit-ann-id').value=a.id;
+  document.getElementById('ann-title').value=a.title;
+  document.getElementById('ann-period').value=a.period||'';
+  document.getElementById('ann-mandatory').value=a.mandatory_for;
+  document.getElementById('ann-content').value=a.content;
+  document.getElementById('ann-form-title').textContent='Edit Announcement';
+  // Rebuild quiz
+  const builder=document.getElementById('quiz-builder');builder.innerHTML='';
+  if(a.quiz?.questions){
+    a.quiz.questions.forEach((q,qi)=>{
+      const div=document.createElement('div');div.className='quiz-builder-q quiz-q';
+      div.innerHTML=`<div class="form-group"><label>Question ${qi+1}</label><input type="text" class="q-text" value="${q.question}"/></div>`+
+        q.options.map((opt,oi)=>`<div class="quiz-option-row"><input type="radio" name="correct-${qi}" class="q-correct" value="${oi}" ${q.correct===oi?'checked':''}><label>Correct?</label><input type="text" class="q-opt" value="${opt}"/></div>`).join('')+
+        `<button class="btn btn-danger btn-sm" style="margin-top:6px" onclick="this.parentElement.remove()">Remove</button>`;
+      builder.appendChild(div);
+    });
+  }
+  navigate('new-announcement');
 }
 
-function addQuizQuestion() {
-  const builder = document.getElementById('quiz-builder');
-  const count = builder.querySelectorAll('.quiz-q').length;
-  if (count >= 5) { toast('Maximum 5 questions', 'error'); return; }
-  const div = document.createElement('div');
-  div.className = 'quiz-builder-q quiz-q';
-  div.innerHTML = `
-    <div class="form-group"><label>Question ${count+1}</label><input type="text" class="q-text" placeholder="Enter your question..." /></div>
-    ${[0,1,2,3].map(i=>`<div class="quiz-option-row">
-      <input type="radio" name="correct-${count}" class="q-correct" value="${i}" />
-      <label>Correct?</label>
-      <input type="text" class="q-opt" placeholder="Option ${i+1}" />
-    </div>`).join('')}
-    <button class="btn btn-danger btn-sm" style="margin-top:6px" onclick="this.parentElement.remove()">Remove</button>`;
+async function deleteAnnouncement(id){
+  if(!confirm('Delete this announcement?'))return;
+  const a=allAnnouncements.find(x=>x.id===id);
+  try{await sbDelete('announcements',`id=eq.${id}`);toast('Announcement deleted');await logAction('Announcement Deleted',a?.title);navigate('announcements')}
+  catch(e){toast('Error deleting announcement','error')}
+}
+
+async function saveAnnouncement(){
+  const title=document.getElementById('ann-title').value.trim();
+  const content=document.getElementById('ann-content').value.trim();
+  if(!title||!content){toast('Title and content required','error');return}
+  const questions=[];
+  document.querySelectorAll('.quiz-q').forEach((qEl,qi)=>{
+    const qText=qEl.querySelector('.q-text')?.value?.trim();
+    const opts=[...qEl.querySelectorAll('.q-opt')].map(o=>o.value.trim()).filter(Boolean);
+    const correct=[...qEl.querySelectorAll('.q-correct')].findIndex(r=>r.checked);
+    if(qText&&opts.length>=2&&correct>=0)questions.push({question:qText,options:opts,correct});
+  });
+  const data={title,period:document.getElementById('ann-period').value.trim(),mandatory_for:document.getElementById('ann-mandatory').value,content,quiz:questions.length?{questions}:null};
+  const editId=document.getElementById('edit-ann-id').value;
+  try{
+    if(editId){
+      await sbPatch('announcements',`id=eq.${editId}`,data);
+      toast('Announcement updated!');await logAction('Announcement Updated',title);
+    }else{
+      await sbPost('announcements',data);
+      toast('Announcement published!');await logAction('Announcement Created',title);
+    }
+    navigate('announcements');
+  }catch(e){toast('Error saving announcement','error')}
+}
+
+function addQuizQuestion(){
+  const builder=document.getElementById('quiz-builder');
+  const count=builder.querySelectorAll('.quiz-q').length;
+  if(count>=5){toast('Maximum 5 questions','error');return}
+  const div=document.createElement('div');div.className='quiz-builder-q quiz-q';
+  div.innerHTML=`<div class="form-group"><label>Question ${count+1}</label><input type="text" class="q-text" placeholder="Enter your question..."/></div>`+
+    [0,1,2,3].map(i=>`<div class="quiz-option-row"><input type="radio" name="correct-${count}" class="q-correct" value="${i}"><label>Correct?</label><input type="text" class="q-opt" placeholder="Option ${i+1}"/></div>`).join('')+
+    `<button class="btn btn-danger btn-sm" style="margin-top:6px" onclick="this.parentElement.remove()">Remove</button>`;
   builder.appendChild(div);
 }
 
-// ─── USERS ────────────────────────────────────────────────────
-async function loadUsers() {
-  try {
-    allUsers = await sbGet('users', 'order=first_name.asc');
-    renderUsers();
-  } catch(e) { toast('Error loading users', 'error'); }
+// ARTICLE REQUESTS
+async function loadRequests(){
+  document.getElementById('requests-list').innerHTML='<div class="loading"><div class="spinner"></div></div>';
+  try{
+    allRequests=await sbGet('article_requests','order=created_at.desc');
+    renderRequests();
+    // Admin badge — pending requests
+    const isAdmin=['Admin','Team Lead'].includes(currentUser.role);
+    if(isAdmin){
+      const pending=allRequests.filter(r=>r.status==='Pending').length;
+      const badge=document.getElementById('requests-badge');
+      badge.textContent=pending;badge.style.display=pending>0?'inline-block':'none';
+    }
+  }catch(e){toast('Error loading requests','error')}
 }
 
-function renderUsers() {
-  const roleF = document.getElementById('user-role-filter').value;
-  const statusF = document.getElementById('user-status-filter').value;
-  let filtered = allUsers.filter(u => {
-    const rOk = !roleF || u.role === roleF;
-    const sOk = !statusF || (statusF === 'Active' ? u.active : !u.active);
-    return rOk && sOk;
+function renderRequests(){
+  const isAdmin=['Admin','Team Lead'].includes(currentUser.role);
+  const myRequests=isAdmin?allRequests:allRequests.filter(r=>r.requested_by_id===currentUser.id);
+  const list=document.getElementById('requests-list');
+  if(!myRequests.length){
+    list.innerHTML='<div class="empty-state"><div class="icon">💡</div><p>No article requests yet</p></div>';return;
+  }
+  list.innerHTML=myRequests.map(r=>`
+    <div class="card" style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div style="flex:1">
+          <div style="font-size:15px;font-weight:600;margin-bottom:4px">${r.title}</div>
+          <div style="font-size:12px;color:var(--text3);margin-bottom:8px">Submitted by ${r.requested_by_name||'—'} · ${timeAgo(r.created_at)}</div>
+          <div style="font-size:13px;color:var(--text2);margin-bottom:10px">${r.description}</div>
+          ${r.admin_response?`<div style="background:var(--accent-light);border-radius:8px;padding:10px 12px;font-size:13px;margin-top:8px"><strong style="color:var(--accent)">Admin Response:</strong> ${r.admin_response}</div>`:''}
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;margin-left:16px">
+          <span class="status-badge status-${r.status}">${r.status}</span>
+          ${isAdmin&&r.status==='Pending'||r.status==='In Progress'?`<button class="btn btn-primary btn-sm" onclick="openRespondModal('${r.id}')">Respond</button>`:''}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function showNewRequest(){document.getElementById('new-request-form').style.display='block';document.getElementById('req-title').value='';document.getElementById('req-desc').value=''}
+function hideNewRequest(){document.getElementById('new-request-form').style.display='none'}
+
+async function submitRequest(){
+  const title=document.getElementById('req-title').value.trim();
+  const desc=document.getElementById('req-desc').value.trim();
+  if(!title||!desc){toast('Please fill in all fields','error');return}
+  try{
+    await sbPost('article_requests',{requested_by_id:currentUser.id,requested_by_name:`${currentUser.first_name} ${currentUser.last_name}`,title,description:desc,status:'Pending'});
+    toast('Request submitted! Admin will review it shortly.');
+    await logAction('Article Request Submitted',title);
+    hideNewRequest();loadRequests();
+  }catch(e){toast('Error submitting request','error')}
+}
+
+async function openRespondModal(reqId){
+  const req=allRequests.find(r=>r.id===reqId);if(!req)return;
+  document.getElementById('respond-req-id').value=reqId;
+  document.getElementById('respond-req-summary').innerHTML=`<strong>${req.title}</strong><br><span style="color:var(--text2)">${req.description}</span><br><small style="color:var(--text3)">by ${req.requested_by_name} · ${timeAgo(req.created_at)}</small>`;
+  document.getElementById('respond-status').value=req.status;
+  document.getElementById('respond-text').value=req.admin_response||'';
+  // Populate article dropdown
+  const arts=await sbGet('articles','select=id,title&order=title.asc');
+  document.getElementById('respond-article-link').innerHTML='<option value="">— Select article —</option>'+arts.map(a=>`<option value="${a.id}" ${req.linked_article_id===a.id?'selected':''}>${a.title}</option>`).join('');
+  openModal('modal-respond-request');
+}
+
+async function submitResponse(){
+  const reqId=document.getElementById('respond-req-id').value;
+  const status=document.getElementById('respond-status').value;
+  const response=document.getElementById('respond-text').value.trim();
+  const linkedArticle=document.getElementById('respond-article-link').value;
+  if(!response){toast('Please write a response','error');return}
+  try{
+    await sbPatch('article_requests',`id=eq.${reqId}`,{status,admin_response:response,linked_article_id:linkedArticle||null,updated_at:new Date().toISOString()});
+    toast('Response sent!');
+    await logAction('Request Responded',`Status: ${status}`);
+    closeModal('modal-respond-request');loadRequests();
+  }catch(e){toast('Error sending response','error')}
+}
+
+// MY STATS
+async function loadMyStats(){
+  try{
+    const[views,anns,comps,requests]=await Promise.all([
+      sbGet('article_views',`user_id=eq.${currentUser.id}&select=article_id`),
+      sbGet('announcements','select=id,title,quiz,mandatory_for'),
+      sbGet('completions',`user_id=eq.${currentUser.id}`),
+      sbGet('article_requests',`requested_by_id=eq.${currentUser.id}&select=id`)
+    ]);
+    const certIds=comps.filter(c=>c.score!==null).map(c=>c.announcement_id);
+    const uniqueArticles=[...new Set(views.map(v=>v.article_id))].length;
+    const pendingAnns=anns.filter(a=>!certIds.includes(a.id));
+    const failedAnns=comps.filter(c=>c.score===null&&!certIds.includes(c.announcement_id)).length;
+
+    document.getElementById('my-stats-grid').innerHTML=`
+      <div class="my-stat"><div class="my-stat-label">Articles Accessed</div><div class="my-stat-value" style="color:var(--accent)">${uniqueArticles}</div><div class="my-stat-sub">unique articles viewed</div></div>
+      <div class="my-stat"><div class="my-stat-label">Pending Announcements</div><div class="my-stat-value" style="color:var(--danger)">${pendingAnns.length}</div><div class="my-stat-sub">quiz not yet passed</div></div>
+      <div class="my-stat"><div class="my-stat-label">Certifications</div><div class="my-stat-value" style="color:var(--info)">${certIds.length}</div><div class="my-stat-sub">of ${anns.length} announcements</div></div>`;
+
+    // Pending announcements list
+    document.getElementById('my-pending-anns').innerHTML=pendingAnns.length
+      ?pendingAnns.map(a=>`<div class="recent-item">
+          <div class="unread-dot" style="margin-top:6px;flex-shrink:0"></div>
+          <div><div class="recent-title" style="cursor:pointer;color:var(--accent)" onclick="navigate('announcements')">${a.title}</div>
+          <div class="recent-meta">Quiz required · ${a.mandatory_for}</div></div>
+        </div>`).join('')
+      :'<div style="padding:16px;text-align:center;color:var(--text3);font-size:13px">🎉 All caught up!</div>';
+
+    // Recently viewed articles
+    const viewedIds=[...new Set(views.map(v=>v.article_id))].slice(0,5);
+    if(viewedIds.length){
+      const viewedArts=await sbGet('articles',`id=in.(${viewedIds.map(id=>`"${id}"`).join(',')})`+'&select=id,title,category');
+      document.getElementById('my-viewed-articles').innerHTML=viewedArts.map(a=>`<div class="recent-item">
+        <div class="recent-dot"></div>
+        <div><div class="recent-title" style="cursor:pointer;color:var(--accent)" onclick="navigate('articles')">${a.title}</div>
+        <div class="recent-meta">${a.category}</div></div></div>`).join('');
+    }else{
+      document.getElementById('my-viewed-articles').innerHTML='<div style="padding:16px;text-align:center;color:var(--text3);font-size:13px">No articles viewed yet</div>';
+    }
+  }catch(e){toast('Error loading stats','error')}
+}
+
+// REPORTS
+async function loadReports(){
+  loadAnnouncementReport();
+}
+
+function switchReportTab(tab,el){
+  document.querySelectorAll('.report-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.report-panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('rp-'+tab).classList.add('active');
+  if(tab==='announcements')loadAnnouncementReport();
+  if(tab==='articles')loadArticleRatingsReport();
+  if(tab==='requests')loadRequestsReport();
+  if(tab==='users')loadUserActivityReport();
+}
+
+async function loadAnnouncementReport(){
+  const panel=document.getElementById('rp-announcements');
+  panel.innerHTML='<div class="loading"><div class="spinner"></div></div>';
+  try{
+    const[announcements,completions,users]=await Promise.all([
+      sbGet('announcements','select=id,title'),
+      sbGet('completions','select=announcement_id,user_id,score'),
+      sbGet('users','active=eq.true&select=id')
+    ]);
+    const total=users.length;
+    panel.innerHTML=announcements.length?announcements.map(a=>{
+      const certified=completions.filter(c=>c.announcement_id===a.id&&c.score!==null).length;
+      const pct=total>0?Math.round((certified/total)*100):0;
+      return `<div class="card" style="margin-bottom:14px">
+        <div style="font-size:14px;font-weight:600;margin-bottom:10px">${a.title}</div>
+        <div class="report-row"><div class="report-name">Certification rate</div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div><div class="report-pct">${pct}%</div></div>
+        <div style="font-size:12px;color:var(--text3);margin-top:6px">${certified} of ${total} staff certified</div>
+      </div>`;
+    }).join(''):'<div class="empty-state"><p>No data yet</p></div>';
+  }catch(e){panel.innerHTML='<div class="empty-state"><p>Error loading report</p></div>'}
+}
+
+async function loadArticleRatingsReport(){
+  const panel=document.getElementById('rp-articles');
+  panel.innerHTML='<div class="loading"><div class="spinner"></div></div>';
+  try{
+    const ratings=await sbGet('article_ratings','select=article_id,rating,comment,created_at');
+    const articles=await sbGet('articles','select=id,title');
+    if(!ratings.length){panel.innerHTML='<div class="empty-state"><p>No ratings yet</p></div>';return}
+    const byArticle={};
+    ratings.forEach(r=>{
+      if(!byArticle[r.article_id])byArticle[r.article_id]={ratings:[],comments:[]};
+      byArticle[r.article_id].ratings.push(r.rating);
+      if(r.comment)byArticle[r.article_id].comments.push(r.comment);
+    });
+    panel.innerHTML=Object.entries(byArticle).map(([aid,data])=>{
+      const art=articles.find(a=>a.id===aid);
+      const avg=(data.ratings.reduce((a,b)=>a+b,0)/data.ratings.length).toFixed(1);
+      const stars='⭐'.repeat(Math.round(avg));
+      return `<div class="card" style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="font-size:14px;font-weight:600">${art?.title||'Unknown'}</div>
+          <div style="font-size:16px">${stars} <span style="font-size:13px;color:var(--text2)">${avg}/5 (${data.ratings.length} rating${data.ratings.length!==1?'s':''})</span></div>
+        </div>
+        ${data.comments.length?`<div style="font-size:12px;color:var(--text2);font-weight:600;margin-bottom:6px">Feedback comments:</div>`+data.comments.map(c=>`<div style="font-size:12px;color:var(--text2);padding:6px 10px;background:var(--surface2);border-radius:6px;margin-bottom:4px">"${c}"</div>`).join(''):''}
+      </div>`;
+    }).join('');
+  }catch(e){panel.innerHTML='<div class="empty-state"><p>Error loading report</p></div>'}
+}
+
+async function loadRequestsReport(){
+  const panel=document.getElementById('rp-requests');
+  panel.innerHTML='<div class="loading"><div class="spinner"></div></div>';
+  try{
+    const requests=await sbGet('article_requests','order=created_at.desc');
+    const users=await sbGet('users','select=id,first_name,last_name');
+    const byUser={};
+    requests.forEach(r=>{
+      const uid=r.requested_by_id;
+      if(!byUser[uid])byUser[uid]={name:r.requested_by_name,total:0,completed:0};
+      byUser[uid].total++;
+      if(r.status==='Completed')byUser[uid].completed++;
+    });
+    const statusCounts={Pending:0,'In Progress':0,Completed:0,Declined:0};
+    requests.forEach(r=>statusCounts[r.status]=(statusCounts[r.status]||0)+1);
+    panel.innerHTML=`
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
+        ${Object.entries(statusCounts).map(([s,c])=>`<div class="stat-card"><div class="stat-label">${s}</div><div class="stat-value">${c}</div></div>`).join('')}
+      </div>
+      <div class="card">
+        <div class="card-title">Requests by User</div>
+        <table><thead><tr><th>User</th><th>Submitted</th><th>Completed</th><th>Rate</th></tr></thead>
+        <tbody>${Object.values(byUser).map(u=>`<tr><td>${u.name}</td><td>${u.total}</td><td>${u.completed}</td><td>${u.total>0?Math.round((u.completed/u.total)*100):0}%</td></tr>`).join('')}</tbody></table>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="card-title">All Requests</div>
+        <div class="table-wrap"><table><thead><tr><th>Title</th><th>Submitted By</th><th>Status</th><th>Date</th></tr></thead>
+        <tbody>${requests.map(r=>`<tr><td>${r.title}</td><td>${r.requested_by_name||'—'}</td><td><span class="status-badge status-${r.status}">${r.status}</span></td><td>${timeAgo(r.created_at)}</td></tr>`).join('')}</tbody></table></div>
+      </div>`;
+  }catch(e){panel.innerHTML='<div class="empty-state"><p>Error loading report</p></div>'}
+}
+
+async function loadUserActivityReport(){
+  const panel=document.getElementById('rp-users');
+  panel.innerHTML='<div class="loading"><div class="spinner"></div></div>';
+  try{
+    const[users,views,completions,anns]=await Promise.all([
+      sbGet('users','active=eq.true&select=id,first_name,last_name,role,department'),
+      sbGet('article_views','select=user_id,article_id'),
+      sbGet('completions','select=user_id,announcement_id,score'),
+      sbGet('announcements','select=id')
+    ]);
+    const totalAnns=anns.length;
+    panel.innerHTML=`<div class="card"><div class="table-wrap"><table>
+      <thead><tr><th>Name</th><th>Role</th><th>Articles Viewed</th><th>Announcements Certified</th><th>Pending</th></tr></thead>
+      <tbody>${users.map(u=>{
+        const uViews=[...new Set(views.filter(v=>v.user_id===u.id).map(v=>v.article_id))].length;
+        const uCerts=completions.filter(c=>c.user_id===u.id&&c.score!==null).length;
+        const uPending=totalAnns-uCerts;
+        return `<tr><td><strong>${u.first_name} ${u.last_name}</strong><br><span style="font-size:11px;color:var(--text3)">${u.department||''}</span></td>
+          <td><span class="role-badge role-${u.role.replace(' ','')}">${u.role}</span></td>
+          <td>${uViews}</td><td>${uCerts} / ${totalAnns}</td>
+          <td>${uPending>0?`<span style="color:var(--danger);font-weight:600">${uPending}</span>`:`<span style="color:var(--accent)">0 ✓</span>`}</td></tr>`;
+      }).join('')}</tbody></table></div></div>`;
+  }catch(e){panel.innerHTML='<div class="empty-state"><p>Error loading report</p></div>'}
+}
+
+async function exportCSV(){
+  const[announcements,completions,users]=await Promise.all([
+    sbGet('announcements','select=id,title'),sbGet('completions'),
+    sbGet('users','select=id,first_name,last_name,username,role,department')
+  ]);
+  let csv='User,Username,Role,Department,'+announcements.map(a=>a.title).join(',')+'\n';
+  users.forEach(u=>{
+    const row=[u.first_name+' '+u.last_name,u.username,u.role,u.department||''];
+    announcements.forEach(a=>{const c=completions.find(c=>c.user_id===u.id&&c.announcement_id===a.id);row.push(c&&c.score!==null?`Certified (${c.score})`:'Pending')});
+    csv+=row.join(',')+'\n';
   });
-  const tbody = document.getElementById('users-tbody');
-  tbody.innerHTML = filtered.map(u => `
+  const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='cshub-report.csv';a.click();
+}
+
+// USERS
+async function loadUsers(){
+  try{allUsers=await sbGet('users','order=first_name.asc');renderUsers()}
+  catch(e){toast('Error loading users','error')}
+}
+function renderUsers(){
+  const rf=document.getElementById('user-role-filter').value;
+  const sf=document.getElementById('user-status-filter').value;
+  const filtered=allUsers.filter(u=>(!rf||u.role===rf)&&(!sf||(sf==='Active'?u.active:!u.active)));
+  document.getElementById('users-tbody').innerHTML=filtered.map(u=>`
     <tr>
       <td><strong>${u.first_name} ${u.last_name}</strong></td>
       <td style="font-family:'DM Mono',monospace;font-size:12px">${u.username}</td>
       <td><span class="role-badge role-${u.role.replace(' ','')}">${u.role}</span></td>
       <td>${u.department||'—'}</td>
-      <td><span class="${u.active ? 'status-active' : 'status-inactive'}">${u.active ? 'Active' : 'Inactive'}</span></td>
+      <td><span class="${u.active?'status-active':'status-inactive'}">${u.active?'Active':'Inactive'}</span></td>
       <td>
         <button class="btn btn-secondary btn-sm" onclick="showEditUser('${u.id}')">Edit</button>
-        ${u.id !== currentUser.id ? `<button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="deleteUser('${u.id}')">Delete</button>` : ''}
+        ${u.id!==currentUser.id?`<button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="deleteUser('${u.id}')">Delete</button>`:''}
       </td>
     </tr>`).join('');
 }
-
-function filterUsers() { renderUsers(); }
-
-function showAddUser() { openModal('modal-add-user'); }
-
-async function createUser() {
-  const first = document.getElementById('new-first').value.trim();
-  const last = document.getElementById('new-last').value.trim();
-  const username = document.getElementById('new-username').value.trim();
-  const password = document.getElementById('new-password').value;
-  if (!first || !last || !username || !password) { toast('All required fields must be filled', 'error'); return; }
-  try {
-    await sbPost('users', { first_name: first, last_name: last, username, email: document.getElementById('new-email').value.trim(), role: document.getElementById('new-role').value, department: document.getElementById('new-dept').value.trim(), password, active: true });
-    toast('User created!');
-    await logAction('User Created', `${first} ${last} (${username})`);
-    closeModal('modal-add-user');
-    loadUsers();
-  } catch(e) { toast('Error creating user (username may already exist)', 'error'); }
+function filterUsers(){renderUsers()}
+function showAddUser(){openModal('modal-add-user')}
+async function createUser(){
+  const first=document.getElementById('new-first').value.trim(),last=document.getElementById('new-last').value.trim();
+  const username=document.getElementById('new-username').value.trim(),password=document.getElementById('new-password').value;
+  if(!first||!last||!username||!password){toast('All required fields must be filled','error');return}
+  try{
+    await sbPost('users',{first_name:first,last_name:last,username,email:document.getElementById('new-email').value.trim(),role:document.getElementById('new-role').value,department:document.getElementById('new-dept').value.trim(),password,active:true});
+    toast('User created!');await logAction('User Created',`${first} ${last} (${username})`);
+    closeModal('modal-add-user');loadUsers();
+  }catch(e){toast('Error creating user (username may already exist)','error')}
 }
-
-function showEditUser(id) {
-  const u = allUsers.find(x => x.id === id);
-  if (!u) return;
-  document.getElementById('edit-user-id').value = u.id;
-  document.getElementById('edit-first').value = u.first_name;
-  document.getElementById('edit-last').value = u.last_name;
-  document.getElementById('edit-email').value = u.email||'';
-  document.getElementById('edit-role').value = u.role;
-  document.getElementById('edit-dept-user').value = u.department||'';
-  document.getElementById('edit-active').value = u.active.toString();
-  document.getElementById('edit-password').value = '';
+function showEditUser(id){
+  const u=allUsers.find(x=>x.id===id);if(!u)return;
+  document.getElementById('edit-user-id').value=u.id;
+  document.getElementById('edit-first').value=u.first_name;
+  document.getElementById('edit-last').value=u.last_name;
+  document.getElementById('edit-email').value=u.email||'';
+  document.getElementById('edit-role').value=u.role;
+  document.getElementById('edit-dept-user').value=u.department||'';
+  document.getElementById('edit-active').value=u.active.toString();
+  document.getElementById('edit-password').value='';
   openModal('modal-edit-user');
 }
-
-async function updateUser() {
-  const id = document.getElementById('edit-user-id').value;
-  const data = {
-    first_name: document.getElementById('edit-first').value.trim(),
-    last_name: document.getElementById('edit-last').value.trim(),
-    email: document.getElementById('edit-email').value.trim(),
-    role: document.getElementById('edit-role').value,
-    department: document.getElementById('edit-dept-user').value.trim(),
-    active: document.getElementById('edit-active').value === 'true'
-  };
-  const newPw = document.getElementById('edit-password').value;
-  if (newPw) data.password = newPw;
-  try {
-    await sbPatch('users', `id=eq.${id}`, data);
-    toast('User updated!');
-    await logAction('User Updated', `${data.first_name} ${data.last_name}`);
-    closeModal('modal-edit-user');
-    loadUsers();
-  } catch(e) { toast('Error updating user', 'error'); }
+async function updateUser(){
+  const id=document.getElementById('edit-user-id').value;
+  const data={first_name:document.getElementById('edit-first').value.trim(),last_name:document.getElementById('edit-last').value.trim(),email:document.getElementById('edit-email').value.trim(),role:document.getElementById('edit-role').value,department:document.getElementById('edit-dept-user').value.trim(),active:document.getElementById('edit-active').value==='true'};
+  const pw=document.getElementById('edit-password').value;if(pw)data.password=pw;
+  try{
+    await sbPatch('users',`id=eq.${id}`,data);toast('User updated!');
+    await logAction('User Updated',`${data.first_name} ${data.last_name}`);
+    closeModal('modal-edit-user');loadUsers();
+  }catch(e){toast('Error updating user','error')}
 }
-
-async function deleteUser(id) {
-  if (!confirm('Delete this user? This cannot be undone.')) return;
-  const u = allUsers.find(x => x.id === id);
-  try {
-    await sbDelete('users', `id=eq.${id}`);
-    toast('User deleted');
-    await logAction('User Deleted', `${u?.first_name} ${u?.last_name}`);
-    loadUsers();
-  } catch(e) { toast('Error deleting user', 'error'); }
+async function deleteUser(id){
+  if(!confirm('Delete this user?'))return;
+  const u=allUsers.find(x=>x.id===id);
+  try{await sbDelete('users',`id=eq.${id}`);toast('User deleted');await logAction('User Deleted',`${u?.first_name} ${u?.last_name}`);loadUsers()}
+  catch(e){toast('Error deleting user','error')}
 }
-
-async function importUsers() {
-  const csv = document.getElementById('bulk-csv').value.trim();
-  const lines = csv.split('\n').map(l => l.trim()).filter(Boolean);
-  let count = 0;
-  for (const line of lines) {
-    const [first, last, username, email, role, dept, password] = line.split(',').map(s => s.trim());
-    if (!first || !last || !username || !password) continue;
-    try {
-      await sbPost('users', { first_name: first, last_name: last, username, email: email||'', role: role||'Agent', department: dept||'', password, active: true });
-      count++;
-    } catch(e) {}
+async function importUsers(){
+  const csv=document.getElementById('bulk-csv').value.trim();
+  const lines=csv.split('\n').map(l=>l.trim()).filter(Boolean);
+  let count=0;
+  for(const line of lines){
+    const[first,last,username,email,role,dept,password]=line.split(',').map(s=>s.trim());
+    if(!first||!last||!username||!password)continue;
+    try{await sbPost('users',{first_name:first,last_name:last,username,email:email||'',role:role||'Agent',department:dept||'',password,active:true});count++}catch(e){}
   }
-  toast(`${count} users imported`);
-  await logAction('Bulk Import', `${count} users imported`);
-  closeModal('modal-bulk-upload');
-  loadUsers();
+  toast(`${count} users imported`);await logAction('Bulk Import',`${count} users imported`);
+  closeModal('modal-bulk-upload');loadUsers();
+}
+function showBulkUpload(){openModal('modal-bulk-upload')}
+
+// AUDIT
+async function loadAudit(){
+  try{
+    const logs=await sbGet('audit_log','order=created_at.desc&limit=200');
+    document.getElementById('audit-list').innerHTML=logs.length
+      ?logs.map(l=>`<div class="log-item"><div class="log-time">${formatDate(l.created_at)}</div><div><div class="log-action">${l.action}</div>${l.details?`<div class="log-detail">${l.details} · by ${l.performed_by||'—'}</div>`:''}</div></div>`).join('')
+      :'<div class="empty-state"><p>No audit log entries</p></div>';
+  }catch(e){toast('Error loading audit log','error')}
+}
+async function clearAuditLog(){
+  if(!confirm('Clear all audit log entries?'))return;
+  try{await sbDelete('audit_log','id=neq.00000000-0000-0000-0000-000000000000');toast('Audit log cleared');loadAudit()}
+  catch(e){toast('Error clearing log','error')}
+}
+async function logAction(action,details){
+  try{await sbPost('audit_log',{action,details,performed_by:currentUser?`${currentUser.first_name} ${currentUser.last_name}`:'System'})}catch(e){}
 }
 
-// ─── REPORTS ──────────────────────────────────────────────────
-async function loadReports() {
-  try {
-    const [announcements, completions, users] = await Promise.all([
-      sbGet('announcements', 'select=id,title'),
-      sbGet('completions', 'select=announcement_id,user_id'),
-      sbGet('users', 'active=eq.true&select=id,first_name,last_name')
-    ]);
-    const total = users.length;
-    const html = announcements.map(a => {
-      const done = completions.filter(c => c.announcement_id === a.id).length;
-      const pct = total > 0 ? Math.round((done/total)*100) : 0;
-      return `<div class="card" style="margin-bottom:14px">
-        <div style="font-size:14px;font-weight:600;margin-bottom:10px">${a.title}</div>
-        <div class="report-row">
-          <div class="report-name">Completion rate</div>
-          <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-          <div class="report-pct">${pct}%</div>
-        </div>
-        <div style="font-size:12px;color:var(--text3);margin-top:6px">${done} of ${total} staff certified</div>
-      </div>`;
-    }).join('');
-    document.getElementById('reports-content').innerHTML = html || '<div class="empty-state"><p>No data yet</p></div>';
-  } catch(e) { toast('Error loading reports', 'error'); }
+// PROFILE
+function loadProfile(){
+  document.getElementById('prof-first').value=currentUser.first_name;
+  document.getElementById('prof-last').value=currentUser.last_name;
+  document.getElementById('prof-username').value=currentUser.username;
+  document.getElementById('prof-email').value=currentUser.email||'';
+  document.getElementById('prof-dept').value=currentUser.department||'';
+  document.getElementById('prof-role').value=currentUser.role;
 }
-
-async function exportCSV() {
-  const [announcements, completions, users] = await Promise.all([
-    sbGet('announcements', 'select=id,title'),
-    sbGet('completions'),
-    sbGet('users', 'select=id,first_name,last_name,username,role,department')
-  ]);
-  let csv = 'User,Username,Role,Department,' + announcements.map(a => a.title).join(',') + '\n';
-  users.forEach(u => {
-    const row = [u.first_name+' '+u.last_name, u.username, u.role, u.department||''];
-    announcements.forEach(a => {
-      const c = completions.find(c => c.user_id === u.id && c.announcement_id === a.id);
-      row.push(c ? `Certified (${c.score})` : 'Pending');
-    });
-    csv += row.join(',') + '\n';
-  });
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'cshub-report.csv'; a.click();
+async function saveProfile(){
+  const data={first_name:document.getElementById('prof-first').value.trim(),last_name:document.getElementById('prof-last').value.trim(),email:document.getElementById('prof-email').value.trim(),department:document.getElementById('prof-dept').value.trim()};
+  try{
+    await sbPatch('users',`id=eq.${currentUser.id}`,data);Object.assign(currentUser,data);
+    document.getElementById('sidebar-username').textContent=currentUser.username;
+    toast('Profile updated!');await logAction('Profile Updated',currentUser.username);
+  }catch(e){toast('Error saving profile','error')}
 }
-
-// ─── AUDIT LOG ────────────────────────────────────────────────
-async function loadAudit() {
-  try {
-    const logs = await sbGet('audit_log', 'order=created_at.desc&limit=200');
-    const list = document.getElementById('audit-list');
-    list.innerHTML = logs.length
-      ? logs.map(l => `<div class="log-item">
-          <div class="log-time">${formatDate(l.created_at)}</div>
-          <div><div class="log-action">${l.action}</div>${l.details ? `<div class="log-detail">${l.details} · by ${l.performed_by||'—'}</div>` : ''}</div>
-        </div>`).join('')
-      : '<div class="empty-state"><p>No audit log entries</p></div>';
-  } catch(e) { toast('Error loading audit log', 'error'); }
-}
-
-async function clearAuditLog() {
-  if (!confirm('Clear all audit log entries?')) return;
-  try {
-    await sbDelete('audit_log', 'id=neq.00000000-0000-0000-0000-000000000000');
-    toast('Audit log cleared');
-    loadAudit();
-  } catch(e) { toast('Error clearing log', 'error'); }
-}
-
-async function logAction(action, details) {
-  try {
-    await sbPost('audit_log', { action, details, performed_by: currentUser ? `${currentUser.first_name} ${currentUser.last_name}` : 'System' });
-  } catch(e) {}
-}
-
-// ─── PROFILE ──────────────────────────────────────────────────
-function loadProfile() {
-  document.getElementById('prof-first').value = currentUser.first_name;
-  document.getElementById('prof-last').value = currentUser.last_name;
-  document.getElementById('prof-username').value = currentUser.username;
-  document.getElementById('prof-email').value = currentUser.email||'';
-  document.getElementById('prof-dept').value = currentUser.department||'';
-  document.getElementById('prof-role').value = currentUser.role;
-}
-
-async function saveProfile() {
-  const data = {
-    first_name: document.getElementById('prof-first').value.trim(),
-    last_name: document.getElementById('prof-last').value.trim(),
-    email: document.getElementById('prof-email').value.trim(),
-    department: document.getElementById('prof-dept').value.trim()
-  };
-  try {
-    await sbPatch('users', `id=eq.${currentUser.id}`, data);
-    Object.assign(currentUser, data);
-    document.getElementById('sidebar-username').textContent = currentUser.username;
-    toast('Profile updated!');
-    await logAction('Profile Updated', currentUser.username);
-  } catch(e) { toast('Error saving profile', 'error'); }
-}
-
-async function changePassword() {
-  const curr = document.getElementById('prof-curr-pw').value;
-  const newPw = document.getElementById('prof-new-pw').value;
-  const confirm = document.getElementById('prof-confirm-pw').value;
-  if (curr !== currentUser.password) { toast('Current password incorrect', 'error'); return; }
-  if (!newPw || newPw !== confirm) { toast('Passwords do not match', 'error'); return; }
-  try {
-    await sbPatch('users', `id=eq.${currentUser.id}`, { password: newPw });
-    currentUser.password = newPw;
+async function changePassword(){
+  const curr=document.getElementById('prof-curr-pw').value;
+  const newPw=document.getElementById('prof-new-pw').value;
+  const conf=document.getElementById('prof-confirm-pw').value;
+  if(curr!==currentUser.password){toast('Current password incorrect','error');return}
+  if(!newPw||newPw!==conf){toast('Passwords do not match','error');return}
+  try{
+    await sbPatch('users',`id=eq.${currentUser.id}`,{password:newPw});currentUser.password=newPw;
     toast('Password changed!');
-    document.getElementById('prof-curr-pw').value = '';
-    document.getElementById('prof-new-pw').value = '';
-    document.getElementById('prof-confirm-pw').value = '';
-  } catch(e) { toast('Error changing password', 'error'); }
+    ['prof-curr-pw','prof-new-pw','prof-confirm-pw'].forEach(id=>document.getElementById(id).value='');
+  }catch(e){toast('Error changing password','error')}
 }
 
-// ─── PASSWORD RESET ───────────────────────────────────────────
-function showResetModal() { showResetStep(1); openModal('modal-reset'); }
-function showResetStep(n) {
-  [1,2,3].forEach(i => document.getElementById('reset-step-'+i).style.display = i===n ? 'block' : 'none');
+// RESET
+function showResetModal(){showResetStep(1);openModal('modal-reset')}
+function showResetStep(n){[1,2,3].forEach(i=>document.getElementById('reset-step-'+i).style.display=i===n?'block':'none')}
+async function resetStep1(){
+  const username=document.getElementById('reset-username').value.trim();
+  const users=await sbGet('users',`username=eq.${encodeURIComponent(username)}`);
+  if(!users.length){toast('Username not found','error');return}
+  resetUserId=users[0].id;window._resetUser=users[0];showResetStep(2);
 }
-async function resetStep1() {
-  const username = document.getElementById('reset-username').value.trim();
-  const users = await sbGet('users', `username=eq.${encodeURIComponent(username)}`);
-  if (!users.length) { toast('Username not found', 'error'); return; }
-  resetUserId = users[0].id;
-  window._resetUser = users[0];
-  showResetStep(2);
-}
-function resetStep2() {
-  const u = window._resetUser;
-  if (document.getElementById('reset-first').value.trim().toLowerCase() !== u.first_name.toLowerCase() ||
-      document.getElementById('reset-last').value.trim().toLowerCase() !== u.last_name.toLowerCase()) {
-    toast('Details do not match', 'error'); return;
-  }
+function resetStep2(){
+  const u=window._resetUser;
+  if(document.getElementById('reset-first').value.trim().toLowerCase()!==u.first_name.toLowerCase()||document.getElementById('reset-last').value.trim().toLowerCase()!==u.last_name.toLowerCase()){toast('Details do not match','error');return}
   showResetStep(3);
 }
-async function resetStep3() {
-  const newPw = document.getElementById('reset-new-pw').value;
-  const confirm = document.getElementById('reset-confirm-pw').value;
-  if (!newPw || newPw !== confirm) { toast('Passwords do not match', 'error'); return; }
-  await sbPatch('users', `id=eq.${resetUserId}`, { password: newPw });
-  toast('Password reset! You can now sign in.');
-  closeModal('modal-reset');
+async function resetStep3(){
+  const pw=document.getElementById('reset-new-pw').value,conf=document.getElementById('reset-confirm-pw').value;
+  if(!pw||pw!==conf){toast('Passwords do not match','error');return}
+  await sbPatch('users',`id=eq.${resetUserId}`,{password:pw});
+  toast('Password reset! You can now sign in.');closeModal('modal-reset');
 }
 
-function showFirstSetup() { showResetModal(); }
-
-// ─── BACKUP / RESTORE ─────────────────────────────────────────
-async function backupData() {
-  const [articles, announcements, users, completions] = await Promise.all([
-    sbGet('articles'), sbGet('announcements'), sbGet('users'), sbGet('completions')
-  ]);
-  const json = JSON.stringify({ articles, announcements, users, completions, exported: new Date().toISOString() }, null, 2);
-  const blob = new Blob([json], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = 'cshub-backup.json'; a.click();
-  toast('Backup downloaded!');
+// BACKUP
+async function backupData(){
+  const[articles,announcements,users,completions]=await Promise.all([sbGet('articles'),sbGet('announcements'),sbGet('users'),sbGet('completions')]);
+  const json=JSON.stringify({articles,announcements,users,completions,exported:new Date().toISOString()},null,2);
+  const blob=new Blob([json],{type:'application/json'});const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='cshub-backup.json';a.click();toast('Backup downloaded!');
 }
-
-async function restoreData(input) {
-  const file = input.files[0];
-  if (!file) return;
-  if (!confirm('This will overwrite all existing data. Are you sure?')) return;
-  const text = await file.text();
-  const data = JSON.parse(text);
-  toast('Restoring... this may take a moment');
-  // Restore articles
-  for (const a of (data.articles||[])) { try { await sbPost('articles', a); } catch(e) {} }
-  for (const a of (data.announcements||[])) { try { await sbPost('announcements', a); } catch(e) {} }
+async function restoreData(input){
+  const file=input.files[0];if(!file)return;
+  if(!confirm('This will overwrite all existing data. Are you sure?'))return;
+  const text=await file.text();const data=JSON.parse(text);
+  toast('Restoring...');
+  for(const a of(data.articles||[]))try{await sbPost('articles',a)}catch(e){}
+  for(const a of(data.announcements||[]))try{await sbPost('announcements',a)}catch(e){}
   toast('Restore complete!');
 }
-
-async function wipeData() {
-  if (!confirm('Delete ALL articles, announcements and completions? This cannot be undone.')) return;
-  await sbDelete('articles', 'id=neq.00000000-0000-0000-0000-000000000000');
-  await sbDelete('announcements', 'id=neq.00000000-0000-0000-0000-000000000000');
-  await sbDelete('completions', 'id=neq.00000000-0000-0000-0000-000000000000');
-  toast('Data wiped');
-  await logAction('Data Wiped', 'All content deleted');
+async function wipeData(){
+  if(!confirm('Delete ALL articles, announcements and completions? This cannot be undone.'))return;
+  await sbDelete('articles','id=neq.00000000-0000-0000-0000-000000000000');
+  await sbDelete('announcements','id=neq.00000000-0000-0000-0000-000000000000');
+  await sbDelete('completions','id=neq.00000000-0000-0000-0000-000000000000');
+  toast('Data wiped');await logAction('Data Wiped','All content deleted');
 }
 
-// ─── MODALS ───────────────────────────────────────────────────
-function openModal(id) { document.getElementById(id).classList.add('active'); }
-function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-document.querySelectorAll('.modal-overlay').forEach(m => {
-  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('active'); });
-});
+// MODALS
+function openModal(id){document.getElementById(id).classList.add('active')}
+function closeModal(id){document.getElementById(id).classList.remove('active')}
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('active')}));
 
-// ─── UTILS ────────────────────────────────────────────────────
-function timeAgo(dateStr) {
-  if (!dateStr) return '—';
-  const diff = Date.now() - new Date(dateStr).getTime();
-  const m = Math.floor(diff/60000), h = Math.floor(diff/3600000), d = Math.floor(diff/86400000);
-  if (m < 1) return 'just now';
-  if (m < 60) return `${m}m ago`;
-  if (h < 24) return `${h}h ago`;
-  if (d < 7) return `${d}d ago`;
-  return new Date(dateStr).toLocaleDateString();
-}
-function formatDate(dateStr) {
-  if (!dateStr) return '—';
-  return new Date(dateStr).toLocaleString();
-}
+// UTILS
+function timeAgo(d){if(!d)return'—';const diff=Date.now()-new Date(d).getTime(),m=Math.floor(diff/60000),h=Math.floor(diff/3600000),dy=Math.floor(diff/86400000);if(m<1)return'just now';if(m<60)return`${m}m ago`;if(h<24)return`${h}h ago`;if(dy<7)return`${dy}d ago`;return new Date(d).toLocaleDateString()}
+function formatDate(d){if(!d)return'—';return new Date(d).toLocaleString()}
 
-// ─── KEYBOARD ─────────────────────────────────────────────────
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && document.getElementById('auth-screen').style.display !== 'none') doLogin();
-  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+// KEYBOARD
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&document.getElementById('auth-screen').style.display!=='none')doLogin();
+  if(e.key==='Escape')document.querySelectorAll('.modal-overlay.active').forEach(m=>m.classList.remove('active'));
 });
 </script>
 </body>
