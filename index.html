@@ -1252,11 +1252,13 @@ async function openAnnouncement(id){
 
   document.getElementById('announcement-detail').classList.add('active');
 
-  // Mark as opened (opened_at) — only if not already certified
-  if(!certified){
-    try{await sbPost('completions',{user_id:currentUser.id,announcement_id:id,score:null,opened_at:new Date().toISOString()})}
-    catch(e){/* already exists — upsert not needed for opened_at, just track */}
-  }
+  // Track opened_at — insert only if no record exists yet for this user+announcement
+  try{
+    const existing=await sbGet('completions',`user_id=eq.${currentUser.id}&announcement_id=eq.${id}`);
+    if(!existing.length){
+      await sbPost('completions',{user_id:currentUser.id,announcement_id:id,score:null,opened_at:new Date().toISOString()});
+    }
+  }catch(e){}
 
   // Remove red dot immediately from sidebar
   await updateUnreadBadge();
@@ -1563,21 +1565,109 @@ async function loadAnnouncementReport(){
   panel.innerHTML='<div class="loading"><div class="spinner"></div></div>';
   try{
     const[announcements,completions,users]=await Promise.all([
-      sbGet('announcements','select=id,title'),
-      sbGet('completions','select=announcement_id,user_id,score'),
-      sbGet('users','active=eq.true&select=id')
+      sbGet('announcements','select=id,title,mandatory_for,created_at&order=created_at.desc'),
+      sbGet('completions','select=announcement_id,user_id,score,opened_at,completed_at'),
+      sbGet('users','active=eq.true&select=id,first_name,last_name,role,department')
     ]);
-    const total=users.length;
-    panel.innerHTML=announcements.length?announcements.map(a=>{
-      const certified=completions.filter(c=>c.announcement_id===a.id&&c.score!==null).length;
-      const pct=total>0?Math.round((certified/total)*100):0;
-      return `<div class="card" style="margin-bottom:14px">
-        <div style="font-size:14px;font-weight:600;margin-bottom:10px">${a.title}</div>
-        <div class="report-row"><div class="report-name">Certification rate</div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div><div class="report-pct">${pct}%</div></div>
-        <div style="font-size:12px;color:var(--text3);margin-top:6px">${certified} of ${total} staff certified</div>
+    if(!announcements.length){panel.innerHTML='<div class="empty-state"><p>No announcements yet</p></div>';return}
+
+    panel.innerHTML=announcements.map((ann,annIdx)=>{
+      const annComps=completions.filter(c=>c.announcement_id===ann.id);
+      // Classify each user
+      const certified=[];const openedNotPassed=[];const notOpened=[];
+      users.forEach(u=>{
+        const rec=annComps.find(c=>c.user_id===u.id);
+        const name=`${u.first_name} ${u.last_name}`;
+        const dept=u.department||'—';
+        if(rec&&rec.score!==null){certified.push({name,dept,score:rec.score,completed_at:rec.completed_at})}
+        else if(rec&&rec.opened_at){openedNotPassed.push({name,dept,opened_at:rec.opened_at})}
+        else{notOpened.push({name,dept})}
+      });
+      const total=users.length;
+      const certPct=total>0?Math.round((certified.length/total)*100):0;
+
+      const uid='ann-'+annIdx;
+      return `<div class="card" style="margin-bottom:16px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+          <div>
+            <div style="font-size:15px;font-weight:700">${ann.title}</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:3px">${ann.mandatory_for} · ${timeAgo(ann.created_at)}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;margin-left:16px">
+            <div style="font-size:22px;font-weight:700;color:var(--accent)">${certPct}%</div>
+            <div style="font-size:11px;color:var(--text3)">${certified.length}/${total} certified</div>
+          </div>
+        </div>
+        <!-- Progress bar -->
+        <div style="display:flex;gap:2px;height:8px;border-radius:4px;overflow:hidden;margin-bottom:14px;background:var(--border)">
+          <div style="width:${certPct}%;background:var(--accent);transition:width .5s"></div>
+          <div style="width:${total>0?Math.round((openedNotPassed.length/total)*100):0}%;background:var(--warning)"></div>
+        </div>
+        <!-- Summary pills -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+          <span style="background:var(--accent-light);color:var(--accent);font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px">✓ Certified: ${certified.length}</span>
+          <span style="background:var(--warning-light);color:var(--warning);font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px">👁 Opened, not passed: ${openedNotPassed.length}</span>
+          <span style="background:var(--danger-light);color:var(--danger);font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px">✗ Not opened: ${notOpened.length}</span>
+        </div>
+        <!-- Expandable user lists -->
+        <div>
+          ${notOpened.length?`
+          <div style="margin-bottom:10px">
+            <button class="report-expand-btn" onclick="toggleSection('${uid}-no')" style="background:var(--danger-light);color:var(--danger);border:none;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;width:100%;text-align:left">
+              ✗ Not Opened (${notOpened.length}) <span style="float:right" id="${uid}-no-icon">▼</span>
+            </button>
+            <div id="${uid}-no" style="display:none;margin-top:6px">
+              <div class="table-wrap"><table><thead><tr><th>Name</th><th>Department</th><th>Status</th></tr></thead>
+              <tbody>${notOpened.map(u=>`<tr>
+                <td><strong>${u.name}</strong></td>
+                <td>${u.dept}</td>
+                <td><span style="color:var(--danger);font-size:12px;font-weight:600">Not opened</span></td>
+              </tr>`).join('')}</tbody></table></div>
+            </div>
+          </div>`:''}
+          ${openedNotPassed.length?`
+          <div style="margin-bottom:10px">
+            <button class="report-expand-btn" onclick="toggleSection('${uid}-op')" style="background:var(--warning-light);color:var(--warning);border:none;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;width:100%;text-align:left">
+              👁 Opened but not passed (${openedNotPassed.length}) <span style="float:right" id="${uid}-op-icon">▼</span>
+            </button>
+            <div id="${uid}-op" style="display:none;margin-top:6px">
+              <div class="table-wrap"><table><thead><tr><th>Name</th><th>Department</th><th>Opened</th><th>Status</th></tr></thead>
+              <tbody>${openedNotPassed.map(u=>`<tr>
+                <td><strong>${u.name}</strong></td>
+                <td>${u.dept}</td>
+                <td style="font-size:12px;color:var(--text3)">${timeAgo(u.opened_at)}</td>
+                <td><span style="color:var(--warning);font-size:12px;font-weight:600">Quiz not passed</span></td>
+              </tr>`).join('')}</tbody></table></div>
+            </div>
+          </div>`:''}
+          ${certified.length?`
+          <div>
+            <button class="report-expand-btn" onclick="toggleSection('${uid}-cert')" style="background:var(--accent-light);color:var(--accent);border:none;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;width:100%;text-align:left">
+              ✓ Certified (${certified.length}) <span style="float:right" id="${uid}-cert-icon">▼</span>
+            </button>
+            <div id="${uid}-cert" style="display:none;margin-top:6px">
+              <div class="table-wrap"><table><thead><tr><th>Name</th><th>Department</th><th>Score</th><th>Certified</th></tr></thead>
+              <tbody>${certified.map(u=>`<tr>
+                <td><strong>${u.name}</strong></td>
+                <td>${u.dept}</td>
+                <td><span style="color:var(--accent);font-weight:700">${u.score!==null?u.score+'/'+u.score:'—'}</span></td>
+                <td style="font-size:12px;color:var(--text3)">${timeAgo(u.completed_at)}</td>
+              </tr>`).join('')}</tbody></table></div>
+            </div>
+          </div>`:''}
+        </div>
       </div>`;
-    }).join(''):'<div class="empty-state"><p>No data yet</p></div>';
+    }).join('');
   }catch(e){panel.innerHTML='<div class="empty-state"><p>Error loading report</p></div>'}
+}
+
+function toggleSection(id){
+  const el=document.getElementById(id);
+  const icon=document.getElementById(id+'-icon');
+  if(!el)return;
+  const open=el.style.display==='none';
+  el.style.display=open?'block':'none';
+  if(icon)icon.textContent=open?'▲':'▼';
 }
 
 async function loadArticleRatingsReport(){
