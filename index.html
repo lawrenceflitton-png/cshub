@@ -120,7 +120,7 @@
   .back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--text2);font-size:13px;cursor:pointer;margin-bottom:20px;padding:6px 0}
   .back-btn:hover{color:var(--accent)}
   .article-body{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow)}
-  .article-body-content{white-space:pre-wrap;line-height:1.7;font-size:14px;color:var(--text);margin-top:20px}
+  .article-body-content{line-height:1.7;font-size:14px;color:var(--text);margin-top:20px}
 
   /* RATING */
   .rating-section{margin-top:28px;padding-top:24px;border-top:2px solid var(--border)}
@@ -252,7 +252,28 @@
   .my-stat-label{font-size:12px;color:var(--text2);font-weight:500}
   .my-stat-sub{font-size:11px;color:var(--text3);margin-top:2px}
 
-  @media(max-width:768px){
+  /* RICH EDITOR */
+  .rich-editor-wrap{border:1.5px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color .15s}
+  .rich-editor-wrap:focus-within{border-color:var(--accent)}
+  .rich-toolbar{display:flex;align-items:center;gap:2px;padding:6px 8px;background:var(--surface2);border-bottom:1px solid var(--border);flex-wrap:wrap}
+  .rich-toolbar button{background:none;border:none;padding:4px 8px;border-radius:5px;font-size:13px;cursor:pointer;color:var(--text);font-family:inherit;transition:background .1s}
+  .rich-toolbar button:hover{background:var(--border)}
+  .rich-sep{width:1px;height:18px;background:var(--border);margin:0 4px}
+  .rich-hint{font-size:11px;color:var(--text3);margin-left:auto;font-style:italic}
+  .rich-editor{min-height:200px;padding:14px;font-size:14px;line-height:1.7;outline:none;color:var(--text);background:var(--surface)}
+  .rich-editor:empty:before{content:attr(data-placeholder);color:var(--text3);pointer-events:none}
+  .rich-editor img{max-width:100%;border-radius:6px;margin:8px 0;display:block;cursor:pointer}
+  .rich-editor img:hover{outline:2px solid var(--accent)}
+  .rich-editor ul,.rich-editor ol{padding-left:20px;margin:6px 0}
+  .rich-editor li{margin:3px 0}
+  /* Article body renders rich HTML */
+  .article-body-content img{max-width:100%;border-radius:6px;margin:8px 0;display:block}
+  .article-body-content ul,.article-body-content ol{padding-left:20px;margin:8px 0}
+  .article-body-content li{margin:4px 0}
+  .article-body-content b,.article-body-content strong{font-weight:700}
+  .article-body-content i,.article-body-content em{font-style:italic}
+
+
     .stats-grid{grid-template-columns:repeat(2,1fr)}
     .dash-grid{grid-template-columns:1fr}
     .form-row{grid-template-columns:1fr}
@@ -403,7 +424,7 @@
               <div class="author-only" id="detail-actions" style="display:flex;gap:8px"></div>
             </div>
             <div id="detail-short" style="background:var(--surface2);border-radius:8px;padding:12px 16px;margin:16px 0;font-size:13px;color:var(--text2);display:none"></div>
-            <div class="article-body-content" id="detail-content"></div>
+    <div class="article-body-content" id="detail-content"></div>
             <div id="detail-tags" style="margin-top:16px;display:flex;gap:6px;flex-wrap:wrap"></div>
             <!-- Rating -->
             <div class="rating-section" id="rating-section">
@@ -446,7 +467,23 @@
             <input type="text" id="art-short" placeholder="Brief summary..." maxlength="120" oninput="document.getElementById('short-count').textContent=this.value.length+'/120'"/>
             <div class="char-count"><span id="short-count">0</span>/120</div>
           </div>
-          <div class="form-group"><label>Full Article Content *</label><textarea id="art-content" rows="12" placeholder="Write the full article here..."></textarea></div>
+          <div class="form-group">
+            <label>Full Article Content *</label>
+            <div class="rich-editor-wrap">
+              <div class="rich-toolbar">
+                <button type="button" onclick="fmt('bold')" title="Bold"><b>B</b></button>
+                <button type="button" onclick="fmt('italic')" title="Italic"><i>I</i></button>
+                <button type="button" onclick="fmt('underline')" title="Underline"><u>U</u></button>
+                <span class="rich-sep"></span>
+                <button type="button" onclick="fmt('insertUnorderedList')" title="Bullet list">• List</button>
+                <button type="button" onclick="fmt('insertOrderedList')" title="Numbered list">1. List</button>
+                <span class="rich-sep"></span>
+                <button type="button" onclick="insertImageInEditor('art-content-editor')" title="Insert image">🖼 Image</button>
+                <span class="rich-hint">📋 Paste screenshots directly</span>
+              </div>
+              <div class="rich-editor" id="art-content-editor" contenteditable="true" data-placeholder="Write the full article here... You can also paste screenshots directly into this area."></div>
+            </div>
+          </div>
           <div class="form-group"><label>Change Note (optional)</label><input type="text" id="art-change-note" placeholder="What changed in this version?"/></div>
           <div class="form-actions">
             <button class="btn btn-secondary" onclick="navigate('articles')">Cancel</button>
@@ -506,7 +543,23 @@
             <div class="form-group"><label>Week / Period</label><input type="text" id="ann-period" placeholder="e.g. Week 12, April 2025"/></div>
             <div class="form-group"><label>Mandatory For</label><select id="ann-mandatory"><option>All Staff</option><option>Agents Only</option><option>Team Leads & Above</option></select></div>
           </div>
-          <div class="form-group"><label>Announcement Content *</label><textarea id="ann-content" rows="10" placeholder="Write the full announcement here..."></textarea></div>
+          <div class="form-group">
+            <label>Announcement Content *</label>
+            <div class="rich-editor-wrap">
+              <div class="rich-toolbar">
+                <button type="button" onclick="fmt('bold')" title="Bold"><b>B</b></button>
+                <button type="button" onclick="fmt('italic')" title="Italic"><i>I</i></button>
+                <button type="button" onclick="fmt('underline')" title="Underline"><u>U</u></button>
+                <span class="rich-sep"></span>
+                <button type="button" onclick="fmt('insertUnorderedList')" title="Bullet list">• List</button>
+                <button type="button" onclick="fmt('insertOrderedList')" title="Numbered list">1. List</button>
+                <span class="rich-sep"></span>
+                <button type="button" onclick="insertImageInEditor('ann-content-editor')" title="Insert image">🖼 Image</button>
+                <span class="rich-hint">📋 Paste screenshots directly</span>
+              </div>
+              <div class="rich-editor" id="ann-content-editor" contenteditable="true" data-placeholder="Write the full announcement here... You can also paste screenshots directly."></div>
+            </div>
+          </div>
           <div style="margin-top:20px;padding-top:20px;border-top:2px solid var(--border)">
             <div style="font-size:15px;font-weight:700;margin-bottom:14px">📝 Certification Quiz</div>
             <div style="font-size:12px;color:var(--text2);margin-bottom:12px">Add 1–5 questions. Staff must score 100% to certify.</div>
@@ -872,20 +925,25 @@ function navigate(page){
   if(page==='profile')loadProfile();
   if(page==='article-requests')loadRequests();
   if(page==='my-stats')loadMyStats();
-  if(page==='new-article'){
-    document.getElementById('article-form-title').textContent='New Article';
-    document.getElementById('edit-article-id').value='';
-    ['art-title','art-tags','art-short','art-content','art-change-note'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('art-category').value='Policy';
-    document.getElementById('short-count').textContent='0';
-  }
-  if(page==='new-announcement'){
+  
+  if(page==='new-announcement'&&!window._editingAnn){
     document.getElementById('ann-form-title').textContent='New Announcement';
     document.getElementById('edit-ann-id').value='';
     document.getElementById('quiz-builder').innerHTML='';
-    ['ann-title','ann-period','ann-content'].forEach(id=>document.getElementById(id).value='');
+    ['ann-title','ann-period'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('ann-mandatory').value='All Staff';
+    setEditorContent('ann-content-editor','');
   }
+  window._editingAnn=false;
+  if(page==='new-article'&&!window._editingArt){
+    document.getElementById('article-form-title').textContent='New Article';
+    document.getElementById('edit-article-id').value='';
+    ['art-title','art-tags','art-short','art-change-note'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('art-category').value='Policy';
+    document.getElementById('short-count').textContent='0';
+    setEditorContent('art-content-editor','');
+  }
+  window._editingArt=false;
 }
 
 // DASHBOARD
@@ -968,7 +1026,7 @@ async function openArticle(id){
   document.getElementById('detail-cat').textContent=a.category;
   document.getElementById('detail-title').textContent=a.title;
   document.getElementById('detail-meta').textContent=`v${a.version||1} · Updated ${timeAgo(a.updated_at||a.created_at)} · by ${a.author||'—'}`;
-  document.getElementById('detail-content').textContent=a.content;
+  document.getElementById('detail-content').innerHTML=a.content||'';
   const se=document.getElementById('detail-short');
   if(a.short_answer){se.textContent=a.short_answer;se.style.display='block'}else se.style.display='none';
   document.getElementById('detail-tags').innerHTML=(a.tags||'').split(',').filter(Boolean).map(t=>`<span class="tag">${t.trim()}</span>`).join('');
@@ -1039,22 +1097,24 @@ function closeArticle(){
 
 function editArticle(id){
   const a=allArticles.find(x=>x.id===id);if(!a)return;
+  window._editingArt=true;
   document.getElementById('edit-article-id').value=a.id;
   document.getElementById('art-title').value=a.title;
   document.getElementById('art-category').value=a.category;
   document.getElementById('art-tags').value=a.tags||'';
   document.getElementById('art-short').value=a.short_answer||'';
   document.getElementById('short-count').textContent=(a.short_answer||'').length+'/120';
-  document.getElementById('art-content').value=a.content;
   document.getElementById('art-change-note').value='';
   document.getElementById('article-form-title').textContent='Edit Article';
   navigate('new-article');
+  // Set after navigate so editor exists in DOM
+  setTimeout(()=>setEditorContent('art-content-editor',a.content||''),50);
 }
 
 async function saveArticle(){
   const title=document.getElementById('art-title').value.trim();
-  const content=document.getElementById('art-content').value.trim();
-  if(!title||!content){toast('Title and content are required','error');return}
+  const content=getEditorContent('art-content-editor').trim();
+  if(!title||!content||content==='<br>'){toast('Title and content are required','error');return}
   const editId=document.getElementById('edit-article-id').value;
   const data={title,category:document.getElementById('art-category').value,tags:document.getElementById('art-tags').value.trim(),short_answer:document.getElementById('art-short').value.trim(),content,author:`${currentUser.first_name} ${currentUser.last_name}`,change_note:document.getElementById('art-change-note').value.trim(),updated_at:new Date().toISOString()};
   try{
@@ -1119,7 +1179,7 @@ async function loadAnnouncements(){
 
 function renderAnnouncements(){
   const q=(document.getElementById('ann-search')?.value||'').toLowerCase();
-  const certIds=allCompletions.map(c=>c.announcement_id);
+  const certIds=allCompletions.filter(c=>c.score!==null).map(c=>c.announcement_id);
   let filtered=allAnnouncements.filter(a=>{
     const mq=!q||a.title.toLowerCase().includes(q)||(a.content||'').toLowerCase().includes(q)||(a.period||'').toLowerCase().includes(q);
     const certified=certIds.includes(a.id);
@@ -1159,9 +1219,9 @@ async function openAnnouncement(id){
   document.getElementById('ann-toolbar').style.display='none';
   document.getElementById('ann-detail-title').textContent=a.title;
   document.getElementById('ann-detail-meta').textContent=`${a.period||''} · ${a.mandatory_for} · Published ${timeAgo(a.created_at)}`;
-  document.getElementById('ann-detail-content').textContent=a.content;
+  document.getElementById('ann-detail-content').innerHTML=a.content||'';
 
-  const certified=allCompletions.some(c=>c.announcement_id===id);
+  const certified=allCompletions.some(c=>c.announcement_id===id&&c.score!==null);
   document.getElementById('ann-cert-status').innerHTML=certified?'<span class="certified-badge" style="font-size:13px;padding:6px 14px">✓ Certified</span>':'';
 
   const isAuthor=['Admin','Team Lead','Author'].includes(currentUser.role);
@@ -1169,10 +1229,13 @@ async function openAnnouncement(id){
     <button class="btn btn-secondary btn-sm" onclick="editAnnouncement('${a.id}')">✏️ Edit</button>
     <button class="btn btn-danger btn-sm" onclick="deleteAnnouncement('${a.id}')">🗑</button>`:'';
 
+  // Safely parse quiz — Supabase jsonb can return string or object
+  let quiz=a.quiz;
+  if(typeof quiz==='string'){try{quiz=JSON.parse(quiz)}catch(e){quiz=null}}
+
   // Quiz — always show if not certified
   const quizSection=document.getElementById('ann-quiz-section');
-  const quiz=a.quiz;
-  if(quiz&&quiz.questions&&quiz.questions.length&&!certified){
+  if(quiz&&quiz.questions&&quiz.questions.length>0&&!certified){
     quizSection.innerHTML=`<div class="quiz-title">📝 Certification Quiz — score 100% to certify</div>`+
       quiz.questions.map((q,qi)=>`
         <div class="quiz-question">
@@ -1209,7 +1272,9 @@ function closeAnnouncement(){
 
 async function submitQuiz(annId){
   const a=allAnnouncements.find(x=>x.id===annId);
-  const quiz=a.quiz;
+  let quiz=a.quiz;
+  if(typeof quiz==='string'){try{quiz=JSON.parse(quiz)}catch(e){quiz=null}}
+  if(!quiz){toast('Quiz data error','error');return}
   let correct=0;
   for(let i=0;i<quiz.questions.length;i++){
     const sel=document.querySelector(`input[name="q${i}"]:checked`);
@@ -1242,24 +1307,28 @@ async function submitQuiz(annId){
 
 function editAnnouncement(id){
   const a=allAnnouncements.find(x=>x.id===id);if(!a)return;
+  window._editingAnn=true;
   document.getElementById('edit-ann-id').value=a.id;
   document.getElementById('ann-title').value=a.title;
   document.getElementById('ann-period').value=a.period||'';
   document.getElementById('ann-mandatory').value=a.mandatory_for;
-  document.getElementById('ann-content').value=a.content;
   document.getElementById('ann-form-title').textContent='Edit Announcement';
   // Rebuild quiz
   const builder=document.getElementById('quiz-builder');builder.innerHTML='';
-  if(a.quiz?.questions){
-    a.quiz.questions.forEach((q,qi)=>{
+  let editQuiz=a.quiz;
+  if(typeof editQuiz==='string'){try{editQuiz=JSON.parse(editQuiz)}catch(e){editQuiz=null}}
+  if(editQuiz?.questions){
+    editQuiz.questions.forEach((q,qi)=>{
       const div=document.createElement('div');div.className='quiz-builder-q quiz-q';
-      div.innerHTML=`<div class="form-group"><label>Question ${qi+1}</label><input type="text" class="q-text" value="${q.question}"/></div>`+
-        q.options.map((opt,oi)=>`<div class="quiz-option-row"><input type="radio" name="correct-${qi}" class="q-correct" value="${oi}" ${q.correct===oi?'checked':''}><label>Correct?</label><input type="text" class="q-opt" value="${opt}"/></div>`).join('')+
+      div.innerHTML=`<div class="form-group"><label>Question ${qi+1}</label><input type="text" class="q-text" value="${q.question.replace(/"/g,'&quot;')}"/></div>`+
+        q.options.map((opt,oi)=>`<div class="quiz-option-row"><input type="radio" name="correct-${qi}" class="q-correct" value="${oi}" ${q.correct===oi?'checked':''}><label>Correct?</label><input type="text" class="q-opt" value="${opt.replace(/"/g,'&quot;')}"/></div>`).join('')+
         `<button class="btn btn-danger btn-sm" style="margin-top:6px" onclick="this.parentElement.remove()">Remove</button>`;
       builder.appendChild(div);
     });
   }
   navigate('new-announcement');
+  // Set content after navigate renders the page
+  setTimeout(()=>setEditorContent('ann-content-editor',a.content||''),50);
 }
 
 async function deleteAnnouncement(id){
@@ -1271,13 +1340,23 @@ async function deleteAnnouncement(id){
 
 async function saveAnnouncement(){
   const title=document.getElementById('ann-title').value.trim();
-  const content=document.getElementById('ann-content').value.trim();
-  if(!title||!content){toast('Title and content required','error');return}
+  const content=getEditorContent('ann-content-editor').trim();
+  if(!title||!content||content==='<br>'){toast('Title and content required','error');return}
   const questions=[];
   document.querySelectorAll('.quiz-q').forEach((qEl,qi)=>{
     const qText=qEl.querySelector('.q-text')?.value?.trim();
-    const opts=[...qEl.querySelectorAll('.q-opt')].map(o=>o.value.trim()).filter(Boolean);
-    const correct=[...qEl.querySelectorAll('.q-correct')].findIndex(r=>r.checked);
+    // Collect options that have text entered
+    const allOptInputs=[...qEl.querySelectorAll('.q-opt')];
+    const opts=allOptInputs.map(o=>o.value.trim()).filter(Boolean);
+    // Find which radio is checked — check within this question element only
+    const radios=[...qEl.querySelectorAll('.q-correct')];
+    const checkedRadio=radios.find(r=>r.checked);
+    if(!checkedRadio){return} // skip if no correct answer selected
+    // Map checked radio value to the index among non-empty options
+    const checkedValue=parseInt(checkedRadio.value);
+    // The correct index is the position of the checked option among the filled options
+    const optText=allOptInputs[checkedValue]?.value?.trim();
+    const correct=opts.indexOf(optText);
     if(qText&&opts.length>=2&&correct>=0)questions.push({question:qText,options:opts,correct});
   });
   const data={title,period:document.getElementById('ann-period').value.trim(),mandatory_for:document.getElementById('ann-mandatory').value,content,quiz:questions.length?{questions}:null};
@@ -1305,7 +1384,42 @@ function addQuizQuestion(){
   builder.appendChild(div);
 }
 
-// ARTICLE REQUESTS
+// RICH EDITOR HELPERS
+function getEditorContent(id){return document.getElementById(id)?.innerHTML||''}
+function setEditorContent(id,html){const el=document.getElementById(id);if(el)el.innerHTML=html||''}
+function fmt(cmd){document.execCommand(cmd,false,null)}
+function insertImageInEditor(editorId){
+  const input=document.createElement('input');input.type='file';input.accept='image/*';
+  input.onchange=e=>{
+    const file=e.target.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      const editor=document.getElementById(editorId);editor.focus();
+      document.execCommand('insertHTML',false,`<img src="${ev.target.result}" style="max-width:100%;border-radius:6px;margin:8px 0"/>`);
+    };reader.readAsDataURL(file);
+  };input.click();
+}
+// Handle paste of images into any rich editor
+document.addEventListener('paste',e=>{
+  const editor=e.target.closest('.rich-editor');if(!editor)return;
+  const items=[...e.clipboardData.items];
+  const imgItem=items.find(i=>i.type.startsWith('image/'));
+  if(imgItem){
+    e.preventDefault();
+    const blob=imgItem.getAsFile();
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      editor.focus();
+      document.execCommand('insertHTML',false,`<img src="${ev.target.result}" style="max-width:100%;border-radius:6px;margin:8px 0"/>`);
+    };reader.readAsDataURL(blob);
+  }
+});
+// Click image in editor to remove
+document.addEventListener('click',e=>{
+  if(e.target.tagName==='IMG'&&e.target.closest('.rich-editor')){
+    if(confirm('Remove this image?'))e.target.remove();
+  }
+});
 async function loadRequests(){
   document.getElementById('requests-list').innerHTML='<div class="loading"><div class="spinner"></div></div>';
   try{
